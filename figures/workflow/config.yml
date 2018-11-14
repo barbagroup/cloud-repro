@@ -1,0 +1,21 @@
+---
+version: 2
+multicolumn: false
+web-width: '800'
+export-width: 
+align: center
+float: h!
+grid:
+  rows: 1
+  columns: 1
+  grid_elements:
+  - path: figures/workflow/cloud_workflow.png
+    type: static
+    from:
+    - 1
+    - 1
+    to:
+    - 1
+    - 1
+    folder_url: "/users/34995/articles/337121/master/folder/figures/workflow"
+    url: "/users/34995/articles/337121/master/file/figures/workflow/cloud_workflow.png"
