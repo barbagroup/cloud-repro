@@ -9,8 +9,7 @@ grid:
   rows: 1
   columns: 1
   grid_elements:
-  - url: "/users/8850/articles/172750/master/file/figures/1.5_Kipp1/1.5_Kipp1.png"
-    path: figures/1.5_Kipp1/1.5_Kipp1.png
+  - path: figures/1.5_Kipp1/cloud_workflow.png
     type: static
     from:
     - 1
@@ -18,3 +17,5 @@ grid:
     to:
     - 1
     - 1
+    folder_url: "/users/34995/articles/337121/master/folder/figures/1.5_Kipp1"
+    url: "/users/34995/articles/337121/master/file/figures/1.5_Kipp1/cloud_workflow.png"
