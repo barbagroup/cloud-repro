@@ -1,0 +1,18 @@
+pool_specification:
+  id: pool-snake2d2k35
+  vm_configuration:
+    platform_image:
+      publisher: OpenLogic
+      offer: CentOS-HPC
+      sku: '7.3'
+      native: true
+  vm_size: STANDARD_NC24R
+  vm_count:
+    dedicated: 2
+    low_priority: 0
+  max_tasks_per_node: 1
+  resize_timeout: 00:30:00
+  inter_node_communication_enabled: true
+  reboot_on_start_task_failed: false
+  ssh:
+    username: shipyard
