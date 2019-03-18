@@ -1,0 +1,83 @@
+mesh:
+- direction: x
+  start: -15.0
+  subDomains:
+  - cells: 296
+    end: -0.52
+    stretchRatio: 0.9900990099009901
+  - cells: 500
+    end: 3.48
+    stretchRatio: 1.0
+  - cells: 275
+    end: 15.0
+    stretchRatio: 1.01
+- direction: y
+  start: -15.0
+  subDomains:
+  - cells: 286
+    end: -2.0
+    stretchRatio: 0.9900990099009901
+  - cells: 500
+    end: 2.0
+    stretchRatio: 1.0
+  - cells: 286
+    end: 15.0
+    stretchRatio: 1.01
+- direction: z
+  start: 0.0
+  subDomains:
+  - cells: 40
+    end: 3.2
+    stretchRatio: 1.0
+
+flow:
+  nu: 0.0005
+  initialVelocity: [1.0, 0.0, 0.0]
+  boundaryConditions:
+  - location: xMinus
+    u: [DIRICHLET, 1.0]
+    v: [DIRICHLET, 0.0]
+    w: [DIRICHLET, 0.0]
+  - location: xPlus
+    u: [CONVECTIVE, 1.0]
+    v: [CONVECTIVE, 1.0]
+    w: [CONVECTIVE, 1.0]
+  - location: yMinus
+    u: [DIRICHLET, 1.0]
+    v: [DIRICHLET, 0.0]
+    w: [DIRICHLET, 0.0]
+  - location: yPlus
+    u: [DIRICHLET, 1.0]
+    v: [DIRICHLET, 0.0]
+    w: [DIRICHLET, 0.0]
+  - location: zMinus
+    u: [PERIODIC, 0.0]
+    v: [PERIODIC, 0.0]
+    w: [PERIODIC, 0.0]
+  - location: zPlus
+    u: [PERIODIC, 0.0]
+    v: [PERIODIC, 0.0]
+    w: [PERIODIC, 0.0]
+
+parameters:
+  dt: 0.001
+  startStep: 0
+  nt: 100000
+  nsave: 5000
+  nrestart: 25000
+  convection: ADAMS_BASHFORTH_2
+  diffusion: CRANK_NICOLSON
+  velocitySolver:
+    type: CPU
+    config: config/velocity_solver.info
+  poissonSolver:
+    type: GPU
+    config: config/poisson_solver.info
+  forcesSolver:
+    type: CPU
+    config: config/forces_solver.info
+
+bodies:
+- type: points
+  name: snake
+  file: snake3d35.body

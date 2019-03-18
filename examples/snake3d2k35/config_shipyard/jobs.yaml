@@ -1,0 +1,28 @@
+job_specifications:
+- id: job-snake3d2k35
+  auto_complete: true
+  max_task_retries: 1
+  max_wall_time: 7.00:00:00
+  retention_time: 2.00:00:00
+  priority: 0
+  allow_run_on_missing_image: false
+  remove_container_after_exit: true
+  shm_size: 256m
+  infiniband: true
+  gpu: true
+  shared_data_volumes:
+  - glustervol
+  tasks:
+  - id: null
+    docker_image: barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu
+    max_wall_time: 7.00:00:00
+    multi_instance:
+      num_instances: pool_specification_vm_count_dedicated
+    entrypoint: null
+    command: $AZ_BATCH_NODE_SHARED_DIR/gfs/snake3d2k35/run-petibm.sh
+    output_data:
+      azure_storage:
+      - storage_account_settings: mystorageaccount
+        remote_path: myfileshare/snake3d2k35
+        local_path: $AZ_BATCH_NODE_SHARED_DIR/gfs/snake3d2k35
+        is_file_share: true

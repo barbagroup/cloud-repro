@@ -1,0 +1,24 @@
+batch_shipyard:
+  storage_account_settings: mystorageaccount
+global_resources:
+  docker_images:
+  - barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu
+  volumes:
+    shared_data_volumes:
+      glustervol:
+        volume_driver: glusterfs_on_compute
+        container_path: $AZ_BATCH_NODE_SHARED_DIR/gfs
+        bind_options: rw
+  files:
+  - source:
+      path: .
+      exclude:
+      - '*shipyard*'
+      - 'output'
+      - 'README.md'
+      - 'scripts'
+    destination:
+      shared_data_volume: glustervol
+      relative_destination_path: snake3d2k35
+      data_transfer:
+        method: rsync+ssh

@@ -1,0 +1,7 @@
+-forces_ksp_type cg
+-forces_ksp_initial_guess_nonzero true
+-forces_ksp_rtol 0.0
+-forces_ksp_atol 1e-6
+-forces_ksp_max_it 1000
+-forces_pc_type jacobi
+-forces_pc_jacobi_type diagonal
