@@ -1,0 +1,22 @@
+job_specifications:
+- id: job-poissonpetsc001
+  auto_complete: true
+  max_task_retries: 1
+  max_wall_time: 0.05:00:00
+  retention_time: 2.00:00:00
+  priority: 0
+  allow_run_on_missing_image: false
+  remove_container_after_exit: true
+  shm_size: 256m
+  infiniband: true
+  gpu: false
+  shared_data_volumes:
+  - azurefilevol
+  tasks:
+  - id: null
+    docker_image: mesnardo/amgxwrapper:1.4-GPU-IntelMPI-ubuntu
+    max_wall_time: 0.05:00:00
+    multi_instance:
+      num_instances: pool_specification_vm_count_dedicated
+    entrypoint: null
+    command: $AZ_BATCH_NODE_SHARED_DIR/azfile/poisson/petsc/001/run-poisson.sh
