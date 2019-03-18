@@ -1,0 +1,22 @@
+job_specifications:
+- id: job-osu-infiniband
+  auto_complete: true
+  max_task_retries: 1
+  max_wall_time: 0.01:00:00
+  retention_time: 2.00:00:00
+  priority: 0
+  allow_run_on_missing_image: false
+  remove_container_after_exit: true
+  shm_size: 256m
+  infiniband: true
+  gpu: true
+  shared_data_volumes:
+  - azurefilevol
+  tasks:
+  - id: null
+    docker_image: mesnardo/osubenchmarks:5.6-GPU-IntelMPI-ubuntu
+    max_wall_time: 0.01:00:00
+    multi_instance:
+      num_instances: pool_specification_vm_count_dedicated
+    entrypoint: null
+    command: $AZ_BATCH_NODE_SHARED_DIR/azfile/osubenchmarks/run-osu.sh
