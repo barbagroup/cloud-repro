@@ -3,3 +3,12 @@ __pycache__
 .ipynb_checkpoints
 
 credentials.yaml
+
+l_mpi_2017.2.174.tgz
+id_rsa_shipyard*
+
+output
+log*
+.logamgx
+
+.vscode
