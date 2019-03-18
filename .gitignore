@@ -12,3 +12,4 @@ log*
 .logamgx
 
 .vscode
+.DS_Store
