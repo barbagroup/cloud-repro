@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Provision a pool, ingress data, run a job,
+# and delete job and pool once the job completed (with a succesful task).
+# cli: ./shipyard-driver.sh
+
+scriptdir="$( cd "$(dirname "$0")" ; pwd -P )"
+
+read -p "Enter configuration directory: " configdir
+export SHIPYARD_CONFIGDIR=$configdir
+echo -n "Password:"
+read -s password
+export SHIPYARD_AAD_PASSWORD=$password
+echo
+read -p "Enter directory for log files (press enter to use ./log_shipyard): " logdir
+logdir=${logdir:-"log_shipyard"}
+mkdir -p $logdir
+
+shipyard --version > $logdir/version.log 2>&1
+echo "Provisioning pool of compute nodes..."
+shipyard pool add --yes > $logdir/pool-add.log 2>&1
+echo "Ingressing input data..."
+shipyard data ingress > $logdir/data-ingress.log 2>&1
+echo "Submitting job..."
+shipyard jobs add > $logdir/jobs-add.log 2>&1
+echo "Polling job until task is complete..."
+shipyard jobs tasks list --poll-until-tasks-complete > $logdir/jobs-monitor.log 2>&1
+echo "Checking if task succeeded..."
+shipyard jobs tasks list > $logdir/tasks-status.log 2>&1
+rc=$((python $scriptdir/checkexitcode.py $logdir/tasks-status.log) 2>&1)
+if [ $rc != 0 ]; then
+	echo "############################################################"
+	echo "WARNING: Task did not complete as expected. Check Nodes."
+	echo "############################################################"
+	exit $rc
+fi
+echo "Deleting pool..."
+shipyard pool del --yes > $logdir/pool-del.log 2>&1
+
+unset SHIPYARD_CONFIGDIR
+unset SHIPYARD_AAD_PASSWORD
+echo "Done."
+
+exit 0
