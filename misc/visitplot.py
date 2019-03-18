@@ -1,6 +1,4 @@
-"""
-Functions to generate plots of the flow field with VisIt.
-"""
+"""Functions to generate plots of the flow field with VisIt."""
 
 import os
 import sys

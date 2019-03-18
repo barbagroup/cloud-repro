@@ -57,3 +57,15 @@ Outputs: `u.xmf`, `v.xmf`, `p.xmf`, and `wz.xmf`, all located in the sub-folder 
 The simulation was submitted to Azure Batch with Batch Shipyard to run in a pool of 2 compute nodes (NC24r) using 12 cores and 2 NVIDIA K80 GPU devices per node.
 The size of the `output` folder downloaded from Azure Storage is `7.9 GB`.
 The job computed 200,000 time steps (80 non-dimensional time units) in just over 7 hours.
+
+```bash
+conda create --name=py27-visit python=2.7
+conda install --name=py27-visit numpy pathlib pyyaml
+```
+
+```bash
+conda activate py27-cloud
+export VISIT_DIR="<path/to/visit>"
+python scripts/plot_wz_wake2d.py
+conda deactivate
+```

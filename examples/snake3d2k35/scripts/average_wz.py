@@ -19,7 +19,7 @@ outdir.mkdir(parents=True, exist_ok=True)
 
 # Read 3D grid and write 2D grid.
 gridpath = simudir / 'output' / 'grid.h5'
-x, y, _ = petibmpy.petibm_read_grid_hdf5(gridpath, name)
+x, y, _ = petibmpy.read_grid_hdf5(gridpath, name)
 gridpath = outdir / 'grid.h5'
 petibmpy.write_grid_hdf5(gridpath, name + '-avg', x, y)
 
@@ -29,6 +29,7 @@ with open(filepath, 'r') as infile:
     config = yaml.load(infile)['parameters']
 nstart, nt, nsave = config['startStep'], config['nt'], config['nsave']
 dt = config['dt']
+nstart, nt = 100000, 0
 timesteps = list(range(nstart, nstart + nt + 1, nsave))
 
 # Average the scalar field along the z-direction and write field.

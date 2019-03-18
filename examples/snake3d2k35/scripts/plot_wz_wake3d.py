@@ -1,9 +1,9 @@
 """Create 3D contour figures of the z-component of the vorticity field."""
 
-import os
-import sys
 import numpy
+import os
 import pathlib
+import sys
 
 scriptdir = pathlib.Path(__file__).absolute().parents[3] / 'misc'
 if scriptdir not in sys.path:
@@ -21,10 +21,11 @@ figdir = simudir / 'figures'
 prefix = 'wz_wake3d_'
 
 # Create p3d file from body file.
-with open(bodypath, 'r') as infile:
-    x, y, z = numpy.loadtxt(infile, skiprows=1, unpack=True)
-with open(p3dpath, 'wb') as outfile:
-    numpy.savetxt(outfile, numpy.c_[x, y, z])
+if not p3dpath.is_file():
+    with open(bodypath, 'r') as infile:
+        x, y, z = numpy.loadtxt(infile, skiprows=1, unpack=True)
+    with open(p3dpath, 'wb') as outfile:
+        numpy.savetxt(outfile, numpy.c_[x, y, z])
 
 visit_plot_contour_3d(xdmfpath, name,
                       value_range=(-5.0, 5.0),
