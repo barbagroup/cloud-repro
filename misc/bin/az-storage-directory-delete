@@ -1,0 +1,170 @@
+#!/usr/bin/env python
+"""Delete a given non-empty directory on Azure Storage with Azure-CLI.
+
+The user needs to provide the path of the directory,
+the name of the file share, and the account name.
+"""
+
+import argparse
+import subprocess
+import ast
+
+
+def az_storage_directory_exists(name, share_name, account_name):
+    """Check the existence of a directory in an Azure File share.
+
+    Parameters
+    ----------
+    name : string
+        Path of the directory.
+    share_name : string
+        Name of the Azure File share.
+    account_name : string
+        Name of the Azure Storage account.
+
+    Returns
+    -------
+    res : boolean
+        True if directory exists, False otherwise.
+
+    """
+    cmd_str = ('az storage directory exists '
+               '--name {} --share-name {} --account-name {} '
+               '--output json --query "exists"'
+               .format(name, share_name, account_name))
+    output = subprocess.check_output(cmd_str, shell=True).decode('ascii')
+    return (output == 'true\n')
+
+
+def az_storage_file_list(path, share_name, account_name):
+    """Return a list of files in a given path in an Azure File share.
+
+    Parameters
+    ----------
+    path : string
+        Path of the directory.
+    share_name : string
+        Name of the Azure File share.
+    account_name : string
+        Name of the Azure Storage account.
+
+    Returns
+    -------
+    res : list of strings
+        The list of files.
+
+    """
+    cmd_str = ('az storage file list '
+               '--path {} --share-name {} --account-name {} '
+               '--output json --query "[].name"'
+               .format(path, share_name, account_name))
+    output = subprocess.check_output(cmd_str, shell=True).decode('ascii')
+    return ast.literal_eval(output)
+
+
+def az_storage_file_delete(path, share_name, account_name):
+    """Delete a given file in an Azure File share.
+
+    Parameters
+    ----------
+    path : string
+        Path of the file to delete.
+    share_name : string
+        Name of the Azure File share.
+    account_name : string
+        Name of the Azure Storage account.
+
+    """
+    print('Deleting file {} ... '.format(path))
+    cmd_str = ('az storage file delete '
+               '--path {} --share-name {} --account-name {} '
+               '--output json --query "deleted"'
+               .format(path, share_name, account_name))
+    subprocess.check_output(cmd_str, shell=True).decode('ascii')
+
+
+def az_storage_directory_delete(name, share_name, account_name):
+    """Delete a given empty directory in an Azure File share.
+
+    Parameters
+    ----------
+    name : string
+        Path of the directory to delete.
+    share_name : string
+        Name of the Azure File share.
+    account_name : string
+        Name of the Azure Storage account.
+
+    """
+    print('Deleting directory {} ... '.format(name))
+    cmd_str = ('az storage directory delete '
+               '--name {} --share-name {} --account-name {} '
+               '--output json --query "deleted"'
+               .format(name, share_name, account_name))
+    subprocess.check_output(cmd_str, shell=True).decode('ascii')
+
+
+def az_storage_directory_delete_nonempty(name, share_name, account_name):
+    """Delete recursively a given non-empty directory in an Azure File share.
+
+    Parameters
+    ----------
+    name : string
+        Path of the directory to delete.
+    share_name : string
+        Name of the Azure File share.
+    account_name : string
+        Name of the Azure Storage account.
+
+    """
+    files = az_storage_file_list(name, share_name, account_name)
+    for file in files:
+        new_name = name + '/' + file
+        if az_storage_directory_exists(new_name, share_name, account_name):
+            az_storage_directory_delete_nonempty(new_name,
+                                                 share_name,
+                                                 account_name)
+        else:
+            az_storage_file_delete(new_name, share_name, account_name)
+    az_storage_directory_delete(name, share_name, account_name)
+
+
+def parse_command_line():
+    """Parse the command-line options."""
+    formatter_class = argparse.ArgumentDefaultsHelpFormatter
+    description = 'Azure CLI: deletes a given non-empty directory.'
+    parser = argparse.ArgumentParser(description=description,
+                                     formatter_class=formatter_class)
+    parser.add_argument('--version', '-V',
+                        action='version',
+                        version='%(prog)s (version 0.1)')
+    parser.add_argument('--name', '-n', dest='name',
+                        type=str,
+                        required=True,
+                        help='The directory name.')
+    parser.add_argument('--force', '-f', dest='force',
+                        action='store_true',
+                        help='Delete directory without confirmation.')
+    parser.add_argument('--share-name', '-s', dest='share_name',
+                        type=str,
+                        required=True,
+                        help='The file share name.')
+    parser.add_argument('--account-name', dest='account_name',
+                        type=str,
+                        required=True,
+                        help='Storage account name.')
+    args = parser.parse_args()
+    return args
+
+
+if __name__ == '__main__':
+    args = parse_command_line()
+    subargs = (args.name, args.share_name, args.account_name)
+    if args.force:
+        az_storage_directory_delete_nonempty(*subargs)
+    else:
+        files = az_storage_file_list(*subargs)
+        print(f'- {args.name}:')
+        print(*(f'\t- {file}\n' for file in files))
+        if input("Delete this directory [y/N]? ") == 'y':
+            az_storage_directory_delete_nonempty(*subargs)
