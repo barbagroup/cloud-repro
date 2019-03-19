@@ -21,6 +21,8 @@ c = 1.0  # chord length
 Lz = 3.2 * c  # spanwise length
 coeff = 1 / (dyn_pressure * c * Lz)  # scaling factor for force coefficients
 cd, cl, cz = petibmpy.get_force_coefficients(fx, fy, fz, coeff=coeff)
+cd_avg, cl_avg = petibmpy.get_time_averaged_values(t, cd, cl,
+                                                   limits=(40.0, 80.0))
 
 # Read 2D forces and convert to force coefficients.
 rootdir = simudir.parent
@@ -29,6 +31,14 @@ filepath = simudir2d / 'output' / 'forces-0.txt'
 t2, fx2, fy2 = petibmpy.read_forces(filepath)
 coeff = 1 / (dyn_pressure * c)
 cd2, cl2 = petibmpy.get_force_coefficients(fx2, fy2, coeff=coeff)
+cd2_avg, cl2_avg = petibmpy.get_time_averaged_values(t2, cd2, cl2,
+                                                     limits=(40.0, 80.0))
+cd_reldiff = (cd2_avg - cd_avg) / cd_avg * 100.0
+cl_reldiff = (cl2_avg - cl_avg) / cl_avg * 100.0
+print('Case\t<CD>\t<CL>')
+print('3D\t{:.4f}\t{:.4f}'.format(cd_avg, cl_avg))
+print('2D\t{:.4f} ({:.1f})\t {:.4f} ({:.1f})'
+      .format(cd2_avg, cd_reldiff, cl2_avg, cl_reldiff))
 
 # Plot force coefficients over time.
 pyplot.rc('font', family='serif', size=16)
