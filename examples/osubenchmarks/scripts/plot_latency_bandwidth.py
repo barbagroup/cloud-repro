@@ -97,7 +97,7 @@ data[label]['bandwidth'] = {'sizes': sizes, 'values': bandwidths}
 
 # Create a figure to display the latency and bandwidth results.
 pyplot.rc('font', family='serif', size=14)
-fig, (ax1, ax2) = pyplot.subplots(ncols=2, figsize=(10.0, 3.0))
+fig, (ax1, ax2) = pyplot.subplots(nrows=2, figsize=(6.0, 8.0))
 # Plot the latency.
 ax1.set_xlabel('Message size (bytes)')
 ax1.set_ylabel('Point-to-point\nlatency ($\mu$s)')
@@ -127,4 +127,4 @@ figdir.mkdir(parents=True, exist_ok=True)
 filepath = figdir / 'osu_latency_bandwidth.png'
 fig.savefig(str(filepath), dpi=300)
 
-pyplot.show()
+#pyplot.show()
