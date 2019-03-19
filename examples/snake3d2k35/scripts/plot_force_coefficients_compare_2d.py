@@ -58,5 +58,5 @@ fig.tight_layout()
 # Save figure as PNG file.
 figdir = simudir / 'figures'
 figdir.mkdir(parents=True, exist_ok=True)
-filepath = figdir / 'forceCoefficientsCompare2D.png'
+filepath = figdir / 'forceCoefficientsCompare2D.pdf'
 fig.savefig(str(filepath), dpi=300)

@@ -3,5 +3,6 @@
 *.fdb_latexmk
 *.fls
 *.log
-*.pdf
 *.synctex.gz
+
+MesnardoBarba2019.pdf

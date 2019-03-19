@@ -1,5 +1,6 @@
 misc/cloud_workflow.png
-examples/osubenchmarks/figures/osu_latency_bandwidth.png
-examples/poisson/figures/poisson_time_vs_nodes.png
+examples/osubenchmarks/figures/osu_latency_bandwidth.pdf
+examples/poisson/figures/poisson_time_vs_nodes.pdf
 examples/snake2d2k35/figures/wz_multi_contourf.png
-examples/snake3d2k35/figures/forceCoefficientsCompare2D.png
+examples/snake3d2k35/figures/forceCoefficientsCompare2D.pdf
+examples/snake3d2k35/figures/wz_avg_multi_contourf.png

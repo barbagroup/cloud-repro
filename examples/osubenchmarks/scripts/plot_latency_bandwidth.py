@@ -124,7 +124,7 @@ fig.tight_layout()
 # Save the figure.
 figdir = rootdir / 'figures'
 figdir.mkdir(parents=True, exist_ok=True)
-filepath = figdir / 'osu_latency_bandwidth.png'
+filepath = figdir / 'osu_latency_bandwidth.pdf'
 fig.savefig(str(filepath), dpi=300)
 
 #pyplot.show()

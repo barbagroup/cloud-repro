@@ -150,7 +150,7 @@ data = {'Colonial One': {}, 'Azure': {}}
 nodes = [1, 2, 4, 8]
 subdata = {'nodes': [], 'min': [], 'max': [], 'means': []}
 for n in nodes:
-    casedir = rootdir / f'colonialone/petsc/{n:0>2}_short'
+    casedir = rootdir / f'colonialone/petsc/{n:0>2}_short/output'
     filepaths = get_filepaths(casedir)
     runtimes = amgxwrapper_poisson_read_runtimes(*filepaths)
     store_runtime_stats(subdata, n, get_runtime_stats(runtimes))
@@ -159,7 +159,7 @@ data['Colonial One']['PETSc'] = gather_arrays(subdata)
 nodes = [1, 2, 4, 8]
 subdata = {'nodes': [], 'min': [], 'max': [], 'means': []}
 for n in nodes:
-    casedir = rootdir / f'colonialone/amgx/{n:0>2}_ivygpu'
+    casedir = rootdir / f'colonialone/amgx/{n:0>2}_ivygpu/output'
     filepaths = get_filepaths(casedir)
     runtimes = amgxwrapper_poisson_read_runtimes(*filepaths)
     nites = amgxwrapper_poisson_read_iterations(filepaths[0])
@@ -179,7 +179,7 @@ data['Azure']['PETSc'] = gather_arrays(subdata)
 nodes = [1, 2, 4, 8]
 subdata = {'nodes': [], 'min': [], 'max': [], 'means': []}
 for n in nodes:
-    casedir = rootdir / f'azure/amgx/{n:0>2}_nc24r_new/output'
+    casedir = rootdir / f'azure/amgx/{n:0>2}_nc24r/output'
     filepaths = get_filepaths(casedir)
     runtimes = amgxwrapper_poisson_read_runtimes(*filepaths)
     nites = amgxwrapper_poisson_read_iterations(filepaths[0])
@@ -257,7 +257,7 @@ ax3.set_ylim(0.0, 0.05)
 # Save the figure.
 figdir = rootdir / 'figures'
 figdir.mkdir(parents=True, exist_ok=True)
-filepath = figdir / 'poisson_time_vs_nodes.png'
+filepath = figdir / 'poisson_time_vs_nodes.pdf'
 fig.tight_layout()
 fig.savefig(str(filepath), dpi=300)
 

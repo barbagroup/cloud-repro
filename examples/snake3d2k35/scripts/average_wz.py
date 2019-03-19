@@ -26,11 +26,11 @@ petibmpy.write_grid_hdf5(gridpath, name + '-avg', x, y)
 # Get temporal parameters.
 filepath = simudir / 'config.yaml'
 with open(filepath, 'r') as infile:
-    config = yaml.load(infile)['parameters']
+    config = yaml.load(infile, Loader=yaml.FullLoader)['parameters']
 nstart, nt, nsave = config['startStep'], config['nt'], config['nsave']
 dt = config['dt']
-nstart, nt = 100000, 0
 timesteps = list(range(nstart, nstart + nt + 1, nsave))
+timesteps = [80000, 100000]
 
 # Average the scalar field along the z-direction and write field.
 for timestep in timesteps:
