@@ -186,6 +186,17 @@ for n in nodes:
     store_runtime_stats(subdata, n, get_runtime_stats(runtimes,
                                                       scale=1.0 / nites))
 data['Azure']['AmgX'] = gather_arrays(subdata)
+# Get runtimes data for AmgX runs on Azure.
+nodes = [1, 2, 4, 8]
+subdata = {'nodes': [], 'min': [], 'max': [], 'means': []}
+for n in nodes:
+    casedir = rootdir / f'azure/amgx/larger/{n:0>2}_nc24r/output'
+    filepaths = get_filepaths(casedir)
+    runtimes = amgxwrapper_poisson_read_runtimes(*filepaths)
+    nites = amgxwrapper_poisson_read_iterations(filepaths[0])
+    store_runtime_stats(subdata, n, get_runtime_stats(runtimes,
+                                                      scale=1.0 / nites))
+data['Azure']['AmgX-larger'] = gather_arrays(subdata)
 
 # Create Matplotlib figures.
 pyplot.rc('font', family='serif', size=14)
@@ -199,16 +210,14 @@ ax1.set_xlabel('Number of nodes')
 ax1.set_ylabel('Time (s)')
 # Colonial One runs.
 nodes, mins, maxs, means = data['Colonial One']['PETSc']
-ax1.plot(numpy.log2(nodes), means, label='Colonial One',
-         color='C0', marker='x', markersize=10)
+ax1.plot(numpy.log2(nodes), means, label='Colonial One', color='C0')
 ax1.errorbar(numpy.log2(nodes), means,
              [means - mins, maxs - means],
              fmt='k', linewidth=0, ecolor='black', elinewidth=2,
              capthick=2, capsize=4, barsabove=True)
 # Azure runs.
 nodes, mins, maxs, means = data['Azure']['PETSc']
-ax1.plot(numpy.log2(nodes), means, label='Azure',
-         color='C1', marker='x', markersize=10)
+ax1.plot(numpy.log2(nodes), means, label='Azure', color='C1')
 ax1.errorbar(numpy.log2(nodes), means,
              [means - mins, maxs - means],
              fmt='k', linewidth=0, ecolor='black', elinewidth=2,
@@ -217,15 +226,23 @@ ax1.legend(frameon=False)
 ax1.tick_params(axis='both')
 ax1.set_xticks(numpy.log2([1, 2, 4, 8]))
 ax1.set_xticklabels([1, 2, 4, 8])
+ax1.set_ylim(0.0, 25.0)
+ax1.set_yticks([0.0, 5.0, 10.0, 15.0, 20.0, 25.0])
+ax1.set_yticklabels([0, 5, 10, 15, 20, 25])
 
-# Plot time-to-solution versus number of nodes for AmgX runs (Colonial One).
+# Plot time-to-solution versus number of nodes for AmgX runs.
 ax2 = fig.add_subplot(gs[1, 0])
 ax2.text(numpy.log2(1.0), 0.005, 'AmgX')
 ax2.set_xlabel('Number of nodes')
 ax2.set_ylabel('Time (s)')
 nodes, mins, maxs, means = data['Colonial One']['AmgX']
-ax2.plot(numpy.log2(nodes), means, label='Colonial One',
-         color='C0', marker='x', markersize=10)
+ax2.plot(numpy.log2(nodes), means, label='Colonial One', color='C0')
+ax2.errorbar(numpy.log2(nodes), means,
+             [means - mins, maxs - means],
+             fmt='k', linewidth=0, ecolor='black', elinewidth=2,
+             capthick=2, capsize=4, barsabove=True)
+nodes, mins, maxs, means = data['Azure']['AmgX']
+ax2.plot(numpy.log2(nodes), means, label='Azure', color='C1')
 ax2.errorbar(numpy.log2(nodes), means,
              [means - mins, maxs - means],
              fmt='k', linewidth=0, ecolor='black', elinewidth=2,
@@ -234,16 +251,16 @@ ax2.tick_params(axis='both')
 ax2.set_xticks(numpy.log2([1, 2, 4, 8]))
 ax2.set_xticklabels([1, 2, 4, 8])
 ax2.set_ylim(0.0, 0.05)
+ax2.set_yticks([0.0, 0.025, 0.05])
+ax2.set_yticklabels([0.0, 0.025, 0.05])
 
-# Plot time-to-solution versus number of nodes for AmgX runs (Azure).
+# Plot time-to-solution versus number of nodes for AmgX larger runs (Azure).
 ax3 = fig.add_subplot(gs[1, 1])
-ax2.get_shared_y_axes().join(ax2, ax3)
-ax3.text(numpy.log2(1.0), 0.005, 'AmgX')
+ax3.text(numpy.log2(1.0), 0.02, 'AmgX')
 ax3.set_xlabel('Number of nodes')
-# ax3.set_ylabel('Time (s)')
-nodes, mins, maxs, means = data['Azure']['AmgX']
-ax3.plot(numpy.log2(nodes), means, label='Azure',
-         color='C1', marker='x', markersize=10)
+ax3.set_ylabel('Time (s)')
+nodes, mins, maxs, means = data['Azure']['AmgX-larger']
+ax3.plot(numpy.log2(nodes), means, label='Azure', color='C1')
 ax3.errorbar(numpy.log2(nodes), means,
              [means - mins, maxs - means],
              fmt='k', linewidth=0, ecolor='black', elinewidth=2,
@@ -251,14 +268,15 @@ ax3.errorbar(numpy.log2(nodes), means,
 ax3.tick_params(axis='both')
 ax3.set_xticks(numpy.log2([1, 2, 4, 8]))
 ax3.set_xticklabels([1, 2, 4, 8])
-ax3.set_yticklabels([])
-ax3.set_ylim(0.0, 0.05)
+ax3.set_ylim(0.0, 0.2)
+ax3.set_yticks([0.0, 0.1, 0.2])
+ax3.set_yticklabels([0.0, 0.1, 0.2])
 
 # Save the figure.
 figdir = rootdir / 'figures'
 figdir.mkdir(parents=True, exist_ok=True)
 filepath = figdir / 'poisson_time_vs_nodes.pdf'
 fig.tight_layout()
-fig.savefig(str(filepath), dpi=300)
+fig.savefig(str(filepath), dpi=300, bbox_inches='tight')
 
 pyplot.show()
