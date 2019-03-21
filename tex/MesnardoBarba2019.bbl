@@ -29,6 +29,15 @@ O.~Mesnard and L.~A. Barba, ``Reproducible and replicable computational fluid
   \url{https://doi.org/10.1109/MCSE.2017.3151254}
 \BIBentrySTDinterwordspacing
 
+\bibitem{chuang_et_al_2018}
+\BIBentryALTinterwordspacing
+P.-Y. Chuang, O.~Mesnard, A.~Krishnan, and L.~A. Barba, ``{PetIBM}: toolbox and
+  applications of the immersed-boundary method on distributed-memory
+  architectures,'' \emph{The Journal of Open Source Software}, vol.~3, no.~25,
+  p. 558, may 2018. [Online]. Available:
+  \url{https://doi.org/10.21105/joss.00558}
+\BIBentrySTDinterwordspacing
+
 \bibitem{socha_2011}
 \BIBentryALTinterwordspacing
 J.~J. Socha, ``Gliding flight in chrysopelea: Turning a snake into a wing,''

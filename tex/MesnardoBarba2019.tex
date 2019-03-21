@@ -100,11 +100,11 @@ Such reproducibility package facilitates re-creating the cloud environment to ru
     \end{tabular}
 \end{table*}
 
-\footnotetext{NC24r: RDMA (Remote Direct Access Memory) capable with InfiniBand network.}
+\footnotetext{NC24r instances are RDMA (Remote Direct Access Memory) capable with InfiniBand network.}
 
 \section{Results}\label{sec:results}
 
-Thanks to a sponsorship ($\$20,000$ worth of cloud credits) from the Microsoft Azure for Research program,\footnote{Microsoft Azure for Research: \url{https://www.microsoft.com/en-us/research/academic-program/microsoft-azure-for-research/}} we ran three-dimensional CFD simulations of the flow around a gliding-snake model using our in-house research software PetIBM.
+Thanks to a sponsorship ($\$20,000$ worth of cloud credits) from the Microsoft Azure for Research program,\footnote{Microsoft Azure for Research: \url{https://www.microsoft.com/en-us/research/academic-program/microsoft-azure-for-research/}} we ran three-dimensional CFD simulations of the flow around a gliding-snake model using our in-house research software PetIBM\cite{chuang_et_al_2018}.
 Prior to that, we ran benchmarks to confirm we would get comparable performances between a local university-managed HPC cluster (Colonial One) and a public cloud platform such as Microsoft Azure.
 
 \subsection{MPI Communication Benchmarks}\label{subsec:mpi_benchmarks}
@@ -116,7 +116,7 @@ Figure \ref{fig:osu_benchmarks} report the latencies and bandwidths averaged ove
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=7cm]{figures/osu_latency_bandwidth.pdf}
+    \includegraphics[width=8cm]{figures/osu_latency_bandwidth.pdf}
     \caption{Point-to-point latency (top) and bandwidth (bottom) obtained on Colonial One and on NC24r instances of Microsoft Azure.}
     \label{fig:osu_benchmarks}
 \end{figure}
@@ -132,7 +132,7 @@ As the number of iterations to reach convergence increases with the size of the 
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=7cm]{figures/poisson_time_vs_nodes.pdf}
+    \includegraphics[width=8cm]{figures/poisson_time_vs_nodes.pdf}
     \caption{Runtimes to solve a Poisson system on Colonial One and on Microsoft Azure.}
     \label{fig:poisson_benchmarks}
 \end{figure}
@@ -146,8 +146,8 @@ The so-called flying snake jumps from tree branches, undulates in the air, and i
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=7cm]{figures/wz_multi_contourf.png}
-    \caption{Filled contour of the vorticity field after $20$, $44$, $45$, and $80$ time units of flow simulation with PetIBM for the snake cross-section at a $35$-degree angle of attack and Reynolds number $2000$. Vortex merging events are responsible for the change in the wake signature and the drop in the mean value of the lift coefficient.}
+    \includegraphics[width=8cm]{figures/wz_multi_contourf.png}
+    \caption{Filled contour of the vorticity field ($-5 \leq w_z c / U_\infty \leq 5$) after $20$, $44$, $45$, and $80$ time units of flow simulation with PetIBM for the snake cross-section at a $35$-degree angle of attack and Reynolds number $2000$. Vortex merging events are responsible for the change in the wake signature and the drop in the mean value of the lift coefficient.}
     \label{fig:wz_2d}
 \end{figure}
 
@@ -160,8 +160,8 @@ The so-called flying snake jumps from tree branches, undulates in the air, and i
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=7cm]{figures/wz_avg_multi_contourf.png}
-    \caption{Filled contour of the spanwise-averaged z-component of the vorticity field after $80$ and $100$ time units of flow simulation with PetIBM for the snake cylinder with a cross-section at a $35$-degree angle of attack and Reynolds number $2000$.}
+    \includegraphics[width=8cm]{figures/wz_avg_multi_contourf.png}
+    \caption{Filled contour of the spanwise-averaged z-component of the vorticity ($-5 \leq w_z c / U_\infty \leq 5$) field after $80$ and $100$ time units of flow simulation with PetIBM for the snake cylinder with a cross-section at a $35$-degree angle of attack and Reynolds number $2000$.}
     \label{fig:wz_avg_3d}
 \end{figure}
 
@@ -178,6 +178,8 @@ The so-called flying snake jumps from tree branches, undulates in the air, and i
         \hline
     \end{tabular}
 \end{table}
+
+\section{Cost Analysis}\label{sec:cost}
 
 % \section*{Acknowledgment}
 
