@@ -84,24 +84,6 @@ Such reproducibility package facilitates re-creating the cloud environment to ru
     \label{fig:cloud_workflow}
 \end{figure*}
 
-\begin{table*}[!h]
-    \caption{NC series on Microsoft Azure. (Prices as of May 13, 2018.)}
-    \label{tab:nc_series}
-    \centering
-    \begin{tabular}{cccccccc}
-        Instance & cores & RAM & disk sizes & GPU & pay-as-you-go & 1-year reserved & 3-year reserved \\
-        && (GiB) & (Gib) && (\$/hr) & (\$/hr) & (\$/hr) \\
-        \hline
-        NC6 & 6 & 56 & 340 & 1 x K80 & 0.90 & 0.574 & 0.40 \\
-        NC12 & 12 & 112 & 680 & 2 x K80 & 1.80 & 1.147 & 0.80 \\
-        NC24 & 24 & 224 & 1,440 & 4 x K80 & 3.60 & 2.294 & 1.599 \\
-        NC24r\footnotemark & 24 & 224 & 1,440 & 4 x K80 & 3.96 & 2.523 & 1.758 \\
-        \hline
-    \end{tabular}
-\end{table*}
-
-\footnotetext{NC24r instances are RDMA (Remote Direct Access Memory) capable with InfiniBand network.}
-
 \section{Results}\label{sec:results}
 
 Thanks to a sponsorship ($\$20,000$ worth of cloud credits) from the Microsoft Azure for Research program,\footnote{Microsoft Azure for Research: \url{https://www.microsoft.com/en-us/research/academic-program/microsoft-azure-for-research/}} we ran three-dimensional CFD simulations of the flow around a gliding-snake model using our in-house research software PetIBM\cite{chuang_et_al_2018}.
@@ -180,6 +162,23 @@ The so-called flying snake jumps from tree branches, undulates in the air, and i
 \end{table}
 
 \section{Cost Analysis}\label{sec:cost}
+
+\begin{table*}[!h]
+    \caption{NC series on Microsoft Azure. (Prices as of May 13, 2018.)}
+    \label{tab:nc_series}
+    \centering
+    \begin{tabular}{cccccccc}
+        Instance & cores & RAM & disk sizes & GPU & pay-as-you-go & 1-year reserved & 3-year reserved \\
+        && (GiB) & (Gib) && (\$/hr) & (\$/hr) & (\$/hr) \\
+        \hline
+        NC6 & 6 & 56 & 340 & 1 x K80 & 0.90 & 0.574 & 0.40 \\
+        NC12 & 12 & 112 & 680 & 2 x K80 & 1.80 & 1.147 & 0.80 \\
+        NC24 & 24 & 224 & 1,440 & 4 x K80 & 3.60 & 2.294 & 1.599 \\
+        NC24r\footnotemark & 24 & 224 & 1,440 & 4 x K80 & 3.96 & 2.523 & 1.758 \\
+        \hline
+    \end{tabular}
+\end{table*}
+\footnotetext{NC24r instances are RDMA (Remote Direct Access Memory) capable with InfiniBand network.}
 
 % \section*{Acknowledgment}
 
