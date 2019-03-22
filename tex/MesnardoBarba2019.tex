@@ -112,19 +112,19 @@ Prior to that, we ran benchmarks to confirm we would get comparable performances
 We compared the MPI communication performances between Microsoft Azure and Colonial One using the micro-benchmarks from the Ohio State University\footnote{OSU Micro-Benchmarks (version 5.6): \url{http://mvapich.cse.ohio-state.edu/benchmarks/}} to perform point-to-point tests and evaluate the latency and bandwidth on the two clusters.
 On Colonial One, we used two nodes (provide details of CPU) with InfiniBand network.
 On Microsoft Azure, we used two NC24r instances (provide details of CPU) with RMDA over InfiniBand.
-Figure \ref{fig:osu_benchmarks} report the latencies and bandwidths averaged over 5 repetitions.
+Fig. \ref{fig:osu_benchmarks} report the latencies and bandwidths averaged over 5 repetitions.
 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=8cm]{figures/osu_latency_bandwidth.pdf}
-    \caption{Point-to-point latency (top) and bandwidth (bottom) obtained on Colonial One and on NC24r instances of Microsoft Azure.}
+    \caption{Point-to-point latency (top) and bandwidth (bottom) obtained on Colonial One (Ivygpu nodes) and on Microsoft Azure (NC24r nodes).}
     \label{fig:osu_benchmarks}
 \end{figure}
 
 \subsection{Poisson Benchmarks}\label{subsec:poisson_benchmarks}
 
 We compare the runtimes on the two platforms (Colonial One and Microsoft Azure) to solve a three-dimensional Poisson system (central differences on a uniform mesh) on CPUs and GPUs.
-Figure \ref{fig:poisson_benchmarks} reports the runtimes (averaged over 5 repetitions) to solve the Poisson system.
+Fig. \ref{fig:poisson_benchmarks} reports the runtimes (averaged over 5 repetitions) to solve the Poisson system.
 On the CPU nodes, we perform strong scaling on a mesh size of $1000 \times 1000 \times 50$ cells using up to 8 nodes to solve the system with PETSc using a Conjugate Gradient method and a classical algebraic multigrid preconditioner from the package Hypre BoomerAMG.
 On the nodes that feature GPU devices, we perform weak scaling starting with a mesh size of $500 \times 500 \times 25$ cells on a single node (using 12 CPU cores and 2 GPU devices); we double the mesh size as we double the number of nodes in the pool.
 We use the NVIDIA AmgX library to solve the system with a Conjugate Gradient method and a classical algebraic multigrid preconditioner.
@@ -133,7 +133,7 @@ As the number of iterations to reach convergence increases with the size of the 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=8cm]{figures/poisson_time_vs_nodes.pdf}
-    \caption{Runtimes to solve a Poisson system on Colonial One and on Microsoft Azure.}
+    \caption{Runtimes to solve a Poisson system on Colonial One and on Microsoft Azure. Benchmark was repeated 5 times and we report the mean runtimes as well as the extrema. Poisson system was solved on Azure using PETSc on H16r nodes and using AmgX on NC24r nodes. On Colonial One, we solved the system with PETSc on Short nodes and with AmgX on Ivygpu nodes. The runs with PETSc solved a Poisson system on a mesh size of 50 million cells (top). With AmgX (bottom left), the base mesh size contains 6.25 million cells and we scale it with the number of nodes. On Azure, we also ran the Poisson benchmark with a finer base mesh size of 25 million cells (bottom right). Runtimes obtained with AmgX were normalized by the number of iterations required to reach a absolute tolerance of $10^{-12}$.}
     \label{fig:poisson_benchmarks}
 \end{figure}
 
