@@ -1,10 +1,10 @@
-# Dockerfile for AmgXWrapper-1.4 for use with Batch Shipyard on Azure Batch
+# Dockerfile for PetIBM-0.4 for use with Batch Shipyard on Azure Batch
 
 FROM nvidia/cuda:8.0-devel-ubuntu16.04
 MAINTAINER Olivier Mesnard <mesnardo@gwu.edu>
 
 # Install base system.
-COPY ssh_config /root/.ssh/config
+COPY ../ssh_config /root/.ssh/config
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates \
         build-essential \
@@ -51,7 +51,7 @@ ENV MANPATH=/usr/share/man:/usr/local/man \
     COMPILERVARS_ARCHITECTURE=intel64 \
     COMPILERVARS_PLATFORM=linux \
     INTEL_MPI_PATH=/opt/intel/compilers_and_libraries/linux/mpi
-ADD l_mpi_2017.2.174.tgz /tmp
+ADD ../l_mpi_2017.2.174.tgz /tmp
 RUN cd /tmp/l_mpi_2017.2.174 && \
     sed -i -e 's/^ACCEPT_EULA=decline/ACCEPT_EULA=accept/g' silent.cfg && \
     ./install.sh -s silent.cfg && \
@@ -117,75 +117,33 @@ RUN . /opt/intel/bin/compilervars.sh -arch intel64 -platform linux && \
     rm -f /tmp/${TARBALL} /opt/amgx/srcTarball.txt && \
     ldconfig ${SRCDIR}/lib
 
-# Build and install AmgXWrapper-1.4.
+# Build PetIBM-0.4.
 RUN . /opt/intel/bin/compilervars.sh -arch intel64 -platform linux && \
     . /opt/intel/compilers_and_libraries/linux/mpi/intel64/bin/mpivars.sh && \
-    apt-get update && apt-get install -y --no-install-recommends doxygen && \
-    VERSION=1.4 && \
+    VERSION=0.4 && \
     TARBALL=v${VERSION}.tar.gz && \
-    wget https://github.com/barbagroup/AmgXWrapper/archive/${TARBALL} -P /tmp && \
-    SRCDIR=/opt/amgxwrapper/${VERSION} && \
+    wget https://github.com/barbagroup/PetIBM/archive/${TARBALL} -P /tmp && \
+    SRCDIR=/opt/petibm/${VERSION} && \
     BUILDDIR=${SRCDIR}/build && \
     mkdir -p ${SRCDIR} ${BUILDDIR} && \
     tar -xzf /tmp/${TARBALL} -C ${SRCDIR} --strip-components=1 && \
     cd ${BUILDDIR} && \
-    export PETSC_DIR=/opt/petsc/3.10.2 && \
-    export PETSC_ARCH=linux-gnu-intel-opt && \
-    cmake ${SRCDIR} \
-        -DCMAKE_C_COMPILER=mpicc \
-        -DCMAKE_C_FLAGS_RELEASE="-O3 -DNDEBUG" \
-        -DCMAKE_CXX_COMPILER=mpicxx \
-        -DCMAKE_CXX_FLAGS_RELEASE="-O3 -DNDEBUG" \
-        -DAMGX_DIR="/usr/local" \
-        -DCUDA_DIR="/usr/local/cuda-8.0" \
-        -DPETSC_DIR=${PETSC_DIR} \
-        -DPETSC_ARCH=${PETSC_ARCH} \
-        -DCMAKE_BUILD_TYPE="Release" \
-        -DBUILD_SHARED_LIBS=ON \
-        -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=ON \
-        -DCMAKE_INSTALL_PREFIX="/usr/local" && \
-    make all && \
+    ${SRCDIR}/configure --prefix=/usr/local \
+      CXX=mpicxx \
+      CXXFLAGS="-O3 -w -std=c++14" \
+      --enable-static=no \
+      --with-petsc-dir=/opt/petsc/3.10.2 \
+      --with-petsc-arch=linux-gnu-intel-opt \
+      --with-cuda-dir=/usr/local/cuda-8.0 \
+      --with-amgx-dir=/usr/local \
+      --enable-amgxwrapper \
+      --enable-yamlcpp \
+      --enable-gtest && \
+    make -j"$(nproc)" all && \
+    make check && \
     make install && \
     ldconfig /usr/local/lib && \
     rm -f /tmp/${TARBALL}
-
-# Build and install AmgxWrapper-1.4 examples.
-RUN . /opt/intel/bin/compilervars.sh -arch intel64 -platform linux && \
-    . /opt/intel/compilers_and_libraries/linux/mpi/intel64/bin/mpivars.sh && \
-    export PETSC_DIR=/opt/petsc/3.10.2 && \
-    export PETSC_ARCH=linux-gnu-intel-opt && \
-    VERSION=1.4 && \
-    AMGXWRAPPER_DIR=/opt/amgxwrapper/${VERSION} && \
-    SRCDIR=${AMGXWRAPPER_DIR}/example/solveFromFiles && \
-    BUILDDIR=${AMGXWRAPPER_DIR}/build/example/solveFromFiles && \
-    mkdir -p ${BUILDDIR} && \
-    cd ${BUILDDIR} && \
-    cmake ${SRCDIR} \
-        -DCMAKE_C_COMPILER=mpicc \
-        -DCMAKE_C_FLAGS_RELEASE="-O3 -DNDEBUG" \
-        -DCMAKE_CXX_COMPILER=mpicxx \
-        -DCMAKE_CXX_FLAGS_RELEASE="-O3 -DNDEBUG" \
-        -DAMGX_DIR="/usr/local" \
-        -DCUDA_DIR="/usr/local/cuda-8.0" \
-        -DPETSC_DIR=${PETSC_DIR} \
-        -DPETSC_ARCH=${PETSC_ARCH} && \
-    make && \
-    cp ${BUILDDIR}/bin/* /usr/local/bin && \
-    SRCDIR=${AMGXWRAPPER_DIR}/example/poisson && \
-    BUILDDIR=${AMGXWRAPPER_DIR}/build/example/poisson && \
-    mkdir -p ${BUILDDIR} && \
-    cd ${BUILDDIR} && \
-    cmake ${SRCDIR} \
-        -DCMAKE_C_COMPILER=mpicc \
-        -DCMAKE_C_FLAGS_RELEASE="-O3 -DNDEBUG" \
-        -DCMAKE_CXX_COMPILER=mpicxx \
-        -DCMAKE_CXX_FLAGS_RELEASE="-O3 -DNDEBUG" \
-        -DAMGX_DIR="/usr/local" \
-        -DCUDA_DIR="/usr/local/cuda-8.0" \
-        -DPETSC_DIR=${PETSC_DIR} \
-        -DPETSC_ARCH=${PETSC_ARCH} && \
-    make && \
-    cp ${BUILDDIR}/bin/* /usr/local/bin
 
 # Remove Intel components (runtime will be mounted from the host).
 RUN rm -rf /opt/intel
