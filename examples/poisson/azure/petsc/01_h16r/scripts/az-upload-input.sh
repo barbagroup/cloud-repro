@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 sharename="fileshare"
 dirname="poisson/petsc/001"
@@ -7,9 +7,9 @@ accountname="mesnardostorage"
 scriptdir="$( cd "$(dirname "$0")" ; pwd -P )"
 casedir="$( cd "$(dirname "$scriptdir")" ; pwd -P )"
 
-source ~/.zshrc
+source ~/.bashrc
 
-conda activate py36-az
+conda activate py36-cloud
 
 az storage directory create \
 	--name $dirname \
