@@ -8,6 +8,7 @@
 \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
 \usepackage{stfloats}
 \usepackage{url}
+\usepackage{multirow}
 
 
 \usepackage[pdftex]{graphicx}
@@ -83,6 +84,23 @@ Such reproducibility package facilitates re-creating the cloud environment to ru
     \caption{Reproducible workflow on the public cloud provider Microsoft Azure.}
     \label{fig:cloud_workflow}
 \end{figure*}
+
+\begin{table*}[!h]
+    \renewcommand{\arraystretch}{1.5}
+    \caption{Hardware Specifications of Nodes Used on Microsoft Azure and Colonial One. On Both Platforms, MPI Applications Take Advantage of RDMA (Remote Direct Memory Access) Network with FDR InfiniBand.}
+    \label{tab:hw_specs}
+    \centering
+    \begin{tabular}{cccccccc}
+        Platform & Node & Intel Xeon CPU & \# threads & NVIDIA GPU & RAM (GiB) & SSD Storage (GiB) \\
+        \hline
+        \multirow{2}{*}{Azure} & NC24r & Dual 12-Core E5-2690v3 (2.60GHz) & 24 & 4 x K80 & 224 & 1440 \\
+        & H16r & Dual 8-Core E5-2667v3 (3.20GHz) & 16 & - & 112 & 2000 \\
+        \hline
+        \multirow{2}{*}{Colonial One} & Ivygpu & Dual 6-Core E5-2620v2 (2.10GHz) & 12 & 2 x K20 & 120 & 93 \\
+        & Short & Dual 8-Core E5-2650v2 (2.60GHz) & 16 & - & 120 & 93 \\
+        \hline
+    \end{tabular}
+\end{table*}
 
 \section{Results}\label{sec:results}
 
