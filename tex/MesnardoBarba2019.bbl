@@ -21,6 +21,20 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
+\bibitem{donoho_et_al_2009}
+D.~L. Donoho, A.~Maleki, I.~U. Rahman, M.~Shahram, and V.~Stodden,
+  ``Reproducible research in computational harmonic analysis,'' \emph{Computing
+  in Science \& Engineering}, vol.~11, no.~1, 2009.
+
+\bibitem{barba_2018}
+L.~A. Barba, ``Terminologies for reproducible research,'' \emph{arXiv preprint
+  arXiv:1802.03311}, 2018.
+
+\bibitem{schwab_et_al_2000}
+M.~Schwab, N.~Karrenbach, and J.~Claerbout, ``Making scientific computations
+  reproducible,'' \emph{Computing in Science \& Engineering}, vol.~2, no.~6,
+  pp. 61--67, 2000.
+
 \bibitem{mesnard_barba_2017}
 \BIBentryALTinterwordspacing
 O.~Mesnard and L.~A. Barba, ``Reproducible and replicable computational fluid
