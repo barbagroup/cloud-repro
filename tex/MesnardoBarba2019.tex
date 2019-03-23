@@ -10,6 +10,28 @@
 \usepackage{url}
 \usepackage{multirow}
 
+\usepackage{listings}
+\lstset{
+    backgroundcolor=\color{white},
+    basicstyle=\footnotesize,
+    breakatwhitespace=true,
+    breaklines=true,
+    captionpos=b,
+    extendedchars=true,
+    frame=single,
+    keepspaces=true,
+    language=bash,
+    morekeywords={*,...},
+    numbers=none,
+    numbersep=5pt,
+    rulecolor=\color{black},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    stepnumber=2,
+    tabsize=2,
+    title=\lstname,
+}
 
 \usepackage[pdftex]{graphicx}
 \graphicspath{{./figs}}
@@ -58,6 +80,13 @@ To overcome the so-called ``dependency hell'' and facilitate reproducibility, we
 Container technology facilitates share build images of the full software stack that is used to produce scientific results.
 The process of building an image using Docker begins with writing an ASCII file, called a Dockerfile, that contains Docker keywords and system commands for building multi-layered software stack.
 Once the image is build locally, we push it to a public registry (e.g., DockerHub).
+
+\begin{lstlisting}
+$ cd $CLOUDREPRO/docker/petibm
+$ docker build --tag=barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu --file=Dockerfile .
+$ docker push barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu
+\end{lstlisting}
+
 Everyone can now pull the application image and create a container to run the application in a faithfully reproduced local environment.
 We aim to move the final stage of this workflow (creating a container) to a public cloud provider such as Microsoft Azure.
 
@@ -69,10 +98,42 @@ Azure Batch works with both embarrassingly parallel workloads and tightly-couple
 To use Azure Batch, the user needs to configure a workspace on Microsoft Azure by creating an Azure Batch account associated to an Azure Storage account (to upload and download simulation data).
 This can be done either via the Azure Portal in a web browser or from a local terminal user the open-source tool Azure CLI.\footnote{Azure CLI (version 2.0.57): \url{https://github.com/Azure/azure-cli}}
 
+\begin{lstlisting}
+$ az account set --subscription reprosubscription
+$ az group create --name reprorg --location eastus
+$ az storage account create --name reprostorage --resource-group reprorg --sku Standard_LRS --location eastus
+$ az batch account create --name reprobatch --resource-group reprorg --location eastus --storage-account reprostorage
+$ az storage share create --name fileshare --account-name reprostorage --account-key storagekey --quota 100
+\end{lstlisting}
+
 To create computational nodes and submit container-based jobs to Azure Batch, we use the open-source command-line utility Batch Shipyard.\footnote{Batch Shipyard (version 3.6.1): https://github.com/Azure/batch-shipyard} Batch Shipyard reads user-written YAML configuration files to automatically create pools of compute nodes on Microsoft Azure and to submit jobs to those pools.
+
+\begin{itemize}
+    \item \texttt{config.yaml} contains information about the Azure Storage account and Docker images to use.
+    \item \texttt{credentials.yaml} stores the necessary credentials to use the different Microsoft Azure service platforms (e.g., Azure Batch and Azure Storage).
+    \item \texttt{pool.yaml} is where the user configures the pool of virtual machines to create.
+    \item \texttt{jobs.yaml} details the configuration of the jobs to submit to the pool.
+\end{itemize}
+
 The Docker image of our CFD application is pulled from the (public or private) registry to the virtual machines when the pool is created.
+
+\begin{lstlisting}
+$ cd $CLOUDREPRO/examples/snake2d2k35
+$ az storage directory create --name snake2d2k35 --share-name fileshare --account-name reprostorage
+$ export SHIPYARD_CONFIGDIR=config_shipyard
+$ shipyard pool add
+$ shipyard data ingress
+$ shipyard jobs add
+\end{lstlisting}
+
 Once the simulations are done (i.e., the job tasks are complete), we delete the jobs and the pool.
 The output of the computation is now stored on a fileshare in our Azure Storage account and we can download the data to our local machine to perform additional post-processing steps.
+
+\begin{lstlisting}
+$ shipyard pool del
+$ mkdir output
+$ az storage file download-batch --source fileshare/snake2d2k25 --destination output --account-name reprostorage
+\end{lstlisting}
 
 Reproducible research requires authors to make their code and data available.
 Thus, the Dockerfile and YAML configuration files should be made part of an extended reproducibility package that includes workflow instructions for cloud computing, in addition to other input files.
@@ -179,7 +240,11 @@ The so-called flying snake jumps from tree branches, undulates in the air, and i
     \end{tabular}
 \end{table}
 
-\section{Cost Analysis}\label{sec:cost}
+\section{Cost Analysis and Lessons Learned}\label{sec:cost}
+
+% Mention the 7-day limitation for jobs with Azure Batch.
+% Mention that Batch Shipyard can pull images from public and private registries.
+% Mention that Singularity containers are also supported in Batch Shipyard.
 
 \begin{table*}[!h]
     \caption{NC series on Microsoft Azure. (Prices as of May 13, 2018.)}
