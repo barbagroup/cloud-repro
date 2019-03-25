@@ -35,6 +35,15 @@ M.~Schwab, N.~Karrenbach, and J.~Claerbout, ``Making scientific computations
   reproducible,'' \emph{Computing in Science \& Engineering}, vol.~2, no.~6,
   pp. 61--67, 2000.
 
+\bibitem{nap_oss_2018}
+\BIBentryALTinterwordspacing
+{National Academies of Sciences, Engineering, and Medicine}, \emph{Open Source
+  Software Policy Options for NASA Earth and Space Sciences}.\hskip 1em plus
+  0.5em minus 0.4em\relax Washington, DC: The National Academies Press, 2018.
+  [Online]. Available:
+  \url{https://www.nap.edu/catalog/25217/open-source-software-policy-options-for-nasa-earth-and-space-sciences}
+\BIBentrySTDinterwordspacing
+
 \bibitem{mesnard_barba_2017}
 \BIBentryALTinterwordspacing
 O.~Mesnard and L.~A. Barba, ``Reproducible and replicable computational fluid

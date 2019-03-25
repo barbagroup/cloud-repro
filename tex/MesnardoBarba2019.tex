@@ -18,7 +18,7 @@
     breaklines=true,
     captionpos=b,
     extendedchars=true,
-    frame=single,
+    frame=none,
     keepspaces=true,
     language=bash,
     morekeywords={*,...},
@@ -81,7 +81,7 @@ It is thus worth clarifying these terms.
 The term ``reproducible research'' in reference to computational studies that can be reproduced by other scientists was introduced by geophysics professor Jon Claerbout in the 1990s. He and his research group at Stanford created a reproducible-research environment\cite{schwab_et_al_2000} in which, the goal was complete documentation of scientific computations, in such way that a reader could reproduce all the results and figures in a paper using the author-provided computer programs and raw data.
 This ability requires open data and open source software and, for this reason, the reproducibility movement is closely linked with the open science movement.
 In subsequent years, the term ``replication'' was distinctly adopted to refer to an independent study that rerun experiments to generate new data which, when analyzed, lead to the same findings.
-We follow this convention, clarified more recently in a report from the National Academies of Sciences, Engineering, and Medicine.
+We follow this convention, clarified more recently in a report from the National Academies of Sciences, Engineering, and Medicine \cite{nap_oss_2018}.
 
 Universities and national laboratories can spend millions of dollars to deploy and maintain on-site high-performance computing (HPC) clusters.
 At the George Washington University, we have access to a university-managed HPC cluster called Colonial One.
@@ -102,6 +102,8 @@ To overcome the so-called ``dependency hell'' and facilitate reproducibility, we
 Container technology facilitates share build images of the full software stack that is used to produce scientific results.
 The process of building an image using Docker begins with writing an ASCII file, called a Dockerfile, that contains Docker keywords and system commands for building multi-layered software stack.
 Once the image is build locally, we push it to a public registry (e.g., DockerHub).
+
+\clearpage
 
 \begin{lstlisting}
 $ cd $CLOUDREPRO/docker/petibm
