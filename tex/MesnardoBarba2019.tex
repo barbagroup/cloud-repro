@@ -201,7 +201,7 @@ CFD algorithms often require to solve linear systems with iterative methods.
 For example, the project method implemented in our research software solve a Poisson system every time step to project the velocity field onto the divergence-free space (to satisfy the incompressibility constraint).
 Thus, we investigated the time-to-solution to solve a three-dimensional Poisson system (obtained with a 7-point stencil using central differences) on different nodes of Microsoft Azure and Colonial One.
 The system was solved using a Conjugate-Gradient (CG) method with a classical Algebraic MultiGrid (AMG) preconditioner with an exit criterion set to an absolute tolerance of $10^{-12}$.
-The iterative solver ran on CPU nodes (\texttt{H16r} instances on Azure and \texttt{Short} nodes on Colonial One) using the CG algorithm from the PETSc library and an AMG preconditioner from Hypre BoomerAMG.
+The iterative solver ran on CPU nodes (\texttt{H16r} instances on Azure and \texttt{Short} nodes on Colonial One) using the CG algorithm from the PETSc library\cite{balay_et_al_2018} and an AMG preconditioner from Hypre BoomerAMG.
 Fig. \ref{fig:poisson_benchmarks} (top) reports the mean runtimes (averaged over $5$ repetitions) to iteratively solve the system, on a uniform grid of $50$ million cells ($1000 \times 1000 \times 50$), as we increase the number of nodes in the pool.
 We also solved the Poisson system with the NVIDIA AmgX library on multiple GPU devices using \texttt{NC24r} instances on Azure and \texttt{Ivygpu} nodes on Colonial One.
 The Poisson system for a base mesh of $6.25$ million cells ($500 \times 500 \times 25$) is solved on a single node using $12$ MPI processes and $2$ GPU devices; we then double the mesh size as we double the number of nodes.
@@ -228,8 +228,31 @@ Within this framework, the fluid equations are solved on a extended grid that do
 To model the presence of the body, the momentum equation is augmented with a forcing term that is activated in the vicinity of the immersed boundary.
 This technique allows the use of simple fixed structured Cartesian grids to solve the equations.
 PetIBM also implements Immersed Boundary Methods (IBMs) that fit into the projection method and, in the present study, we use an implementation of the IBM proposed in \cite{li_et_al_2016}.
+PetIBM runs on distributed-memory architectures and relies on the efficient data structures and parallel routines of the PETSc library.
+The software also implements the possibility to solve linear systems on multiple GPU devices distributed across the nodes with the NVIDIA AmgX and AmgXWrapper\cite{chuang_barba_2017}.
 To obtain reproducible computational results, the code used to run the simulations needs to be made available.
 In that regard, PetIBM is open source, version-controlled on GitHub,\footnote{PetIBM (version 0.4): \url{https://github.com/barbagroup/PetIBM}} and developed under the permissive BSD-3 clause license.
+
+\subsubsection{2D Flow Around a Snake Cross-Section}
+
+With Batch Shipyard, we submitted a job on Azure Batch to compute the two-dimensional flow around an anatomically accurate sectional shape of the gliding snake.
+The cross-section has a chord-length of $1$ and forms a $35$-degree angle of attack with the incoming freestream flow.
+The Reynolds number, based on the freestream speed, the body chord-length, the kinematic viscosity, is set to $Re=2000$.
+The immersed boundary is centered in a $30c \times 30c$ computational domain that contains just above $2.9$ million cells.
+The grid is kept uniform with the highest resolution in the vicinity of the body and stretched to the external boundaries with a constant ratio (see Table \ref{tab:grid_specs} for details about the grid).
+(The immersed boundary is discretized with the same resolution than the background fluid grid.)
+A convective condition was used at the outlet boundary while freestream conditions were enforced on the others.
+The job was submitted to a pool of two \texttt{NC24r} nodes, with $12$ MPI processes and $2$ GPU devices per node.
+The task completed $200,000$ time steps (i.e., $80$ time units of flow simulation with a time-step size $\Delta t = 0.0004 c / U_\infty$) in just above $7$ hours.
+
+Fig. \ref{fig:force_coefficients} shows the history of the force coefficients on the two-dimensional cross-section.
+The lift coefficient only maintains its maximum mean value during the early stage of the simulation (up to $40$ time units).
+Between $40$ and $50$ time units, the mean value starts to drop.
+The time-averaged force coefficients (between $40$ and $80$ time units) are reported in Table \ref{tab:force_coefficients}.
+Fig. \ref{fig:wz_2d} shows snapshots of the vorticity field after $20$, $44$, $45$, and $80$ time unit of flow simulation.
+After $20$ time units, the vortices shed from the snake section are almost aligned in the near wake (with a slight deflection towards the lower part of the domain).
+Snapshots of the vorticity at time units $44$ and $45$ show that the initial alignment is perturbed by vortex-merging events (same-sign vortices merging together to form a stronger one).
+Following that, the wake signature is altered for the rest of the simulation: vortices are not aligned anymore, the wake becomes wider (leading to lower aerodynamic forces) with a 1S+1P vortex signature (a single clockwise-rotating vortex on the upper part and a vortex pair on the lower part).
 
 \begin{figure}[!h]
     \centering
@@ -238,6 +261,25 @@ In that regard, PetIBM is open source, version-controlled on GitHub,\footnote{Pe
     \label{fig:wz_2d}
 \end{figure}
 
+\subsubsection{3D Flow Around a Snake Cylinder}
+
+Although the two-dimensional simulations gave us some insights into to flow dynamics happening in the behind the snake, we know that at this Reynolds number ($Re = 2000$), three-dimensional will develop in the wake.
+Thus, we submitted jobs to Azure Batch to compute the three-dimensional flow around a cylinder with the same anatomically accurate cross-section.
+The computational domain is extended in the $z$-direction over a length of $3.2c$ and the grid now contains about $46$ million cells (uniform discretization in the $z$-direction; see Table \ref{tab:grid_specs}).
+The grid is kept uniform in the $z$-direction and we enforce periodic conditions at the front and back boundaries.
+The simulation ran in a Docker container on Azure Batch using Batch Shipyard.
+The job was submitted to a pool of two \texttt{NC24r} nodes using $24$ MPI processes and $4$ GPU devices per node.
+The task completed $100,000$ time steps ($100$ time units with a time-step size $\Delta t = 0.01 c / U_\infty$) in about $5$ days and $16$ hours.
+
+Fig. \ref{fig:force_coefficients} compares the history of the force coefficients between the two- and three-dimensional configurations.
+The force coefficients resulting from the two-dimensional simulation of the snake are higher than those obtained for the snake cylinder; a relative difference of $+37.9\%$ and $+14.4\%$ for the time-averaged drag and lift coefficient, respectively (see Table \ref{tab:force_coefficients}).
+Two-dimensional computational simulations of fundamentally three-dimensional flows lead to incorrect estimation of the force coefficients\cite{mittal_balachandar_1995}.
+
+Fig. \ref{fig:wz_avg_3d} shows the instantaneous spanwise vorticity averaged along the $z$-direction after $80$ and $100$ time units.
+Compared to the snapshots from the two-dimensional simulation, we observe that (1) free-shear layers roll up into vortices further away from the snake body and (2) the von Karman street exhibits a narrower wake.
+We note the presence of a recirculation region behind the snake cylinder and the deformation of the von Karman street as the spanwise vortices are convected away from the body (Fig. \ref{fig:ux_uy_xz_plane_3d}).
+Fig. \ref{fig:qcrit_wx_3d} shows the isosurfaces of the Q-criterion after $100$ time units and highlights the complexity of the three-dimensional wake generated by the snake model.
+
 \begin{figure}[!h]
     \centering
     \includegraphics[width=8cm]{figures/forceCoefficientsCompare2D.pdf}
@@ -245,26 +287,40 @@ In that regard, PetIBM is open source, version-controlled on GitHub,\footnote{Pe
     \label{fig:force_coefficients}
 \end{figure}
 
+\begin{table*}[!h]
+    \renewcommand{\arraystretch}{1.5}
+    \caption{Details about the computational grids used for the snake simulations with PetIBM.}
+    \label{tab:grid_specs}
+    \centering
+        \begin{tabular}{clllll}
+        Case & Domain & Uniform region & Smallest cell-width & Stretching ratio & Size \\
+        \hline
+        2D & $30 \times 30$ & $\left[ -0.52, 3.48 \right] \times \left[ -2, 2 \right]$ & $0.004 \times 0.004$ & $1.01$ & $1704 \times 1706$ \\
+        3D & $30c \times 30c \times 3.2c$ & $\left[ -0.52, 3.48 \right] \times \left[ -2, 2 \right] \times \left[ 0, 3.2 \right]$ & $0.008 \times 0.008 \times 0.08$ & $1.01$ & $1071 \times 1072 \times 40$ \\
+        \hline
+    \end{tabular}
+\end{table*}
+
+\begin{table}[!h]
+    \renewcommand{\arraystretch}{1.5}
+    \caption{Time-averaged force coefficients on the snake model at Reynolds number $2000$ and angle of attack $35^o$ for the two- and three-dimensional configurations. (We average the force coefficients between $40$ and $80$ time units of flow simulation and report the relatively difference of the 2D values with respect to the 3D ones.)}
+    \label{tab:force_coefficients}
+    \centering
+    \begin{tabular}{cll}
+        Case & $<C_D>$ & $<C_L>$ \\
+        \hline
+        3D & $0.8390$ & $1.5972$ \\
+        2D & $1.1567$ ($+37.9\%$) & $1.8279$ ($+14.4\%$) \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \begin{figure}[!h]
     \centering
     \includegraphics[width=8cm]{figures/wz_avg_multi_contourf.png}
     \caption{Filled contour of the spanwise-averaged z-component of the vorticity ($-5 \leq w_z c / U_\infty \leq 5$) field after $80$ and $100$ time units of flow simulation with PetIBM for the snake cylinder with a cross-section at a $35$-degree angle of attack and Reynolds number $2000$.}
     \label{fig:wz_avg_3d}
 \end{figure}
-
-\begin{table}[!h]
-    \caption{Time-averaged force coefficients on the snake cross-section at Reynolds number 1000 and angle of attack $35^o$ for the two- and three-dimensional configurations. (We average the force coefficients between $40$ and $80$ time units of flow simulation.)}
-    \label{tab:force_coefficients}
-    \centering
-    \begin{tabular}{ccll}
-        \hline
-        Case & Mesh size & $<C_D>$ & $<C_L>$ \\
-        \hline
-        3D & $1071 \times 1072 \times 40$ & $0.8390$ & $1.5972$ \\
-        2D & $1704 \times 1706$ & $1.1567$ ($+37.9\%$) & $1.8279$ ($+14.4\%$) \\
-        \hline
-    \end{tabular}
-\end{table}
 
 \begin{figure}[!h]
     \centering
@@ -287,6 +343,7 @@ In that regard, PetIBM is open source, version-controlled on GitHub,\footnote{Pe
 % Mention that Singularity containers are also supported in Batch Shipyard.
 
 \begin{table*}[!h]
+    \renewcommand{\arraystretch}{1.5}
     \caption{NC series on Microsoft Azure. (Prices as of May 13, 2018.)}
     \label{tab:nc_series}
     \centering
