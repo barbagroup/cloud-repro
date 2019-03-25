@@ -35,7 +35,7 @@ M.~Schwab, N.~Karrenbach, and J.~Claerbout, ``Making scientific computations
   reproducible,'' \emph{Computing in Science \& Engineering}, vol.~2, no.~6,
   pp. 61--67, 2000.
 
-\bibitem{nap_oss_2018}
+\bibitem{nasa_oss_2018}
 \BIBentryALTinterwordspacing
 {National Academies of Sciences, Engineering, and Medicine}, \emph{Open Source
   Software Policy Options for NASA Earth and Space Sciences}.\hskip 1em plus
@@ -99,5 +99,14 @@ P.-Y. Chuang and L.~A. Barba, ``{AmgXWrapper}: An interface between {PETSc} and
 R.~Mittal and S.~Balachandar, ``Effect of three-dimensionality on the lift and
   drag of nominally two-dimensional cylinders,'' \emph{Physics of Fluids},
   vol.~7, no.~8, pp. 1841--1865, 1995.
+
+\bibitem{childs_et_al_2012}
+H.~Childs, E.~Brugger, B.~Whitlock, J.~Meredith, S.~Ahern, D.~Pugmire,
+  K.~Biagas, M.~Miller, C.~Harrison, G.~H. Weber, H.~Krishnan, T.~Fogal,
+  A.~Sanderson, C.~Garth, E.~W. Bethel, D.~Camp, O.~R\"{u}bel, M.~Durant, J.~M.
+  Favre, and P.~Navr\'{a}til, ``{VisIt: An End-User Tool For Visualizing and
+  Analyzing Very Large Data},'' in \emph{{High Performance
+  Visualization--Enabling Extreme-Scale Scientific Insight}}, Oct 2012, pp.
+  357--372.
 
 \end{thebibliography}
