@@ -264,7 +264,7 @@ Following that, the wake signature is altered for the rest of the simulation: vo
 \subsubsection{3D Flow Around a Snake Cylinder}
 
 Although the two-dimensional simulations gave us some insights into to flow dynamics happening in the behind the snake, we know that at this Reynolds number ($Re = 2000$), three-dimensional will develop in the wake.
-Thus, we submitted jobs to Azure Batch to compute the three-dimensional flow around a cylinder with the same anatomically accurate cross-section.
+Thus, we submitted jobs to Azure Batch to perform direct numerical simulation of the three-dimensional flow around a cylinder with the same anatomically accurate cross-section.
 The computational domain is extended in the $z$-direction over a length of $3.2c$ and the grid now contains about $46$ million cells (uniform discretization in the $z$-direction; see Table \ref{tab:grid_specs}).
 The grid is kept uniform in the $z$-direction and we enforce periodic conditions at the front and back boundaries.
 The simulation ran in a Docker container on Azure Batch using Batch Shipyard.
@@ -338,27 +338,59 @@ Fig. \ref{fig:qcrit_wx_3d} shows the isosurfaces of the Q-criterion after $100$ 
 
 \section{Cost Analysis and Lessons Learned}\label{sec:cost}
 
-% Mention the 7-day limitation for jobs with Azure Batch.
+% Mention the 7-day limitation for jobs with Azure Batch. (WARNING: according to the Batch Shipyard documentation, tasks can have a maximum lifetime of 180 days.)
 % Mention that Batch Shipyard can pull images from public and private registries.
 % Mention that Singularity containers are also supported in Batch Shipyard.
 
+For the year $2018$, Microsoft Azure granted our research lab a sponsorship of $20,000$ USD in cloud credits to run CFD simulations with our in-house software.
+From May to December, we spend a total of $20,614$ USD to run simulations of the gliding snake.
+During that period, we have been charged data management, networking, storage, bandwidth, and virtual machines (Table \ref{tab:azure_charges}).
+More than $99\%$ of the charges are due the usage of virtual machines.
+We had the opportunity to use different instances on Microsoft Azure and most the charges for the usage of virtual machines of the \texttt{NC24r} instance (used for the two- and three-dimensional simulations of the flying snake).
+The \texttt{NC24r} instance is part of the NC-series (Table \ref{tab:nc_series}); we copiously used as it enables RDMA capabilities for our MPI application and features NVIDIA K80 GPU devices.
+For example, the two-dimensional snake run reported in the present article cost $55.4$ USD ($2$ \texttt{NC24r} instances with a hourly price of $3.96$ USD for about $7$ hours).
+The three-dimensional computation cost $1077.1$ USD ($2$ \texttt{NC24r} instances for about $136$ hours).
+
+\begin{table}
+    \renewcommand{\arraystretch}{1.5}
+    \caption{Charges incurred for the usage of different services on Microsoft Azure.}
+    \label{tab:azure_charges}
+    \centering
+    \begin{tabular}{cll}
+        Service name & Cost (USD) & \% of total cost \\
+        \hline
+        Bandwidth & $46.85$ & $0.23$ \\
+        Data Management & $0.56$ & $0.003$ \\
+        Networking & $1.38$ & $0.007$ \\
+        Storage & $25.93$ & $0.16$ \\
+        Virtual Machines & $20,582.64$& $99.6$ \\
+        \hline
+        Total & $20,614$ & \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \begin{table*}[!h]
     \renewcommand{\arraystretch}{1.5}
-    \caption{NC series on Microsoft Azure. (Prices as of May 13, 2018.)}
+    \caption{NC series on Microsoft Azure. (Prices as of March 24, 2019, for CentOS or Ubuntu Linux Virtual Machines in the East US region.)}
     \label{tab:nc_series}
     \centering
     \begin{tabular}{cccccccc}
         Instance & cores & RAM & disk sizes & GPU & pay-as-you-go & 1-year reserved & 3-year reserved \\
         && (GiB) & (Gib) && (\$/hr) & (\$/hr) & (\$/hr) \\
         \hline
-        NC6 & 6 & 56 & 340 & 1 x K80 & 0.90 & 0.574 & 0.40 \\
-        NC12 & 12 & 112 & 680 & 2 x K80 & 1.80 & 1.147 & 0.80 \\
-        NC24 & 24 & 224 & 1,440 & 4 x K80 & 3.60 & 2.294 & 1.599 \\
-        NC24r\footnotemark & 24 & 224 & 1,440 & 4 x K80 & 3.96 & 2.523 & 1.758 \\
+        NC6 & 6 & 56 & 340 & 1 x K80 & 0.90 & 0.5733 & 0.3996 \\
+        NC12 & 12 & 112 & 680 & 2 x K80 & 1.80 & 1.1466 & 0.7991 \\
+        NC24 & 24 & 224 & 1,440 & 4 x K80 & 3.60 & 2.2932 & 1.5981 \\
+        NC24r\footnotemark & 24 & 224 & 1,440 & 4 x K80 & 3.96 & 2.5224 & 1.7578 \\
         \hline
     \end{tabular}
 \end{table*}
-\footnotetext{NC24r instances are RDMA (Remote Direct Access Memory) capable with InfiniBand network.}
+\footnotetext{The NC24r configuration provides a low latency, high throughput network interface optimized for tightly coupled parallel applications.}
+
+In a new effort to make our research transparent and reproducible by others, we have version-controlled all the input files, pre- and post-processing scripts, as well as the Batch Shipyard configuration files required to rerun the simulations on Microsoft Azure.
+In addition, all the scripts to reproduce the figures in the present article are made available.
+The reproducibility packages are hosted on GitHub in the repository \texttt{cloud-repro}.\footnote{\url{https://github.com/barbagroup/cloud-repro}}
 
 % \section*{Acknowledgment}
 
