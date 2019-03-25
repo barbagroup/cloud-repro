@@ -12,11 +12,14 @@
 
 \usepackage{listings}
 \lstset{
+    aboveskip=20pt,
+    belowskip=20pt,
+    lineskip=5pt,
     backgroundcolor=\color{white},
-    basicstyle=\footnotesize,
+    basicstyle=\footnotesize\ttfamily,
     breakatwhitespace=true,
     breaklines=true,
-    captionpos=b,
+    captionpos=none,
     extendedchars=true,
     frame=none,
     keepspaces=true,
@@ -105,7 +108,7 @@ Once the image is build locally, we push it to a public registry (e.g., DockerHu
 
 \clearpage
 
-\begin{lstlisting}
+\begin{lstlisting}[float]
 $ cd $CLOUDREPRO/docker/petibm
 $ docker build --tag=barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu --file=Dockerfile .
 $ docker push barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu
