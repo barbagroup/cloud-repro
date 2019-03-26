@@ -48,6 +48,10 @@ R.~D. Peng, ``Reproducible research in computational science,'' \emph{Science},
   \url{https://www.nap.edu/catalog/25217/open-source-software-policy-options-for-nasa-earth-and-space-sciences}
 \BIBentrySTDinterwordspacing
 
+\bibitem{boettiger_2015}
+C.~Boettiger, ``An introduction to {Docker} for reproducible research,''
+  \emph{ACM SIGOPS Operating Systems Review}, vol.~49, no.~1, pp. 71--79, 2015.
+
 \bibitem{mesnard_barba_2017}
 \BIBentryALTinterwordspacing
 O.~Mesnard and L.~A. Barba, ``Reproducible and replicable computational fluid
