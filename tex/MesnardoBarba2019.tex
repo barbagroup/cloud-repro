@@ -65,7 +65,7 @@ E-mail: mesnardo@gwu.edu
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-In a new effort to make our research transparent and reproducible by others, we have developed a workflow to run computational studies on a public cloud. It uses Docker containers to create an image of the application software stack. We also adopt several tools that facilitate creating and managing virtual machines with compute nodes and submitting jobs to these nodes. The configuration files for these tools are part of an expanded "reproducibility package" that includes workflow definitions for cloud computing, in addition to input files and instructions. This facilitates re-creating the cloud environment to re-un the simulations under the same conditions.
+In a new effort to make our research transparent and reproducible by others, we developed a workflow to run computational studies on a public cloud. It uses Docker containers to create an image of the application software stack. We also adopt several tools that facilitate creating and managing virtual machines with compute nodes and submitting jobs to these nodes. The configuration files for these tools are part of an expanded "reproducibility package" that includes workflow definitions for cloud computing, in addition to input files and instructions. This facilitates re-creating the cloud environment to re-un the simulations under the same conditions.
 \end{abstract}
 }
 
@@ -74,28 +74,32 @@ In a new effort to make our research transparent and reproducible by others, we 
 
 \IEEEraisesectionheading{\section{Introduction}\label{sec:introduction}}
 
-Reproducible research and replication studies are essential components for the progress of evidence-based science, even more since science today advances via computation.
-More than ever we use computer simulations to create new knowledge.
-But how do we certify that this new knowledge is justified, that there is enough evidence to support it?
-With constant increase in the rate of submissions to journals as well as software and data getting more complex, it becomes difficult to verify and corroborate what computational scientists present in journal and conferences \cite{donoho_et_al_2009}.
+Reproducible research and replication studies are essential components for the progress of evidence-based science, even more now when nearly all fields advance via computation.
+We use computer simulations and data models to create new knowledge,
+but how do we provide evidence that this new knowledge is justified? 
+Traditional journal publications exclude software and data products from the peer-review process, yet reliance on ever more complex computational artifacts and methods is the norm.
+Lacking standards for documenting, reporting and reviewing the computational facets of research, it becomes difficult to verify and corroborate the findings presented in journals and conferences \cite{donoho_et_al_2009}.
 
-The literature is often swamped with confused, and sometimes contradictory, meanings for reproducible research, reproducibility, replicability, repetition, and so on \cite{barba_2018}.
-It is thus worth clarifying these terms.
-The term ``reproducible research'' in reference to computational studies that can be reproduced by other scientists was introduced by geophysics professor Jon Claerbout in the 1990s. He and his research group at Stanford created a reproducible-research environment\cite{schwab_et_al_2000} in which, the goal was complete documentation of scientific computations, in such way that a reader could reproduce all the results and figures in a paper using the author-provided computer programs and raw data.
-This ability requires open data and open source software and, for this reason, the reproducibility movement is closely linked with the open science movement.
-In subsequent years, the term ``replication'' was distinctly adopted to refer to an independent study that rerun experiments to generate new data which, when analyzed, lead to the same findings.
-We follow this convention, clarified more recently in a report from the National Academies of Sciences, Engineering, and Medicine \cite{nasa_oss_2018}.
+The literature is cluttered with confused and sometimes contradictory definitions for reproducible research, reproducibility, replicability, repetition, and so on \cite{barba_2018}.
+It is thus worth clarifying how we use these terms.
+``Reproducible research'' was introduced by geophysics professor Jon Claerbout in the 1990s to mean computational studies that can be reproduced by other scientists. He and his research group at Stanford created a reproducible-research environment\cite{schwab_et_al_2000} whose goal was complete documentation of scientific computations, in such a way that a reader could reproduce all the results and figures in a paper using the author-provided computer programs and raw data.
+This requires open data and open source software and, for this reason, the reproducibility movement is closely linked with the open science movement.
+The term ``replication'' has been adopted to refer to an independent study generating new data which, when analyzed, lead to the same findings \cite{peng_2011}.
+We follow this convention, adopted also recently in a report from the National Academies of Sciences, Engineering, and Medicine \cite{nasa_oss_2018}.
 
-Universities and national laboratories can spend millions of dollars to deploy and maintain on-site high-performance computing (HPC) clusters.
+Universities and national laboratories spend millions of dollars to deploy and maintain on-site high-performance computing (HPC) clusters.
 At the George Washington University, we have access to a university-managed HPC cluster called Colonial One.
 The cluster is now $6$ years old and approaching its end-of-life.
 On average, its computational resources are idle $9\%$ of the time and unavailable to users for roughly 5 days a year (due to maintenance).
-Administrators of the cluster are now considering integrating cloud-computing platforms in the landscape of HPC at the George Washington University.
-Over the past decade, cloud-computing platforms have rapidly evolved, now proposing solutions for scientific applications.
+Administrators of the cluster have been recently considering integrating cloud-computing platforms in the research-computing portfolio. 
+Over the past decade, cloud-computing platforms have rapidly evolved, now offering solutions for scientific applications.
 From a user's point of view, a cloud platform offers great flexibility (hardware and virtual machines) with instantaneous availability of infinite (in appearance) computational resources.
 No more waiting time in job-submission queues!
 This promises to greatly facilitate code development, debugging, and testing. Resources allocated on the cloud are released as soon as the job is done, avoiding paying for idle time.
-On a public-cloud platform such as Microsoft Azure, with a "pay-as-you-go" type of subscription, a user directly sees how much it costs to run a scientific application, while such information usually remains obscure to the end-user on university-managed clusters.
+On a public-cloud platform with a "pay-as-you-go" type of subscription---such as Microsoft Azure, Google Cloud, Amazon AWS---a user directly sees how much it costs to run a scientific application, while such information usually remains obscure to the end-user on university-managed clusters. 
+Cost models that make sense for researchers, labs, and universities are still unclear. 
+Yet, this information is key when making a decision to adopt a cloud workflow for research. 
+We report here what we have learned from nearly two years of using cloud computing for our simulation-based workflow, with the hope that it will shed some light on the costs and benefits, and help others considering using cloud computing for their research
 
 \section{Reproducible Workflow}\label{sec:workflow}
 

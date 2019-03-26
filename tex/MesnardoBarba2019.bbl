@@ -35,6 +35,10 @@ M.~Schwab, N.~Karrenbach, and J.~Claerbout, ``Making scientific computations
   reproducible,'' \emph{Computing in Science \& Engineering}, vol.~2, no.~6,
   pp. 61--67, 2000.
 
+\bibitem{peng_2011}
+R.~D. Peng, ``Reproducible research in computational science,'' \emph{Science},
+  vol. 334, no. 6060, pp. 1226--1227, 2011.
+
 \bibitem{nasa_oss_2018}
 \BIBentryALTinterwordspacing
 {National Academies of Sciences, Engineering, and Medicine}, \emph{Open Source
