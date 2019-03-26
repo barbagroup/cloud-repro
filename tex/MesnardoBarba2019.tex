@@ -23,7 +23,6 @@
     extendedchars=true,
     frame=none,
     keepspaces=true,
-    language=bash,
     morekeywords={*,...},
     numbers=none,
     numbersep=5pt,
@@ -117,8 +116,7 @@ Container technology facilitates share build images of the full software stack t
 The process of building an image using Docker begins with writing an ASCII file, called a Dockerfile, that contains Docker keywords and system commands for building multi-layered software stack.
 Once the image is build locally, we push it to a public registry (e.g., DockerHub).
 
-
-\begin{lstlisting}[float]
+\begin{lstlisting}
 $ cd $CLOUDREPRO/docker/petibm
 $ docker build --tag=barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu --file=Dockerfile .
 $ docker push barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu
