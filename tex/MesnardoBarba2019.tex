@@ -105,11 +105,11 @@ This promises to greatly facilitate code development, debugging, and testing. Re
 On a public-cloud platform with a "pay-as-you-go" type of subscription---such as Microsoft Azure, Google Cloud, Amazon AWS---a user directly sees how much it costs to run a scientific application, while such information usually remains obscure to the end-user on university-managed clusters. 
 Cost models that make sense for researchers, labs, and universities are still unclear. 
 Yet, this information is key when making a decision to adopt a cloud workflow for research. 
-We report here what we have learned from nearly two years of using cloud computing for our simulation-based workflow, with the hope that it will shed some light on the costs and benefits, and help others considering using cloud computing for their research
+We report here what we have learned from nearly two years of using cloud computing for our simulation-based workflow, with the hope that it will shed some light on the costs and benefits, and help others considering using cloud computing for their research.
 
-\section{Reproducible Workflow}\label{sec:workflow}
+\section{Reproducible cloud-based workflow}\label{sec:workflow}
 
-CFD publications often lack details about external libraries used along with the main computational code.
+Scientific publications reporting computational results often lack sufficient details to reproduce the researcher's computational environment; e.g., they may miss to mention external libraries used along with the main computational code.
 We have learned the hard way how different versions of the same external library can alter the numerical results and even the scientific findings of a computational study\cite{mesnard_barba_2017}.
 To overcome the so-called ``dependency hell'' and facilitate reproducibility, we use Docker to locally create an image of our computational application.
 Container technology facilitates share build images of the full software stack that is used to produce scientific results.
@@ -183,11 +183,17 @@ Such reproducibility package facilitates re-creating the cloud environment to ru
 
 \section{Results}\label{sec:results}
 
-Thanks to a sponsorship ($\$20,000$ worth of cloud credits) from the Microsoft Azure for Research program,\footnote{Microsoft Azure for Research: \url{https://www.microsoft.com/en-us/research/academic-program/microsoft-azure-for-research/}} three-dimensional CFD simulations with our in-house research software ran on the public cloud platform using the reproducible workflow described in Section \ref{sec:workflow}.
-Preliminary results from benchmarks and test-cases showed that we are able to obtain similar performance in terms of latency and bandwidth using the Azure virtual network, comparing to a traditional University-managed HPC cluster (Colonial One).
-Table \ref{tab:hw_specs} reports the hardware specifications of the nodes used on Microsoft Azure and Colonial One.
+The top concerns of researchers considering cloud computing are performance and cost. 
+Until just a few years ago, the products offered by cloud providers were unsuitable to the needs of computational scientists using HPC, due to performance overhead of virtualization and lack of support for fast networking. 
+Azure only introduced nodes with GPU devices and Infiniband support in 2017. 
+Our first objective was to assess performance on cloud nodes for the type of computations in our research workflows with  tightly coupled parallel applications. 
+We present results from benchmarks and test-cases showing that we are able to obtain similar performance in terms of latency and bandwidth using the Azure virtual network, comparing to a traditional university-managed HPC cluster (Colonial One).
+Table \ref{tab:hw_specs} lists the hardware specifications of the nodes used on Microsoft Azure and Colonial One.
+ Our target research application relies on three-dimensional CFD simulations with our in-house research software. We include here a sample of the types of results needed to answer our research question, obtained by running on the public cloud using the reproducible workflow described in Section \ref{sec:workflow}. 
+ The goal is to showcase the potential of cloud computing for CFD, share the lessons we learned in the process, as well as analyze the cost scenarios for full applications.
 
-\begin{table*}[!h]
+
+\begin{table*}[b]
     \renewcommand{\arraystretch}{1.5}
     \caption{Hardware Specifications of Nodes Used on Microsoft Azure and Colonial One. On Both Platforms, MPI Applications Take Advantage of RDMA (Remote Direct Memory Access) Network with FDR InfiniBand.}
     \label{tab:hw_specs}
@@ -434,7 +440,9 @@ In a new effort to make our research transparent and reproducible by others, we 
 In addition, all the scripts to reproduce the figures in the present article are made available.
 The reproducibility packages are hosted on GitHub in the repository \texttt{cloud-repro}.\footnote{\url{https://github.com/barbagroup/cloud-repro}}
 
-% \section*{Acknowledgment}
+ \section*{Acknowledgment}
+ 
+This study was possible thanks to a sponsorship ($\$20,000$ worth of cloud credits) from the Microsoft Azure for Research program,\footnote{Microsoft Azure for Research: \url{https://www.microsoft.com/en-us/research/academic-program/microsoft-azure-for-research/}}.
 
 \bibliographystyle{IEEEtran}
 % argument is your BibTeX string definitions and bibliography database(s)
