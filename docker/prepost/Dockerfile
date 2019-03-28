@@ -125,7 +125,7 @@ RUN VERSION=4.5.12 && \
     wget ${URL} -P /tmp && \
     bash /tmp/${FILENAME} -b -p /opt/miniconda3 && \
     echo "source /opt/miniconda3/etc/profile.d/conda.sh" >> /root/.bashrc && \
-    echo "conda activate" >> /root/.bashrc && \
+    echo "conda activate py36-cloud" >> /root/.bashrc && \
     rm -f /tmp/${FILENAME}
 
 # Create conda environment for VisIt.
