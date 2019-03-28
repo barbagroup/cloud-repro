@@ -27,7 +27,6 @@ cd $outdir
 for (( i=0; i<$nruns; i++ ))
 do
 	echo "run $i"
-			  BENCHMARK="5.3.2/mpi/pt2pt/osu_bw"
 	time mpiexec -display-map -mca btl openib,self \
 		osu_bw -d cuda -x 100 -i 1000 H H \
 		> stdout_bandwidth_run$i.txt 2> stderr_bandwidth_run$i.txt
