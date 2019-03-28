@@ -24,6 +24,11 @@ def parse_command_line():
                         type=str,
                         required=True,
                         help='Storage fileshare name.')
+    parser.add_argument('--output', dest='output',
+                        type=str,
+                        required=False,
+                        default='credentials.yaml',
+                        help='Path of the output file with credentials.')
     args = parser.parse_args()
     return args
 
@@ -48,5 +53,5 @@ info['<storage-share-name>'] = args.share_name
 # Read the credentials file template and generate a custom one.
 scriptdir = pathlib.Path(__file__).absolute().parent
 inpath = scriptdir / 'credentials-template.yaml'
-outpath = scriptdir / 'credentials.yaml'
-replace_strings_in_file(inpath, info, output=outpath)
+# outpath = scriptdir / 'credentials.yaml'
+replace_strings_in_file(inpath, info, output=args.output)
