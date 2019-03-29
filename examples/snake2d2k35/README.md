@@ -27,7 +27,7 @@ Make sure you have created a Azure Batch account and a Azure Storage account for
 All command-lines written below are run from the `README`'s directory.
 The environment variable `CLOUDREPRO` contains the path of the `cloud-repro` git folder on the local machine.
 
-1- (optional) Create the rotated geometry of the snake cross-section:
+i- (optional) Create the rotated geometry of the snake cross-section:
 
 ```shell
 python scripts/create_body.py
@@ -35,7 +35,7 @@ python scripts/create_body.py
 
 (The Python script will write the file `snake2d2k35.body`.)
 
-2- (optional) Create the YAML node `mesh` to be added to the `config.yaml` PetIBM configuration file:
+ii- (optional) Create the YAML node `mesh` to be added to the `config.yaml` PetIBM configuration file:
 
 ```shell
 python scripts/create_mesh_yaml.py
@@ -161,10 +161,14 @@ conda deactivate
 Figures of the filled contour are saved as PNG files in the folder `figures` (filename prefix `wz_wzke2d_`).
 (Note that the Python script requires to set the environment variable `VISIT_DIR` with the path of VisIt on the local machine.)
 
-To re-generate the figure in the manuscript (filled contour of the 2D vorticity field at 4 time steps):
+## Re-create the figure in the manuscript
+
+To re-generate the figure of the filled contour of the 2D vorticity field at 4 time steps:
 
 ```shell
 python scripts/plot_wz_waked2d_pyplot.py
 ```
 
 The Python script saves the Matplotlib figure as a PNG file (`wz_multi_contourf.png`) in the `figures` folder.
+
+![fig:wz_snake2d](./figures/wz_multi_contourf.png)
