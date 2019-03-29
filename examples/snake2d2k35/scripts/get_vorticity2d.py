@@ -1,5 +1,8 @@
 """Save the vorticity field as a 2D array in HDF5 files.
 
+PetIBM saves the vorticity at a 3D array even if the solution is 2D.
+Thus, we have to re-write the vorticity solution as a 2D array.
+
 Create a XDMF file to visualize the 2D field with VisIt.
 """
 
@@ -28,7 +31,7 @@ petibmpy.write_grid_hdf5(gridpath, name, x, y)
 # Get temporal parameters.
 filepath = simudir / 'config.yaml'
 with open(filepath, 'r') as infile:
-    config = yaml.load(infile)['parameters']
+    config = yaml.load(infile, Loader=yaml.FullLoader)['parameters']
 nstart, nt, nsave = config['startStep'], config['nt'], config['nsave']
 dt = config['dt']
 timesteps = list(range(nstart, nstart + nt + 1, nsave))

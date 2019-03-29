@@ -13,11 +13,12 @@ from visitplot import *
 
 
 simudir = pathlib.Path(__file__).absolute().parents[1]
-xdmfpath = simudir / 'output' / 'postprocessing' / 'wz' / 'wz.xmf'
+datadir = simudir / 'output'
+xdmfpath = datadir / 'postprocessing' / 'wz' / 'wz.xmf'
 name = 'wz'
 config_view = simudir / 'scripts' / 'visit_view2d.yaml'
-body2dpath = simudir / 'output' / 'snake2d35.body'
-curve2dpath = simudir / 'output' / 'snake2d35.curve'
+body2dpath = datadir / 'snake2d35.body'
+curve2dpath = datadir / 'snake2d35.curve'
 figdir = simudir / 'figures'
 prefix = 'wz_wake2d_'
 
@@ -34,4 +35,4 @@ visit_plot_pseudocolor_2d(xdmfpath, name,
                           config_view=config_view,
                           out_dir=figdir, out_prefix=prefix,
                           figsize=(1024, 1024),
-                          visit_dir=os.environ.get('VISIT_DIR'), state=1)
+                          visit_dir=os.environ.get('VISIT_DIR'))
