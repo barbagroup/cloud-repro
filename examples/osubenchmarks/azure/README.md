@@ -7,12 +7,12 @@ Each benchmark was repeated 5 times.
 ## Contents
 
 * `config_shipyard`: YAML configuration files for Batch Shipyard.
-  * `config.yaml`: Global configuration.
-  * `pool.yaml`: Pool configuration.
-  * `jobs.yaml`: Job configuration.
+  * `config.yaml`: global configuration.
+  * `pool.yaml`: pool configuration.
+  * `jobs.yaml`: job configuration.
 * `run-osu.sh`: Bash script to run inside the Docker container on Azure Batch.
 
-(Note: the configuration file with the credentials, `credentials.yaml`, is not version-controlled as it contains sensitive information. You will have to generate it before creating the pool with Batch Shipyard.)
+(Note: the Batch Shipyard configuration file with the credentials, `credentials.yaml`, is not version-controlled as it contains sensitive information. You will have to generate it before creating the pool with Batch Shipyard.)
 
 ## Run
 
@@ -59,11 +59,15 @@ shipyard jobs del
 shipyard pool del
 ```
 
-or, alternatively, you can use the Bash script `shipyard-driver.sh` to automatically delete the pool once the task in the job completed successfully:
+or, alternatively, you can use the Shell script `shipyard-driver` to automatically delete the pool once the task in the job completed successfully:
 
 ```shell
-$CLOUDREPRO/shipyard-driver.sh
+export PATH=$CLOUDREPRO/misc/bin:$PATH
+shipyard-driver
 ```
+
+The Shell script will ask you to provide the path of the configuration directory for Batch Shipyard (which is `config_shipyard` here) and your Microsoft Azure password.
+By default, it will save the Batch Shipyard logging files into the sub-folder `log_shipyard`.
 
 5- Download the output from Azure Storage to the local machine:
 

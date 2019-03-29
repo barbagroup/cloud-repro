@@ -9,14 +9,13 @@
 
 <a name="footnote_colonialone">1</a>: Colonial One is the HPC cluster at the George Washington University.
 
-## Plot the results of the benchmarks
+## Re-create the figure in the manuscript
 
 All command-lines written below are run from the `README`'s directory.
+To-regenerate the figure with the results of the OSU Micro-Benchmarks:
 
 ```shell
 python scripts/plot_latency_bandwidth.py
 ```
 
-## Output
-
-The Python script will save the Matplotlib figure as a PDF file `osu_latency_bandwidth.pdf` in the sub-folder `figures` (created if not present).
+The Python script saves the Matplotlib figure as a PDF file (`osu_latency_bandwidth.pdf`) in the `figures` folder (automatically created if not present).
