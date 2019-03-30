@@ -62,5 +62,3 @@ figdir = rootdir / 'figures'
 figdir.mkdir(parents=True, exist_ok=True)
 filepath = figdir / 'wz_avg_multi_contourf.png'
 fig.savefig(str(filepath), dpi=300, bbox_inches='tight')
-
-pyplot.show()
