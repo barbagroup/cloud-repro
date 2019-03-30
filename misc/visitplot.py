@@ -84,7 +84,8 @@ def visit_plot_pseudocolor_2d(xdmf_path, name,
     # Parse the 2D view configuration file.
     if config_view is not None:
         with open(str(config_view), 'r') as infile:
-            config_view = yaml.load(infile)['View2DAtts']
+            config_view = yaml.load(infile, Loader=yaml.FullLoader)
+            config_view = config_view['View2DAtts']
     # Set attributes of the view.
     View2DAtts = visit.View2DAttributes()
     for key, value in config_view.items():
@@ -214,7 +215,8 @@ def visit_plot_contour_3d(xdmf_path, name,
     # Parse the 3D view configuration file.
     if config_view is not None:
         with open(str(config_view), 'r') as infile:
-            config_view = yaml.load(infile)['View3DAtts']
+            config_view = yaml.load(infile, Loader=yaml.FullLoader)
+            config_view = config_view['View3DAtts']
     # Set attributes of the view.
     View3DAtts = visit.View3DAttributes()
     for key, value in config_view.items():
@@ -400,7 +402,8 @@ def visit_plot_qcrit_wx_3d(xdmf_dir,
     # Parse the 3D view configuration file.
     if config_view is not None:
         with open(str(config_view), 'r') as infile:
-            config_view = yaml.load(infile, Loader=yaml.FullLoader)['View3DAtts']
+            config_view = yaml.load(infile, Loader=yaml.FullLoader)
+            config_view = config_view['View3DAtts']
     # Set attributes of the view.
     View3DAtts = visit.View3DAttributes()
     for key, value in config_view.items():
