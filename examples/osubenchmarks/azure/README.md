@@ -30,7 +30,7 @@ python $CLOUDREPRO/misc/generatecredentials.py \
     --output config_shipyard/credentials.yaml
 ```
 
-2- Create a `osubenchmarks` directory in the fileshare:
+2- Create a `osubenchmarks` directory in the fileshare on your Azure Storage account:
 
 ```shell
 az storage directory create --name osubenchmarks \
@@ -84,7 +84,7 @@ az storage file download-batch --destination output
 export PATH=$CLOUDREPRO/misc/bin:$PATH
 az-storage-directory-delete --name osubenchmarks \
     --account-name <Name of the storage account> \
-    --share-name <Name of file share>
+    --share-name <Name of the file share>
 ```
 
 ## Output
