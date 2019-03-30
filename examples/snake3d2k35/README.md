@@ -137,27 +137,16 @@ petibm-vorticity
 
 The numerical solution of the vorticity in stored in the HDF5 files located in `solution`.
 
-For 2D simulations, PetIBM saves the vorticity field as a 3D array with only one element in the third direction.
-Thus, we visualize the vorticity as a 2D array, we need to re-generate the vorticity solution.
-This can be done with the Python script `scripts/get_vorticity2d.py`.
+* XMDF files to visualize fields with VisIt
+
+To create the XDMF files to visualize the field variables (pressure, velocity components, and vorticity components), use the PetIBM application `petibm-createxdmf`:
 
 ```shell
-python scripts/get_vorticity2d.py
+cd output
+petibm-createxdmf
 ```
 
-The Python script will save the 2D vorticity in the folder `output/postprocessing/wz`.
-(The folder also contains a XDMF file to visualize the 2D vorticity field with VisIt.)
-
-To plot the filled contour of the 2D vorticity field at saved time steps:
-
-```shell
-conda activate py27-visit
-python scripts/plot_wz_wake2d_visit.py
-conda deactivate
-```
-
-Figures of the filled contour are saved as PNG files in the folder `figures` (filename prefix `wz_wzke2d_`).
-(Note that the Python script requires to set the environment variable `VISIT_DIR` with the path of VisIt on the local machine.)
+The program will write the XDMF files `p.xmf`, `u.xmf`, `v.xmf`, `wx.xmf`, `wy.xmf`, and `wz.xmf` in the `output` folder.
 
 ## Re-create the figures in the manuscript
 
