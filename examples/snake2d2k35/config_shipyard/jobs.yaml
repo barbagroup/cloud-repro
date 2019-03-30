@@ -23,6 +23,6 @@ job_specifications:
     output_data:
       azure_storage:
       - storage_account_settings: mystorageaccount
-        remote_path: myfileshare/snake2d2k35
+        remote_path: fileshare/snake2d2k35
         local_path: $AZ_BATCH_NODE_SHARED_DIR/gfs/snake2d2k35
         is_file_share: true

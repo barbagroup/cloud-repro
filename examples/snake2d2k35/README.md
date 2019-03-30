@@ -15,7 +15,7 @@ The container-based PetIBM application computed $200,000$ time steps of flow sim
 * `config.yaml`: YAML configuration file for PetIBM.
 * `config`: configuration files for the linear solvers in PetIBM.
 * `data/snake2d.body`: initial geometry of the 2D snake cross-section.
-* `snake2d2k35.body`: geometry of the 2D snake cross-section with a $35$-degree angle of attack.
+* `snake2d35.body`: geometry of the 2D snake cross-section with a $35$-degree angle of attack.
 * `run-petibm.sh`: Bash script to run inside the Docker container on Azure Batch.
 * `scripts`: pre- and post-processing scripts.
 
@@ -33,7 +33,7 @@ i- (optional) Create the rotated geometry of the snake cross-section:
 python scripts/create_body.py
 ```
 
-(The Python script will write the file `snake2d2k35.body`.)
+(The Python script will write the file `snake2d35.body`.)
 
 ii- (optional) Create the YAML node `mesh` to be added to the `config.yaml` PetIBM configuration file:
 
@@ -42,8 +42,6 @@ python scripts/create_mesh_yaml.py
 ```
 
 (The Python script will write the file `mesh.yaml`, which contains the YAML node `mesh` to add/replace in `config.yaml`.)
-
-Output: `mesh.yaml` (content to be placed into the global YAML configuration file `config.yaml`).
 
 1- Generate the YAML configuration file with your credentials:
 
@@ -68,7 +66,7 @@ az storage directory create --name snake2d2k35 \
 ```shell
 export SHIPYARD_CONFIGDIR=config_shipyard
 shipyard pool add
-shipyard data
+shipyard data ingress
 shipyard jobs add
 
 ## wait for task completion
