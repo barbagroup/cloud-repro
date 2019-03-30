@@ -19,4 +19,4 @@ job_specifications:
     multi_instance:
       num_instances: pool_specification_vm_count_dedicated
     entrypoint: null
-    command: $AZ_BATCH_NODE_SHARED_DIR/azfile/poisson/petsc/001/run-poisson.sh
+    command: $AZ_BATCH_NODE_SHARED_DIR/azfile/poisson_petsc_001/run-poisson.sh

@@ -23,6 +23,6 @@ job_specifications:
     output_data:
       azure_storage:
       - storage_account_settings: mystorageaccount
-        remote_path: fileshare/poisson/petsc/002
+        remote_path: fileshare/poisson_petsc_002
         local_path: $AZ_BATCH_NODE_SHARED_DIR/gfs/poisson
         is_file_share: true
