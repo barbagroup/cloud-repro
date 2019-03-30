@@ -184,6 +184,6 @@ python scripts/plot_qcrit_wx_wake3d_visit.py
 conda deactivate
 ```
 
-The figure is saved as a PNG file (`qcrit_wx_wake3d_0001.png`) in the `figures` folder.
+The figure is saved as a PNG file (`qcrit_wx_wake3d_0020.png`) in the `figures` folder.
 
-![fig:qcrit_snake3d](./figures/qcrit_wx_wake3d_0001.png)
+![fig:qcrit_snake3d](./figures/qcrit_wx_wake3d_0020.png)

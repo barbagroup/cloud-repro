@@ -27,4 +27,4 @@ visit_plot_qcrit_wx_3d(xdmfdir,
                        out_dir=figdir, out_prefix=prefix,
                        figsize=(880, 372),
                        visit_dir=os.environ.get('VISIT_DIR'),
-                       states=[1])
+                       state=20)

@@ -8,7 +8,7 @@ import yaml
 def visit_check_version(version):
     # Check version of VisIt.
     script_version = '2.12.1'
-    tested_versions = [script_version, '2.13.2']
+    tested_versions = [script_version, '2.12.3']
     print('VisIt version: {}\n'.format(version))
     if version not in tested_versions:
         print('[warning] You are using VisIt-{}.'.format(version))
@@ -100,7 +100,6 @@ def visit_plot_pseudocolor_2d(xdmf_path, name,
     AnnotationAtts.timeInfoFlag = 1
     visit.SetAnnotationAttributes(AnnotationAtts)
 
-    visit.DrawPlots()
     visit.SetActiveWindow(1)
 
     visit.Source(os.path.join(visit_dir, visit_arch, 'bin', 'makemovie.py'))
@@ -120,9 +119,12 @@ def visit_plot_pseudocolor_2d(xdmf_path, name,
             states_range[1] += 1
         states = range(*states_range)
 
-    for state in states:
+    for i, state in enumerate(states):
         print('[state {}] Rendering and saving figure ...'.format(state))
         visit.SetTimeSliderState(state)
+
+        if i == 0:
+            visit.DrawPlots()
 
         RenderingAtts = visit.RenderingAttributes()
         visit.SetRenderingAttributes(RenderingAtts)
@@ -234,7 +236,6 @@ def visit_plot_contour_3d(xdmf_path, name,
     AnnotationAtts.axes3D.bboxFlag = 0
     visit.SetAnnotationAttributes(AnnotationAtts)
 
-    visit.DrawPlots()
     visit.SetActiveWindow(1)
 
     visit.Source(os.path.join(visit_dir, visit_arch, 'bin', 'makemovie.py'))
@@ -254,9 +255,12 @@ def visit_plot_contour_3d(xdmf_path, name,
             states_range[1] += 1
         states = range(*states_range)
 
-    for state in states:
+    for i, state in enumerate(states):
         print('[state {}] Rendering and saving figure ...'.format(state))
         visit.SetTimeSliderState(state)
+
+        if i == 0:
+            visit.DrawPlots()
 
         RenderingAtts = visit.RenderingAttributes()
         visit.SetRenderingAttributes(RenderingAtts)
@@ -412,7 +416,6 @@ def visit_plot_qcrit_wx_3d(xdmf_dir,
         setattr(View3DAtts, key, value)
     visit.SetView3D(View3DAtts)
 
-    visit.DrawPlots()
     visit.SetActiveWindow(1)
 
     visit.Source(os.path.join(visit_dir, visit_arch, 'bin', 'makemovie.py'))
@@ -432,9 +435,12 @@ def visit_plot_qcrit_wx_3d(xdmf_dir,
             states_range[1] += 1
         states = range(*states_range)
 
-    for state in states:
+    for i, state in enumerate(states):
         print('[state {}] Rendering and saving figure ...'.format(state))
         visit.SetTimeSliderState(state)
+
+        if i == 0:
+            visit.DrawPlots()
 
         RenderingAtts = visit.RenderingAttributes()
         visit.SetRenderingAttributes(RenderingAtts)

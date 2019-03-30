@@ -5,4 +5,4 @@ examples/snake2d2k35/figures/wz_multi_contourf.png
 examples/snake3d2k35/figures/forceCoefficientsCompare2D.pdf
 examples/snake3d2k35/figures/wz_avg_multi_contourf.png
 examples/snake3d2k35/figures/ux_uy_xz_plane.png
-examples/snake3d2k35/figures/qcrit_wx_wake3d_0001.png
+examples/snake3d2k35/figures/qcrit_wx_wake3d_0020.png
