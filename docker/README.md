@@ -1,35 +1,32 @@
 # Docker images and Dockerfiles
 
-The present directory contains the Dockfiles we used to build the Docker images to run benchmarks and simulations on Microsoft Azure with Azure Batch.
+The present directory contains four sub-folders:
 
-## Pull the Docker images from DockerHub
+* `osubenchmarks`
+* `poisson`
+* `petibm`
+* `prepost`
 
-* OSU Micro-Benchmarks (version 5.6):
+The folder `prepost` contains the Dockerfile used to create the Docker image [`barbagroup/cloud-repro:latest`](https://cloud.docker.com/u/barbagroup/repository/docker/barbagroup/cloud-repro).
+This image can be used to re-create a local computational environment with all the dependencies installed to perform pre-processing steps, submit jobs to Azure Batch through the command-line, and re-do the analysis to create the figures of the manuscript.
 
-```bash
-docker pull mesnardo/osubenchmarks:5.6-GPU-IntelMPI-ubuntu
+To pull the Docker image from DockerHub and create a container:
+
+```shell
+docker pull barbagroup/cloud-repro:latest
+docker run -it barbagroup/cloud-repro:latest /bin/bash
 ```
 
-* Poisson benchmarks with AmgXWrapper (version 1.4):
+Each of the three other sub-folders contains the Dockerfile we used to build the Docker images to run benchmarks and simulations on Microsoft Azure with Azure Batch.
 
-```bash
-docker pull mesnardo/amgxwrapper:1.4-GPU-IntelMPI-ubuntu
-```
+The Docker image [`mesnardo/osubenchmarks:5.6-GPU-IntelMPI-ubuntu`](https://cloud.docker.com/u/mesnardo/repository/docker/mesnardo/osubenchmarks) is used to run the latency and bandwidth benchmarks from the [OSU Micro-Benchmarks](http://mvapich.cse.ohio-state.edu/benchmarks/) (version 5.6).
+(Dockerfile in the sub-folder `osubenchmarks`.)
 
-* PetIBM (version 0.4):
+The Docker image [`mesnardo/amgxwrapper:1.4-GPU-IntelMPI-ubuntu`](https://cloud.docker.com/u/mesnardo/repository/docker/mesnardo/amgxwrapper) is used to run the Poisson benchmark from [AmgXWrapper](https://github.com/barbagroup/AmgXWrapper) (version 1.4).
+(Dockerfile in the sub-folder `poisson`.)
 
-```bash
-docker pull barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu
-```
-
-## Build the Docker images locally
-
-The present directory contains three subfolders.
-Each one has the Dockerfile we used to build the Docker images locally and run the benchmarks and simulations on Microsoft Azure:
-
-* `osubenchmarks/Dockerfile`: point-to-point benchmark from OSU (version 5.6).
-* `poisson/Dockerfile`: Poisson benchmarks with AmgXWrapper (version 1.4).
-* `petibm/Dockerfile`: Flying-snake simulations with PetIBM (version 0.4).
+The Docker image [`barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu`](https://cloud.docker.com/u/barbagroup/repository/docker/barbagroup/petibm) is used to run the CFD simulations of the gliding snake models with [PetIBM](https://github.com/barbagroup/PetIBM) (version 0.4).
+(Dockerfile in the sub-folder `petibm`.)
 
 **Note:** Only Intel MPI 5.x versions are compatible with the Azure Linux RDMA drivers.
 We used the Intel MPI Library for Linux (2017, Update 2) to build the Docker images.
@@ -40,26 +37,33 @@ To build the Docker images on your local machine:
 
 * OSU Micro-Benchmarks (version 5.6):
 
-```bash
+```shell
 cd osubenchmarks
 docker build --tag=osubenchmarks:5.6-GPU-IntelMPI-ubuntu -f Dockerfile .
 ```
 
 * Poisson benchmarks with AmgXWrapper (version 1.4):
 
-```bash
+```shell
 cd poisson
 docker build --tag=amgxwrapper:1.4-GPU-IntelMPI-ubuntu -f Dockerfile .
 ```
 
 * PetIBM (version 0.4):
 
-```bash
+```shell
 cd petibm
 docker build --tag=petibm:0.4-GPU-IntelMPI-ubuntu -f Dockerfile .
 ```
 
-```bash
+* Computational environment for local pre- and post-processing steps:
+
+```shell
+cd prepost
+docker build --tag=cloud-repro:latest -f Dockerfile .
+```
+
+```shell
 $ docker version
 
 Client:
