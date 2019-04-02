@@ -13,7 +13,7 @@
 Other dependencies for pre- and post-processing steps:
 
 * [PetIBM](https://github.com/barbagroup/PetIBM) (`0.4`)
-* [petibmpy](https://github.com/mesnardo/petibmpy) (`master`, commit `44340a8`, `0.1`)
+* [petibmpy](https://github.com/mesnardo/petibmpy) (`master`, commit `0f921da`, `0.1`)
 * [VisIt](https://wci.llnl.gov/simulation/computer-codes/visit) (`2.12.3`)
 
 We also provide a Docker image, [`barbagroup/cloud-repro:latest`](https://cloud.docker.com/u/barbagroup/repository/docker/barbagroup/cloud-repro), to create a container with the same computational environment for the pre- and post-processing steps.
