@@ -32,19 +32,17 @@ petibmpy.write_grid_hdf5(gridpath, name, x, y)
 filepath = simudir / 'config.yaml'
 with open(filepath, 'r') as infile:
     config = yaml.load(infile, Loader=yaml.FullLoader)['parameters']
-nstart, nt, nsave = config['startStep'], config['nt'], config['nsave']
 dt = config['dt']
-timesteps = list(range(nstart, nstart + nt + 1, nsave))
 
-# Average the scalar field along the z-direction and write field.
-for timestep in timesteps:
-    print('[time step {}]'.format(timestep))
-    filepath = datadir / '{:0>7}.h5'.format(timestep)
+states = sorted([int(p.stem) for p in datadir.iterdir()])
+for state in states:
+    print('[time step {}]'.format(state))
+    filename = '{:0>7}.h5'.format(state)
+    filepath = datadir / filename
     data = petibmpy.read_field_hdf5(filepath, name)
-    filepath = outdir / '{:0>7}.h5'.format(timestep)
+    filepath = outdir / filename
     petibmpy.write_field_hdf5(filepath, name, data)
 
 # Write XDMF file to visualize field with VisIt.
 filepath = outdir / (name + '.xmf')
-petibmpy.write_xdmf(filepath, outdir, gridpath, name,
-                    nstart, nt, nsave, dt)
+petibmpy.write_xdmf(filepath, outdir, gridpath, name, dt, states=states)

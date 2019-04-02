@@ -35,9 +35,9 @@ cd2_avg, cl2_avg = petibmpy.get_time_averaged_values(t2, cd2, cl2,
                                                      limits=(40.0, 80.0))
 cd_reldiff = (cd2_avg - cd_avg) / cd_avg * 100.0
 cl_reldiff = (cl2_avg - cl_avg) / cl_avg * 100.0
-print('Case\t<CD>\t<CL>')
-print('3D\t{:.4f}\t{:.4f}'.format(cd_avg, cl_avg))
-print('2D\t{:.4f} ({:.1f})\t {:.4f} ({:.1f})'
+print('Case\t<CD>\t\t<CL>')
+print('3D\t{:.4f}\t\t{:.4f}'.format(cd_avg, cl_avg))
+print('2D\t{:.4f} ({:.1f}%)\t{:.4f} ({:.1f}%)'
       .format(cd2_avg, cd_reldiff, cl2_avg, cl_reldiff))
 
 # Plot force coefficients over time.
