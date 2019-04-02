@@ -111,11 +111,20 @@ We report here what we have learned from nearly two years of using cloud computi
 
 Scientific publications reporting computational results often lack sufficient details to reproduce the researcher's computational environment; e.g., they may miss to mention external libraries used along with the main computational code.
 We have learned the hard way how different versions of the same external library can alter the numerical results and even the scientific findings of a computational study\cite{mesnard_barba_2017}.
-To overcome the so-called ``dependency hell'' and facilitate reproducibility, we use Docker to locally create an image of our computational application.
-Container technology facilitates share build images of the full software stack that is used to produce scientific results.
-The process of building an image using Docker begins with writing an ASCII file, called a Dockerfile, that contains Docker keywords and system commands for building multi-layered software stack.
-Once the image is build locally, we push it to a public registry (e.g., DockerHub).
-Listing \ref{lst:docker_build_push} provides the command lines to build (\texttt{docker build}) and push (\texttt{docker push}) an image of our CFD software (\texttt{barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu}) that has been used to run some of the examples presented in this article.
+To overcome the so-called ``dependency hell'' and facilitate reproducibility and portability, we use the container technology provided by the open-source project Docker.
+
+A container represents an isolated user space where application programs run directly on the operating system's kernel (with a limited access to its resources).
+As opposed to Virtual Machines, containers do not include a full operating system, making them lighter and faster.
+Containers allows to re-create the same runtime environment of the applications (that includes all its dependencies) from one machine to another.
+A container is an instance of an image.
+The developer builds the image on a local machine and pushes it to a public registry to make it available to users.
+(Users pull down the image and create containers out of it.)
+To create a Docker image, the developer writes a \texttt{Dockerfile}.
+The \texttt{Dockerfile} is an ASCII file that contains keywords to tell Docker what to do.
+We create a new image from a base image using the keyword \texttt{FROM}.
+We then write the different commands to build a multi-layered runtime environment of the application that includes all its dependencies.
+Once we have built the image on the local machine, we push it to a repository on the DockerHub registry, a place to store and retrieve Docker images.
+Listing \ref{lst:docker_build_push} provides the command lines to build (\texttt{docker build}) and push (\texttt{docker push}) an image of our CFD software (\texttt{barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu}) that we used to run some of the examples presented in the next section.
 (Here, \texttt{CLOUDREPRO} is an environment variable set to path of the GitHub repository \texttt{cloud-repro}\footnote{cloud-repro: \url{https://github.com/barbargroup/cloud-repro}} cloned on a local machine.)
 
 \begin{lstlisting}[label=lst:docker_build_push,caption={Build and push a Docker image.}]
@@ -125,7 +134,8 @@ $ docker push barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu
 \end{lstlisting}
 
 Everyone can now pull the application image and create a Docker container to run the CFD simulation in a faithfully reproduced local environment.
-We aim to move the final stage of this workflow (creating a container) to a public cloud provider such as Microsoft Azure.
+The great advantage of container technology is that the same container that was built and tested on a local machine by a developer can now run at scaled in production mode on Virtual Machines, bare metal, or even cloud platforms.
+Our objective is to create and run containers on a public cloud provider such as Microsoft Azure.
 \ref{fig:cloud_workflow} shows a graphical representation of the workflow we adopted to run CFD simulations with an in-house software on Microsoft Azure.
 
 To run computational jobs on Microsoft Azure, we use several tools that facilitate creating and managing virtual machines with compute nodes and submitting jobs to those nodes.
