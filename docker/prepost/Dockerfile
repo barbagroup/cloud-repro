@@ -159,6 +159,7 @@ ENV PATH=/root/.local/bin:${PATH}
 ENV LC_ALL=C.UTF-8
 
 # Install petibmpy (0.1).
+ARG PETIBMPY_SHA=0f921da
 RUN . /opt/miniconda3/bin/activate && \
     cd /opt && \
     git clone https://github.com/mesnardo/petibmpy && \
