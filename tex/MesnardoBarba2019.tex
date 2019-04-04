@@ -145,21 +145,21 @@ $ docker push barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu
 \noindent Anyone can now pull the application image from DockerHub, and create a Docker container to run the CFD application software in a faithfully reproduced local environment.
 The great advantage of container technology is that the same container that was built and tested on the developer's local machine can now run at scale in production mode on virtual machines, bare metal, or even cloud platforms.
 Our objective is to create and run containers on a public cloud provider such as Microsoft Azure.
-\ref{fig:cloud_workflow} shows a graphical representation of the workflow we developed using Docker and various tools for running CFD simulations on Microsoft Azure.
+Figure \ref{fig:cloud_workflow} shows a graphical representation of the workflow we developed using Docker and various tools for running CFD simulations on Microsoft Azure.
+The next section explains these tools. 
 
 \subsection{Use of  public cloud resources}
 
-To run computational jobs on Microsoft Azure, we use several tools that facilitate creating and managing virtual machines with compute nodes and submitting jobs to those nodes.
-We use a Microsoft Azure platform service called Azure Batch to run our in-house CFD software.
-Azure Batch services leverages Microsoft Azure at no extra cost to relieve the user from manually creating, configuring, and managing a HPC-capable cluster of cloud nodes, including virtual machines, virtual networks, job and task scheduling infrastructure.
+To run computational jobs on Microsoft Azure, we use several tools that facilitate creating and managing virtual machines with compute nodes, and submitting jobs to those nodes.
+We use a service called Azure Batch that leverages Microsoft Azure at no extra cost, relieving the user from manually creating, configuring, and managing an HPC-capable cluster of cloud nodes, including virtual machines, virtual networks, job and task scheduling infrastructure.
 Azure Batch works with both embarrassingly parallel workloads and tightly-coupled MPI jobs (the latter being the case of our CFD software).
-To use Azure Batch, we need to configure a workspace on Microsoft Azure.
-This can be done either via the Azure Portal in a web browser or from a local terminal user the open-source tool Azure CLI.\footnote{Azure CLI (version 2.0.57): \url{https://github.com/Azure/azure-cli}}
-We prefer to the use command-line solution (program \texttt{az}) as it allows us to keep track of the steps done to configure the Azure workspace (Listing \ref{lst:az_configure}).
+To use Azure Batch, we first need to configure a workspace on Microsoft Azure.
+This can be done either via the Azure Portal in a web browser or from a local terminal using the open-source tool Azure CLI.\footnote{Azure CLI (version 2.0.57): \url{https://github.com/Azure/azure-cli}}
+We prefer to use the command-line solution (program \texttt{az}), as it allows us to keep track of the steps done to configure the Azure workspace (see Listing \ref{lst:az_configure}).
 First, we set the subscription we want to use (let's call it \texttt{reprosubscription}).
-We then create a resource group, \texttt{reprorg}, located in the East US region that will contain all the Azure resources.
-We create an Azure Storage account, \texttt{reprostorage}, in the resource group.
-We also need to create an Azure Batch account, \texttt{reprobatch}, and associate it to the storage account.
+Next, we create a resource group, \texttt{reprorg}, located in this case in the East US region, which will contain all the Azure resources.
+We create an Azure Storage account, \texttt{reprostorage}, in the resource group,
+and we also need to create an Azure Batch account, \texttt{reprobatch} and associate it to the storage account.
 Finally, we create a fileshare (of size $100$ Gb) in the storage.
 
 \begin{lstlisting}[label=lst:az_configure,caption={Configure the workspace on Microsoft Azure.}]
@@ -171,7 +171,7 @@ $ az storage share create --name fileshare --account-name reprostorage --account
 \end{lstlisting}
 
 To create computational nodes and submit container-based jobs to Azure Batch, we use the open-source command-line utility Batch Shipyard.\footnote{Batch Shipyard (version 3.6.1): https://github.com/Azure/batch-shipyard}
-Batch Shipyard is entirely driven with configuration files: the utility parses user-written YAML file to automatically create pools of compute nodes on Azure Batch and to submit jobs to those pools.
+Batch Shipyard is entirely driven by configuration files: the utility parses user-written YAML files to automatically create pools of compute nodes on Azure Batch and to submit jobs to those pools.
 Typically, we need to provide four configuration files:
 
 \begin{itemize}
@@ -182,7 +182,7 @@ Typically, we need to provide four configuration files:
 \end{itemize}
 
 Once the configuration files are written, we invoke Batch Shipyard through the \texttt{shipyard} program on our local machine.
-The folder \texttt{examples/snake2d2k35/config\_shipyard} contains an example YAML files to create a pool of two compute \texttt{NC24r} nodes (that features k80 GPUs and InfiniBand network).
+The folder \texttt{examples/snake2d2k35/config\_shipyard} in the repository accompanying this paper contains an example YAML files to create a pool of two \texttt{NC24r} compute nodes (featuring K80 GPUs and InfiniBand network).
 Listing \ref{lst:shipyard_run} shows the commands to run from your local terminal to create a pool of compute nodes on Azure Batch and submit jobs to it.
 During the pool creation (\texttt{shipyard pool add}), the Docker image of our CFD application is pulled from the registry to the virtual machines.
 With \texttt{shipyard data ingress}, we can upload input files to the compute nodes.
