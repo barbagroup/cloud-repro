@@ -115,21 +115,26 @@ This section presents an overview and mini-tutorial of the workflow we developed
 In the process of creating this reproducible workflow, we also evaluated the suitability of public cloud offerings by Microsoft Azure for our research computing needs. 
 The tools we adopted for computing on cloud resources are specific for this provider. 
 
-To overcome the so-called ``dependency hell'' and facilitate reproducibility and portability, we use the container technology provided by the open-source project Docker.
+\subsection{Use of container technology}
 
-A container represents an isolated user space where application programs run directly on the operating system's kernel (with a limited access to its resources).
-As opposed to Virtual Machines, containers do not include a full operating system, making them lighter and faster.
-Containers allows to re-create the same runtime environment of the applications (that includes all its dependencies) from one machine to another.
+To overcome the so-called ``dependency hell'' and facilitate reproducibility and portability, we use the container technology provided by the open-source project Docker.
+A container represents an isolated user space where application programs run directly on the operating system's kernel (with limited access to its resources).
+In contrast with virtual machines, containers do not include a full operating system, making them lighter and faster.
+Containers allow re-creating the same runtime environment of an application (including all its dependencies) from one machine to another. 
+They empower researchers to share pre-built images of their software stack, ameliorating one of the biggest pain points for reproducible research: building the software in a different machine. 
+The majority of enterprise developers today are familiar with Docker container technology (first released six years ago). 
+But in academic settings, many are still unaware of its value. 
+We present this section as an overview for research software developers unfamiliar with Docker, but comfortable with scripting, version control, and distributed collaboration.
+
 A container is an instance of an image.
-The developer builds the image on a local machine and pushes it to a public registry to make it available to users.
-(Users pull down the image and create containers out of it.)
-To create a Docker image, the developer writes a \texttt{Dockerfile}.
-The \texttt{Dockerfile} is an ASCII file that contains keywords to tell Docker what to do.
-We create a new image from a base image using the keyword \texttt{FROM}.
+The developer builds this image on a local machine and pushes it to a public registry to share it with other users.
+Users pull the image from the public registry,---in our case, DockerHub---and create containers out of it.
+To create a Docker image, the developer writes a \texttt{Dockerfile}.: an ASCII file containing commands that tell Docker what to do.
+For example, we create a new image from a base image using the keyword \texttt{FROM}.
 We then write the different commands to build a multi-layered runtime environment of the application that includes all its dependencies.
-Once we have built the image on the local machine, we push it to a repository on the DockerHub registry, a place to store and retrieve Docker images.
-Listing \ref{lst:docker_build_push} provides the command lines to build (\texttt{docker build}) and push (\texttt{docker push}) an image of our CFD software (\texttt{barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu}) that we used to run some of the examples presented in the next section.
-(Here, \texttt{CLOUDREPRO} is an environment variable set to path of the GitHub repository \texttt{cloud-repro}\footnote{cloud-repro: \url{https://github.com/barbargroup/cloud-repro}} cloned on a local machine.)
+Once we have built the image on the local machine, we push it to a repository on the DockerHub registry: a place to store and retrieve Docker images.
+Listing \ref{lst:docker_build_push} provides the command lines to build (\texttt{docker build}) and push (\texttt{docker push}) an image of our CFD software (\texttt{barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu}) that we used to obtain some of the results presented in the next section.
+Here, \texttt{CLOUDREPRO} is an environment variable set to the local path of the GitHub repository for this paper, \texttt{cloud-repro}\footnote{\url{https://github.com/barbargroup/cloud-repro}} cloned on the user's machine.
 
 \begin{lstlisting}[label=lst:docker_build_push,caption={Build and push a Docker image.}]
 $ cd $CLOUDREPRO/docker/petibm
@@ -137,10 +142,12 @@ $ docker build --tag=barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu --file=Dockerfile
 $ docker push barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu
 \end{lstlisting}
 
-Everyone can now pull the application image and create a Docker container to run the CFD simulation in a faithfully reproduced local environment.
-The great advantage of container technology is that the same container that was built and tested on a local machine by a developer can now run at scaled in production mode on Virtual Machines, bare metal, or even cloud platforms.
+\noindent Anyone can now pull the application image from DockerHub, and create a Docker container to run the CFD application software in a faithfully reproduced local environment.
+The great advantage of container technology is that the same container that was built and tested on the developer's local machine can now run at scale in production mode on virtual machines, bare metal, or even cloud platforms.
 Our objective is to create and run containers on a public cloud provider such as Microsoft Azure.
-\ref{fig:cloud_workflow} shows a graphical representation of the workflow we adopted to run CFD simulations with an in-house software on Microsoft Azure.
+\ref{fig:cloud_workflow} shows a graphical representation of the workflow we developed using Docker and various tools for running CFD simulations on Microsoft Azure.
+
+\subsection{Use of  public cloud resources}
 
 To run computational jobs on Microsoft Azure, we use several tools that facilitate creating and managing virtual machines with compute nodes and submitting jobs to those nodes.
 We use a Microsoft Azure platform service called Azure Batch to run our in-house CFD software.
