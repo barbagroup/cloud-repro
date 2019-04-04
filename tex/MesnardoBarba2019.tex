@@ -110,7 +110,11 @@ We report here what we have learned from nearly two years of using cloud computi
 \section{Reproducible cloud-based workflow}\label{sec:workflow}
 
 Scientific publications reporting computational results often lack sufficient details to reproduce the researcher's computational environment; e.g., they may miss to mention external libraries used along with the main computational code.
-We have learned the hard way how different versions of the same external library can alter the numerical results and even the scientific findings of a computational study\cite{mesnard_barba_2017}.
+We have learned the hard way how even different versions of the same external library can alter the numerical results and even the scientific findings of a computational study\cite{mesnard_barba_2017}.
+This section presents an overview and mini-tutorial of the workflow we developed to guarantee the highest level of reproducibility of our computational research, with the best available technology solutions. 
+In the process of creating this reproducible workflow, we also evaluated the suitability of public cloud offerings by Microsoft Azure for our research computing needs. 
+The tools we adopted for computing on cloud resources are specific for this provider. 
+
 To overcome the so-called ``dependency hell'' and facilitate reproducibility and portability, we use the container technology provided by the open-source project Docker.
 
 A container represents an isolated user space where application programs run directly on the operating system's kernel (with a limited access to its resources).
