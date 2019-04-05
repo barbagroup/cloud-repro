@@ -10,6 +10,8 @@
 \usepackage{url}
 \usepackage{multirow}
 
+\definecolor{lightgray}{rgb}{0.95,0.95,0.95}
+
 \usepackage{listings}
 \lstset{
     aboveskip=20pt,
@@ -117,6 +119,29 @@ The tools we adopted for computing on cloud resources are specific for this prov
 
 \subsection{Use of container technology}
 
+\begin{figure*}
+    \begin{center}
+        \colorbox{lightgray}{
+        \begin{minipage}[c]{14cm}
+        \bigskip
+        \small \sffamily{
+        \subsection*{Docker Terminologies:}
+{\sf \footnotesize
+\textbf{Docker}--- An open source OS-level virtualization software to create and run multiple independent, isolated, and portable containers on the same host Operating System.\\
+\vspace{0.1cm}\\
+\textbf{Docker Image}--- Union of layered filesystems stacked on top of each other. Each layer defines a set of differences from the previous layer. A user composes (builds) a Docker image using a \texttt{Dockerfile}, usually starting from a base image (such as \texttt{ubuntu:16.04}).\\
+\vspace{0.1cm}\\
+\textbf{Docker Container}--- A standardized unit created from a Docker image to deploy an application or a runtime environment. A Docker container can be seen as an instance of a Docker image that includes an additional writable layer at the top of the layered stack. When a container is deleted, so is the writable layer, while the image remains unchanged.\\
+\vspace{0.1cm}\\
+\textbf{Dockerfile}--- An ASCII file including the sequence of instructions to create a Docker image for the computational runtime environment. A Dockerfile contains Docker keywords such as \texttt{FROM}, \texttt{RUN}, or \texttt{COPY}. Each instructions in the \texttt{Dockerfile} creates a layer in the Docker image.\\
+\vspace{0.1cm}\\
+\textbf{DockerHub}--- The official registry of Docker Inc.; a cloud-based registry service to store, share, and retrieve (public or private) Docker images.\\
+}}
+        \vspace{0.2cm}
+        \end{minipage}}
+    \end{center}
+\end{figure*}
+
 To overcome the so-called ``dependency hell'' and facilitate reproducibility and portability, we use the container technology provided by the open-source project Docker.
 A container represents an isolated user space where application programs run directly on the operating system's kernel (with limited access to its resources).
 In contrast with virtual machines, containers do not include a full operating system, making them lighter and faster.
@@ -148,7 +173,7 @@ Our objective is to create and run containers on a public cloud provider such as
 Figure \ref{fig:cloud_workflow} shows a graphical representation of the workflow we developed using Docker and various tools for running CFD simulations on Microsoft Azure.
 The next section explains these tools. 
 
-\subsection{Use of  public cloud resources}
+\subsection{Use of public cloud resources}
 
 To run computational jobs on Microsoft Azure, we use several tools that facilitate creating and managing virtual machines with compute nodes, and submitting jobs to those nodes.
 We use a service called Azure Batch that leverages Microsoft Azure at no extra cost, relieving the user from manually creating, configuring, and managing an HPC-capable cluster of cloud nodes, including virtual machines, virtual networks, job and task scheduling infrastructure.
