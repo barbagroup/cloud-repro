@@ -48,10 +48,12 @@ ax.set_ylabel('Force coefficients')
 ax.grid()
 ax.plot(t, cd, label='$C_D$')
 ax.plot(t, cl, label='$C_L$')
-ax.plot(t2, cd2, label='$C_D$ (2D)', color='grey', linestyle='-')
-ax.plot(t2, cl2, label='$C_L$ (2D)', color='grey', linestyle='--')
-ax.legend(ncol=2)
-ax.set_xlim(t[0], t[-1])
+ax.plot(t2, cd2, label='$C_D$ (2D)', 
+        color='black', linewidth=0.75, linestyle='--')
+ax.plot(t2, cl2, label='$C_L$ (2D)',
+        color='black', linewidth=0.75, linestyle='-')
+ax.legend(ncol=4)
+ax.set_xlim(0.0, 80.0)
 ax.set_ylim(0.55, 3.5)
 fig.tight_layout()
 
