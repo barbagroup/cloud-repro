@@ -159,7 +159,7 @@ For example, we start building a new image from a base image using the keyword \
 We then write the different shell instructions (with the \texttt{RUN} instruction) to build a multi-layered runtime environment of the application that includes all its dependencies.
 Once we have built and tested the image on the local machine, we push it to a repository on the DockerHub registry: a place to store and retrieve Docker images.
 Listing \ref{lst:docker_build_push} provides the command lines to build (\texttt{docker build}) and push (\texttt{docker push}) an image of our CFD software (\texttt{barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu}) that we used to obtain some of the results presented in the next section.
-Here, \texttt{CLOUDREPRO} is an environment variable set to the local path of the GitHub repository for this paper, \texttt{cloud-repro}\footnote{\url{https://github.com/barbargroup/cloud-repro}} cloned on the user's machine.
+Here, \texttt{CLOUDREPRO} is an environment variable set to the local path of the GitHub repository for this paper, \texttt{cloud-repro},\footnote{\url{https://github.com/barbargroup/cloud-repro}} cloned on the user's machine.
 
 \begin{lstlisting}[label=lst:docker_build_push,caption={Build and push a Docker image.}]
 $ cd $CLOUDREPRO/docker/petibm
@@ -172,6 +172,13 @@ The great advantage of container technology is that the same container that was 
 Our objective is to create and run containers on a public cloud provider such as Microsoft Azure.
 Figure \ref{fig:cloud_workflow} shows a graphical representation of the workflow we developed using Docker and various tools for running CFD simulations on Microsoft Azure.
 The next section explains these tools. 
+
+\begin{figure*}[b]
+    \centering
+    \includegraphics[width=16cm]{figures/cloud_workflow.png}
+    \caption{Reproducible workflow on the public cloud provider Microsoft Azure. Our CFD software is version-controlled with Git and GitHub. We push to DockerHub a Docker image of our CFD application with all its dependencies. Azure-CLI is use to configure accounts on Microsoft Azure and to upload/download data to/from an Azure Storage account. With Batch Shipyard, we can create pool on Azure Batch and run container-based simulation using our Docker image.}
+    \label{fig:cloud_workflow}
+\end{figure*}
 
 \subsection{Use of Public Cloud Resources}
 
@@ -237,12 +244,7 @@ Thus, the Dockerfile and YAML configuration files should be made part of an exte
 Such reproducibility package facilitates re-creating the cloud environment to run the simulations under the same conditions.
 The reproducibility packages of the examples showcased in the next section are available in the GitHub repository \texttt{cloud-repro}, which includes instructions on how to reproduce the results.
 
-\begin{figure*}[!h]
-    \centering
-    \includegraphics[width=16cm]{figures/cloud_workflow.png}
-    \caption{Reproducible workflow on the public cloud provider Microsoft Azure. Our CFD software is version-controlled with Git and GitHub. We push to DockerHub a Docker image of our CFD application with all its dependencies. Azure-CLI is use to configure accounts on Microsof Azure and to upload/download data to/from an Azure Storage account. With Batch Shipyard, we can create pool on Azure Batch and run container-based simulation using our Docker image.}
-    \label{fig:cloud_workflow}
-\end{figure*}
+
 
 \section{Results}\label{sec:results}
 
