@@ -323,36 +323,36 @@ We observe larger variations in the time-to-solution for the Poisson system on M
 
 Our research lab is interested in understanding the aerodynamics of flying animals via CFD simulations.
 One of our applications deals with the aerodynamics of a snake species, \textit{Chrysopelea Paradisi}, that lives in South-East Asia.
-The arboreal reptile has the remarkable capacity to turn its entire body into a wing and glide over several meters\cite{socha_2011}.
+This arboreal reptile has the remarkable capacity to turn its entire body into a wing and glide over several meters\cite{socha_2011}.
 The so-called ``flying snake'' jumps from tree branches, undulates in the air, and is able to produce lift by expanding its ribcage to flatten its ventral surface (morphing its normally circular cross-section into a triangular shape).
 
-To study the flow around the flying snake, we develop a in-house CFD software called PetIBM\cite{chuang_et_al_2018}, a open-source toolbox that solves the two- and three-dimensional incompressible Navier-Stokes equations using a projection method (seen as an approximate block-LU decomposition of the fully discretized equations\cite{perot_1993}) and an Immersed-Boundary Method (IBM).
+To study the flow around the flying snake, we developed a CFD software called PetIBM\cite{chuang_et_al_2018}, an open-source toolbox that solves the two- and three-dimensional incompressible Navier-Stokes equations using a projection method (seen as an approximate block-LU decomposition of the fully discretized equations\cite{perot_1993}) and an immersed-boundary method (IBM).
 Within this framework, the fluid equations are solved over a extended grid that does not conform to the surface of the immersed body.
 To model the presence of the body, the momentum equation is augmented with a forcing term that is activated in the vicinity of the immersed boundary.
 This technique allows the use of simple fixed structured Cartesian grids to solve the equations.
-PetIBM also implements Immersed Boundary Methods (IBMs) that fit into the projection method and, in the present study, we use an implementation of the IBM proposed in \cite{li_et_al_2016}.
+PetIBM also implements immersed boundary methods (IBMs) that fit into the projection method; in the present study, we use the IBM scheme proposed in \cite{li_et_al_2016}.
 PetIBM runs on distributed-memory architectures using the efficient data structures and parallel routines from the PETSc library.
-The software also implements the possibility to solve linear systems on multiple GPU devices distributed across the nodes with the NVIDIA AmgX and AmgXWrapper\cite{chuang_barba_2017}.
-One of the requirements to produce reproducible computational results is the make the code available.
-In that regard, PetIBM is open source, version-controlled on GitHub,\footnote{PetIBM (version 0.4): \url{https://github.com/barbagroup/PetIBM}} and developed under the permissive BSD-3 clause license.
+The software also implements the possibility to solve linear systems on multiple GPU devices distributed across the nodes with the NVIDIA AmgX library and our AmgXWrapper\cite{chuang_barba_2017}.
+One of the requirements for reproducible computational results is to make the code available under a public license (allowing reuse and modification by others).
+In that regard, PetIBM is open source, version-controlled on GitHub,\footnote{PetIBM (version 0.4): \url{https://github.com/barbagroup/PetIBM}} and shared under the permissive (non copy-left) BSD-3 clause license.
 
 \subsubsection{2D Flow Around a Snake Cross-Section}
 
-With Batch Shipyard, we submitted a job on Azure Batch to compute the two-dimensional flow around an anatomically accurate sectional shape of the gliding snake.
-The cross-section has a chord-length of $1$ and forms a $35$-degree angle of attack with the incoming freestream flow.
+We submitted a job on Azure Batch (via Batch Shipyard,) to compute the two-dimensional flow around an anatomically accurate sectional shape of the gliding snake.
+The cross-section has a chord-length $c=1$ and forms a $35$-degree angle of attack with the incoming freestream flow.
 The Reynolds number, based on the freestream speed, the body chord-length, the kinematic viscosity, is set to $Re=2000$.
-The immersed boundary is centered in a $30c \times 30c$ computational domain that contains just above $2.9$ million cells.
+The immersed boundary is centered in a $30c \times 30c$ computational domain that contains just over $2.9$ million cells.
 The grid is kept uniform with the highest resolution in the vicinity of the body and stretched to the external boundaries with a constant ratio (see Table \ref{tab:grid_specs} for details about the grid).
-(The immersed boundary is discretized with the same resolution than the background fluid grid.)
+For the immersed boundary, the same grid resolution than the background fluid grid was applied.
 A convective condition was used at the outlet boundary while freestream conditions were enforced on the three other boundaries.
 The job was submitted to a pool of two \texttt{NC24r} nodes, using $12$ MPI processes and $2$ GPU devices per node.
-The task completed $200,000$ time steps (i.e., $80$ time units of flow simulation with time-step size $\Delta t = 0.0004 c / U_\infty$) in just above $7$ hours.
+It completed $200,000$ time steps (i.e., $80$ time units of flow simulation with time-step size $\Delta t = 0.0004 c / U_\infty$) in just above $7$ hours (wall-clock time).
 
 Fig. \ref{fig:force_coefficients} shows the history of the force coefficients on the two-dimensional cross-section.
 The lift coefficient only maintains its maximum mean value during the early stage of the simulation (up to $40$ time units).
 Between $40$ and $50$ time units, the mean value starts to drop.
 The time-averaged force coefficients (between $40$ and $80$ time units) are reported in Table \ref{tab:force_coefficients}.
-Fig. \ref{fig:wz_2d} shows snapshots of the vorticity field after $20$, $44$, $45$, and $80$ time unit of flow simulation.
+Fig. \ref{fig:wz_2d} shows snapshots of the vorticity field after $20$, $44$, $45$, and $80$ time units of flow simulation.
 After $20$ time units, the vortices shed from the snake section are almost aligned in the near wake (with a slight deflection towards the lower part of the domain).
 Snapshots of the vorticity at time units $44$ and $45$ show that the initial alignment is perturbed by vortex-merging events (same-sign vortices merging together to form a stronger one).
 Following that, the wake signature is altered for the rest of the simulation: vortices are not aligned anymore, the wake becomes wider (leading to lower aerodynamic forces) with a 1S+1P vortex signature (a single clockwise-rotating vortex on the upper part and a vortex pair on the lower part).
@@ -366,8 +366,8 @@ Following that, the wake signature is altered for the rest of the simulation: vo
 
 \subsubsection{3D Flow Around a Snake Cylinder}
 
-Although the two-dimensional simulations gave us some insights into to flow dynamics happening in the behind the snake, we know that at this Reynolds number ($Re = 2000$), three-dimensional structures will develop in the wake.
-Thus, we submitted jobs to Azure Batch to perform direct numerical simulation of the three-dimensional flow around snake model: a cylinder with the same anatomically accurate cross-section.
+Although the two-dimensional simulations can give us some insights into to flow dynamics happening in the wake behind the snake, we know that at this Reynolds number ($Re = 2000$), three-dimensional structures will develop in the wake.
+We submitted jobs on Azure Batch to perform direct numerical simulation of the three-dimensional flow around a snake model: a cylinder with the an anatomically accurate cross-section.
 The computational domain is extended in the $z$-direction over a length of $3.2c$ and the grid now contains about $46$ million cells (with a uniform discretization in the $z$-direction; see Table \ref{tab:grid_specs}).
 The grid is kept uniform in the $z$-direction and we enforce periodic conditions at the front and back boundaries.
 The simulation ran in a Docker container on Azure Batch using Batch Shipyard.
@@ -375,22 +375,26 @@ The job was submitted to a pool of two \texttt{NC24r} nodes using $24$ MPI proce
 The task completed $100,000$ time steps ($100$ time units with a time-step size $\Delta t = 0.01 c / U_\infty$) in about $5$ days and $16$ hours.
 
 Fig. \ref{fig:force_coefficients} compares the history of the force coefficients between the two- and three-dimensional configurations.
-The force coefficients resulting from the two-dimensional simulation of the snake are higher than those obtained for the snake cylinder; a relative difference of $+37.9\%$ and $+14.4\%$ for the time-averaged drag and lift coefficient, respectively (see Table \ref{tab:force_coefficients}).
-Two-dimensional computational simulations of fundamentally three-dimensional flows lead to incorrect estimation of the force coefficients\cite{mittal_balachandar_1995}.
+The force coefficients resulting from the two-dimensional simulation of the snake are higher than those obtained for the snake cylinder; we computed a relative difference of $+37.9\%$ and $+14.4\%$ for the time-averaged drag and lift coefficient, respectively (see Table \ref{tab:force_coefficients}).
+Two-dimensional computational simulations of fundamentally three-dimensional flows lead to incorrect estimation of the force coefficients, as is well known\cite{mittal_balachandar_1995}.
 
 Fig. \ref{fig:wz_avg_3d} shows the instantaneous spanwise vorticity averaged along the $z$-direction after $80$ and $100$ time units.
-Compared to the snapshots from the two-dimensional simulation, we observe that (1) free-shear layers roll up into vortices further away from the snake body and (2) the von Karman street exhibits a narrower wake.
-We also note the presence of an unsteady recirculation region just behind the snake cylinder and alternating regions of positive and negative cross-flow velocity showing the presence of von Karman vortices (Fig. \ref{fig:ux_uy_xz_plane_3d}).
+Compared to the snapshots from the two-dimensional simulation, we observe that (1) free-shear layers roll up into vortices further away from the snake body and (2) the von Karman street exhibits a narrower wake than in the two-dimensional simulations.
+We also note the presence of an unsteady recirculation region just behind the snake cylinder, and alternating regions of positive and negative cross-flow velocity showing the presence of von Karman vortices (Fig. \ref{fig:ux_uy_xz_plane_3d}).
 Fig. \ref{fig:qcrit_wx_3d} shows a side-view of the isosurfaces of the Q-criterion after $100$ time units and highlights the complexity of the three-dimensional turbulent wake generated by the snake model.
 
-\begin{figure}[!h]
+The selection of results presented here corresponds to a typical set of experiments included in a CFD study. 
+A comprehensive study might include several similar sets, leading to additional insights about the flow dynamics, and clues to future avenues of research.
+We include this selection here to represent a typical workflow, and combine our discussion with a meaningful analysis of the costs associated with running CFD studies in a public cloud.
+
+\begin{figure}
     \centering
     \includegraphics[width=8cm]{figures/forceCoefficientsCompare2D.pdf}
-    \caption{History of the force coefficients obtained with two- and three-dimensional simulations at Reynolds number $2000$ for a snake cross-section with a $35$-degree angle of attack.}
+    \caption{History of the force coefficients obtained with two- and three-dimensional simulations at Reynolds number $2000$ for a snake cross-section with a $35$-degree angle of attack. As expected, the two-dimensional simulations over-estimate the force coefficients of what is essentially a three-dimensional flow problem.}
     \label{fig:force_coefficients}
 \end{figure}
 
-\begin{table*}[!h]
+\begin{table*}
     \renewcommand{\arraystretch}{1.5}
     \caption{Details about the computational grids used for the snake simulations with PetIBM. Distances are expressed in terms of chord-length units.}
     \label{tab:grid_specs}
@@ -418,14 +422,14 @@ Fig. \ref{fig:qcrit_wx_3d} shows a side-view of the isosurfaces of the Q-criteri
     \end{tabular}
 \end{table}
 
-\begin{figure}[!h]
+\begin{figure}
     \centering
     \includegraphics[width=8cm]{figures/wz_avg_multi_contourf.png}
-    \caption{Filled contour of the spanwise-averaged z-component of the vorticity ($-5 \leq w_z c / U_\infty \leq 5$) field after $80$ and $100$ time units of flow simulation with PetIBM for the snake cylinder with a cross-section at a $35$-degree angle of attack and Reynolds number $2000$.}
+    \caption{Filled contour of the spanwise-averaged z-component of the vorticity ($-5 \leq w_z c / U_\infty \leq 5$) field after $80$ and $100$ time units of three-dimensional flow simulation with PetIBM for the snake cylinder with a cross-section at a $35$-degree angle of attack and Reynolds number $2000$.}
     \label{fig:wz_avg_3d}
 \end{figure}
 
-\begin{figure}[!h]
+\begin{figure}
     \centering
     \includegraphics[width=8cm]{figures/ux_uy_xz_plane.png}
     \caption{Filled contour of the streamwise velocity (top) and cross-flow velocity (bottom) behind the snake cylinder in the $x/z$ plane at $y/c=-0.2$ in the wake of the snake cylinder with a $35$-degree angle of attack at Reynolds number $2000$ after $100$ time-units of flow simulations. There are 52 contours from $-1.0$ to $1.0$. The grey area shows a projection of the snake cylinder in the $x/z$ plane. The solid black line defines the contour with $u_x = 0$ (top) and $u_y = 0$ (bottom).}
