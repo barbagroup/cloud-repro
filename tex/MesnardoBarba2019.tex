@@ -281,6 +281,11 @@ The bandwidth test measures the maximum sustained rate that can be achieved on t
 The tests ran on \texttt{NC24r} nodes on Azure and \texttt{Ivygpu} nodes on Colonial One, all of them featuring a network interface for RDMA (Remote Direct Memory Access) connectivity to communicate over an InfiniBand network.
 (RDMA allows direct access to a remote's memory without involving the operating system of the host and remote.)
 Fig. \ref{fig:osu_benchmarks} reports the mean latencies and bandwidths obtained over $5$ repetitions on both platforms.
+For small message sizes, the averaged latency on Colonial One and Azure are $1.75$ and $1.95 \mu s$, respectively.
+As the message size increases, the latency becomes smaller on Azure compared to Colonial One.
+The maximum sustained bandwidth rates for Colonial One and Azure are on average $4.5$ and $5.6 GB/s$, respectively.
+For all message sizes, a higher bandwidth rates was achieved on Azure.
+Over the last few years, Microsoft Azure has improved its HPC solution to provide networking capabilities that are comparable or even better than our 6-year-old university-managed cluster.
 
 \begin{figure}[!h]
     \centering
