@@ -187,7 +187,7 @@ We use a service called Azure Batch that leverages Microsoft Azure at no extra c
 Azure Batch works with both embarrassingly parallel workloads and tightly-coupled MPI jobs (the latter being the case of our CFD software).
 To use Azure Batch, we first need to configure a workspace on Microsoft Azure.
 This can be done either via the Azure Portal in a web browser or from a local terminal using the open-source tool Azure CLI.\footnote{Azure CLI (version 2.0.57): \url{https://github.com/Azure/azure-cli}}
-We prefer to use the command-line solution (program \texttt{az}), as it allows us to keep track of the steps done to configure the Azure workspace (see Listing \ref{lst:az_configure}).
+We prefer to use the command-line solution (program \texttt{az}), as it allows us to keep track of the steps taken to configure the Azure workspace (see Listing \ref{lst:az_configure}).
 First, we set the Azure subscription we want to use (let's call it \texttt{reprosubscription}).
 Next, we create a resource group, \texttt{reprorg}, located in this case in the East US region, which will contain all the Azure resources.
 We create an Azure Storage account, \texttt{reprostorage}, in the resource group, as well as an Azure Batch account, \texttt{reprobatch}, associated to the storage account.
@@ -241,7 +241,7 @@ $ az storage file download-batch --source fileshare/snake2d2k25 --destination ou
 
 Reproducible research requires authors to make their code and data available.
 Thus, the Dockerfile and YAML configuration files should be made part of an extended reproducibility package that includes workflow instructions for cloud computing, in addition to other input files.
-Such reproducibility package facilitates re-creating the cloud environment to run the simulations under the same conditions.
+Such a reproducibility package facilitates re-creating the cloud environment to run the simulations under the same conditions.
 The reproducibility packages of the examples showcased in the next section are available in the GitHub repository \texttt{cloud-repro}, which includes instructions on how to reproduce the results.
 
 
@@ -277,16 +277,16 @@ The goal is to showcase the potential of cloud computing for CFD, share the less
 
 \subsection{MPI Communication Benchmarks}\label{subsec:mpi_benchmarks}
 
-Point-to-point MPI benchmarks from the Ohio State University Micro-Benchmarks\footnote{OSU Micro-Benchmarks (version 5.6): \url{http://mvapich.cse.ohio-state.edu/benchmarks/}} suite ran on Microsoft Azure and Colonial One to investigate performance in terms the latency and bandwidth.
-The latency test is carried out in a ping-pong fashion and measures the time elapsed to get a response; the sender sends a message with a certain data size and wait for the receiver to send back the message with the same data size.
-The bandwidth test measures the maximum sustained rate that can be achieved on the network; it consists in having the sender sends a fixed number of messages to a receiver that replies only after receiving all of them.
+We ran point-to-point MPI benchmarks from the Ohio State University Micro-Benchmarks suite\footnote{OSU Micro-Benchmarks (version 5.6): \url{http://mvapich.cse.ohio-state.edu/benchmarks/}} on Microsoft Azure and Colonial One, to investigate performance in terms the latency and bandwidth.
+The latency test is carried out in a ping-pong fashion and measures the time elapsed to get a response; the sender sends a message with a certain data size and waits for the receiver to send back the message with the same data size.
+The bandwidth test measures the maximum sustained rate that can be achieved on the network; the sender sends a fixed number of messages to a receiver that replies only after receiving all of them.
 The tests ran on \texttt{NC24r} nodes on Azure and \texttt{Ivygpu} nodes on Colonial One, all of them featuring a network interface for RDMA (Remote Direct Memory Access) connectivity to communicate over an InfiniBand network.
 (RDMA allows direct access to a remote's memory without involving the operating system of the host and remote.)
 Fig. \ref{fig:osu_benchmarks} reports the mean latencies and bandwidths obtained over $5$ repetitions on both platforms.
-For small message sizes, the averaged latency on Colonial One and Azure are $1.75$ and $1.95 \mu s$, respectively.
+For small message sizes, the average latencies on Colonial One and Azure are $1.75$ and $1.95 \mu $s, respectively.
 As the message size increases, the latency becomes smaller on Azure compared to Colonial One.
-The maximum sustained bandwidth rates for Colonial One and Azure are on average $4.5$ and $5.6 GB/s$, respectively.
-For all message sizes, a higher bandwidth rates was achieved on Azure.
+The maximum sustained bandwidth rates for Colonial One and Azure are on average $4.5$ and $5.6$ GB/s, respectively.
+For all message sizes, a higher bandwidth rate was achieved on Azure.
 Over the last few years, Microsoft Azure has improved its HPC solution to provide networking capabilities that are comparable or even better than our 6-year-old university-managed cluster.
 
 \begin{figure}[!h]
@@ -298,19 +298,19 @@ Over the last few years, Microsoft Azure has improved its HPC solution to provid
 
 \subsection{Poisson Benchmarks}\label{subsec:poisson_benchmarks}
 
-CFD algorithms often require to solve linear systems with iterative methods.
-For example, the projection method implemented in our software solve a Poisson system every time step to project the velocity field onto the divergence-free space (to satisfy the incompressibility constraint).
-Thus, we investigated the time-to-solution to solve a three-dimensional Poisson system (obtained with a 7-point stencil central-difference scheme) on different nodes of Microsoft Azure and Colonial One.
-The system was solved using a Conjugate-Gradient (CG) method with a classical Algebraic Multi-Grid (AMG) preconditioner with an exit criterion set to an absolute tolerance of $10^{-12}$.
+CFD algorithms often require solving linear systems with iterative methods.
+For example, the projection Navier-Stokes solver implemented in our software requires the solution of a Poisson system on every time step to project the velocity field onto the divergence-free space (to satisfy the incompressibility constraint).
+We investigated the time-to-solution for a three-dimensional Poisson system (obtained with a 7-point stencil central-difference scheme) on different nodes of Microsoft Azure and Colonial One.
+The solution method was a Conjugate-Gradient (CG) method with a classical algebraic multi-grid (AMG) preconditioner using an exit criterion set to an absolute tolerance of $10^{-12}$.
 The iterative solver ran on CPU nodes (\texttt{H16r} instances on Azure and \texttt{Short} nodes on Colonial One) using the CG algorithm from the PETSc library\cite{balay_et_al_2018} and an AMG preconditioner from Hypre BoomerAMG.
 Fig. \ref{fig:poisson_benchmarks} (top) reports the mean runtimes (averaged over $5$ repetitions) to iteratively solve the system, on a uniform grid of $50$ million cells ($1000 \times 1000 \times 50$), as we increase the number of nodes in the pool.
 We also solved the Poisson system with the NVIDIA AmgX library on multiple GPU devices using \texttt{NC24r} instances on Azure and \texttt{Ivygpu} nodes on Colonial One.
-The Poisson system for a base mesh of $6.25$ million cells ($500 \times 500 \times 25$) is solved on a single node using $12$ MPI processes and $2$ GPU devices; we then double the mesh size as we double the number of nodes (keeping the same number of MPI processes and GPUs per node).
-As the number of iterations to reach convergence increases with the size of the system, we normalize the runtimes by the number of iterations.
+The Poisson system for a base mesh of $6.25$ million cells ($500 \times 500 \times 25$) iwassolved on a single compute node using $12$ MPI processes and $2$ GPU devices; we then doubled the mesh size as we doubled the number of nodes (keeping the same number of MPI processes and GPUs per node).
+The number of iterations to reach convergence increases with the size of the system, so we normalize the runtimes by the number of iterations.
 Fig. \ref{fig:poisson_benchmarks} (bottom left) shows the normalized mean runtimes ($5$ repetitions) obtained on Azure and Colonial One.
-The smaller runtimes on Azure are explained by the fact the NC-series of Microsoft Azure features NVIDIA K80 GPU devices with a higher compute capability than the K20 GPUs on Colonial One.
-The bottom-right panel of the figure reports the normalized mean runtimes obtained on Azure when we put more constraint on the bandwidth; the base mesh now contains $25$ millions cells ($1000 \times 500 \times 50$).
-We observe larger variations in the time-to-solution for the Poisson system on Microsoft Azure; runtimes are more constant on Colonial One.
+The smaller runtimes on Azure are explained by the fact that the NC-series of Microsoft Azure features NVIDIA K80 GPU devices with a higher compute capability than the K20 GPUs on Colonial One.
+The bottom-right panel of the figure reports the normalized mean runtimes obtained on Azure when we load the bandwidth with a larger problem; the base mesh now contains $25$ millions cells ($1000 \times 500 \times 50$).
+We observe larger variations in the time-to-solution for the Poisson system on Microsoft Azure; runtimes are more uniform on Colonial One.
 
 \begin{figure}[!h]
     \centering
