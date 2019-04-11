@@ -75,7 +75,7 @@ In a new effort to make our research transparent and reproducible by others, we 
 
 \IEEEraisesectionheading{\section{Introduction}\label{sec:introduction}}
 
-Reproducible research and replication studies are essential components for the progress of evidence-based science, even more now when nearly all fields advance via computation.
+\IEEEPARstart{R}{eproducible} research and replication studies are essential components for the progress of evidence-based science, even more now when nearly all fields advance via computation.
 We use computer simulations and data models to create new knowledge,
 but how do we provide evidence that this new knowledge is justified? 
 Traditional journal publications exclude software and data products from the peer-review process, yet reliance on ever more complex computational artifacts and methods is the norm.
@@ -250,7 +250,7 @@ The reproducibility packages of the examples showcased in the next section are a
 
 The top concerns of researchers considering cloud computing are performance and cost. 
 Until just a few years ago, the products offered by cloud providers were unsuitable to the needs of computational scientists using HPC, due to performance overhead of virtualization and lack of support for fast networking. 
-Azure only introduced nodes with GPU devices during late 2016 and Infiniband support for the NC-series in 2017.
+Azure only introduced nodes with GPU devices during late 2016 and Infiniband support for Linux virtual machines on the NC-series in 2017.
 Our first objective was to assess performance on cloud nodes for the type of computations in our research workflows with  tightly coupled parallel applications. 
 We present results from benchmarks and test-cases showing that we are able to obtain similar performance in terms of latency and bandwidth using the Azure virtual network, comparing to a traditional university-managed HPC cluster (Colonial One).
 Table \ref{tab:hw_specs} lists the hardware specifications of the nodes used on Microsoft Azure and Colonial One.
@@ -369,7 +369,7 @@ Following that, the wake signature is altered for the rest of the simulation: vo
 Although the two-dimensional simulations can give us some insights into to flow dynamics happening in the wake behind the snake, we know that at this Reynolds number ($Re = 2000$), three-dimensional structures will develop in the wake.
 We submitted jobs on Azure Batch to perform direct numerical simulation of the three-dimensional flow around a snake model: a cylinder with the an anatomically accurate cross-section.
 The computational domain is extended in the $z$-direction over a length of $3.2c$ and the grid now contains about $46$ million cells (with a uniform discretization in the $z$-direction; see Table \ref{tab:grid_specs}).
-The grid is kept uniform in the $z$-direction and we enforce periodic conditions at the front and back boundaries.
+The grid is kept uniform in the $z$-direction with periodic boundary conditions.
 The simulation ran in a Docker container on Azure Batch using Batch Shipyard.
 The job was submitted to a pool of two \texttt{NC24r} nodes using $24$ MPI processes and $4$ GPU devices per node.
 The task completed $100,000$ time steps ($100$ time units with a time-step size $\Delta t = 0.01 c / U_\infty$) in about $5$ days and $16$ hours.
@@ -443,7 +443,7 @@ We include this selection here to represent a typical workflow, and combine our 
     \label{fig:qcrit_wx_3d}
 \end{figure*}
 
-\section{Cost Analysis and Lessons Learned}\label{sec:cost}
+\section{Cost Analysis and User Experience}\label{sec:cost}
 
 For the year $2018$, Microsoft Azure granted our research lab a sponsorship in terms of cloud credits to run CFD simulations with our in-house software.
 With a ``pay-as-you-go'' subscription, users can immediately see how much it costs to run a scientific application on a public cloud; such information is often hidden to end-users on university-managed clusters.
@@ -491,6 +491,8 @@ The three-dimensional computation cost $1077.1$ USD ($2$ \texttt{NC24r} instance
 \end{table*}
 \footnotetext{The NC24r configuration provides a low latency, high throughput network interface optimized for tightly coupled parallel applications.}
 
+% Discuss cheaper options and university cost models (F&A).
+
 Running CFD simulations on Microsoft Azure was a first time for our research lab.
 As novices in cloud computing, it took us several months to become familiar with the technical vocabulary and the infrastructure of Microsoft Azure before we could submit our first simulation of the snake.
 
@@ -512,7 +514,8 @@ To be able to run our simulations, we had to contact Azure Support through Azure
 We had to go through this process at least five times during our sponsorship period.
 The readers should be aware of these quotas and limits before scaling up workloads on Azure Batch.
 
-In a renewed effort to make our research transparent and reproducible by others, we maintain in a public version-controlled repository all the files necessary to re-run the examples highlighted in this paper.
+\bigskip
+\IEEEPARstart{I}{n} a renewed effort to make our research transparent and reproducible by others, we maintain in a public version-controlled repository all the files necessary to re-run the examples highlighted in this paper.
 The repository is found at \url{https://github.com/barbagroup/cloud-repro}.
 
 Our expanded reproducibility packages contain input files, Batch Shipyard configuration files, command-line instructions to set up and submit jobs to Microsoft Azure, as well as the post-processing scripts to reproduce the figures of this paper.
