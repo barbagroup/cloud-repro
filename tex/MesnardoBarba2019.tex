@@ -517,9 +517,17 @@ We had to go through this process at least five times during our sponsorship per
 The readers should be aware of these quotas and limits before scaling up workloads on Azure Batch.
 
 \bigskip
-\IEEEPARstart{I}{n} a renewed effort to make our research transparent and reproducible by others, we maintain in a public version-controlled repository all the files necessary to re-run the examples highlighted in this paper.
-The repository is found at \url{https://github.com/barbagroup/cloud-repro}.
 
+\IEEEPARstart{L}{ooking} for an alternative solution to university-managed HPC clusters to run CFD simulations with our in-house software, we leveraged the public cloud provider Microsoft Azure to generate reproducible computational results.
+Our reproducible workflow makes use of Docker containers to faithfully port the runtime environment our CFD application to Azure.
+We used the command-line utilities Azure-CLI and Batch Shipyard to run multi-instance tasks within Docker containers on the Azure Batch platform.
+Our CFD simulations ran on instances of the NC-series that feature NVDIDA K80 GPU devices and enable access to InfiniBand network.
+The benchmarks showed that we could get comparable runtimes between our university-managed HPC system and Microsoft Azure.
+Thanks to Microsoft Azure sponsorship, we have been able to run dozens of CFD simulations of a gliding snake's model.
+The study of the three-dimensional flow around a cylinder with an anatomically accurate cross-section of the flying snake is currently ongoing; output data from these runs are being analyzed and will be published in a later paper.
+
+In a renewed effort to make our research transparent and reproducible by others, we maintain in a public version-controlled repository all the files necessary to re-run the examples highlighted in this paper.
+The repository is found at \url{https://github.com/barbagroup/cloud-repro}.
 Our expanded reproducibility packages contain input files, Batch Shipyard configuration files, command-line instructions to set up and submit jobs to Microsoft Azure, as well as the post-processing scripts to reproduce the figures of this paper.
 Although they are not required to reproduce the computations, the Dockerfiles to build Docker images are also made available. 
 These files contain details about all the libraries needed to create the computational runtime environment.
