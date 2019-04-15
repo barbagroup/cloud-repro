@@ -448,7 +448,7 @@ We include this selection here to represent a typical workflow, and combine our 
 For the year $2018$, Microsoft Azure granted our research lab a sponsorship in terms of cloud credits to run CFD simulations with our in-house software.
 With a ``pay-as-you-go'' subscription, users can immediately see how much it costs to run a scientific application on a public cloud; such information is often hidden to end-users on university-managed clusters.
 From May to December, we spent a total of $20,614$ USD to run CFD simulations, including a couple dozens of snake simulations.
-(The output of those simulations are now being processed to further analyze the complex flow dynamics generated behind the snake model.)
+(The output of those simulations is now being processed to further analyze the complex flow dynamics generated behind the snake model.)
 During that period, we have been charged for data management, networking, storage, bandwidth, and virtual machines (Table \ref{tab:azure_charges}).
 More than $99\%$ of the charges incurred were for the usage of virtual machines, mainly instances from the NC-series (Table \ref{tab:nc_series}).
 To run PetIBM simulations of the snake model, we used the \texttt{NC24r} virtual machines to get access to NVIDIA K80 GPUs and InfiniBand networking.
@@ -496,7 +496,7 @@ The three-dimensional computation cost $1077.1$ USD ($2$ \texttt{NC24r} instance
 % Discuss cheaper options and university cost models (F&A).
 
 Running CFD simulations on Microsoft Azure was a first time for our research lab.
-As novices in cloud computing, it took us several months to become familiar with the technical vocabulary and the infrastructure of Microsoft Azure before we could submit our first simulation of the snake.
+As novices in cloud computing, it took us several months to become familiar with the technical vocabulary and the infrastructure of Microsoft Azure before we could submit our first simulation of the flow around a snake profile.
 
 Command-line utilities such as Azure-CLI and Batch Shipyard were of great help to create and manage resources on Microsoft Azure for executing our reproducible research workflow.
 (In our lab, we tend to avoid interacting directly with graphical-user interfaces to keep a trace of the commands run and make the workflow more reproducible.)
@@ -504,17 +504,17 @@ Azure-CLI helped us set up the Azure Batch and Storage accounts as well as movin
 Thanks to Batch Shipyard, we did not have to dig into the software development kit of Azure Batch to use the service.
 Writing YAML configuration files was all we needed to do to create a pool of virtual machines with Batch Shipyard and to submit jobs to it.
 With Batch Shipyard, we have painlessly submitted jobs on Azure Batch to run multi-instance tasks in Docker containers, everything from the command-line terminal on a local machine.
-Note that Bach Shipyard also supports Singularity containers.
+Note that Batch Shipyard also supports Singularity containers.
 
 Our in-house CFD software, PetIBM, relies on MPI to run applications on distributed-memory architectures.
 The Poisson system is solved on distributed GPU devices using the NVIDIA AmgX library.
 Thus, we used Azure instances of the NC-series, which feature a network interface for remote direct memory access (RDMA) connectivity, allowing nodes in the same pool to communicate over InfiniBand network.
 As of this writing, only Intel MPI 5.x versions are supported with the Azure Linux RDMA drivers.
 
-Microsoft Azure implements quotas and limits on resources with Azure Batch service, such as the maximum number of dedicated cores that can used in a certain region.
+Microsoft Azure implements quotas and limits on resources with Azure Batch service, such as the maximum number of dedicated cores that can be used in a certain region.
 To be able to run our simulations, we had to contact Azure Support through Azure Portal to request a quota increase for a given type of instances in a specific region and for a given subscription.
 We had to go through this process at least five times during our sponsorship period.
-The readers should be aware of these quotas and limits before scaling up workloads on Azure Batch.
+Readers should be aware of these quotas and limits before scaling up workloads on Azure Batch.
 
 \bigskip
 
