@@ -518,13 +518,14 @@ Readers should be aware of these quotas and limits before scaling up workloads o
 
 \bigskip
 
-\IEEEPARstart{L}{ooking} for an alternative solution to university-managed HPC clusters to run CFD simulations with our in-house software, we leveraged the public cloud provider Microsoft Azure to generate reproducible computational results.
-Our reproducible workflow makes use of Docker containers to faithfully port the runtime environment our CFD application to Azure.
-We used the command-line utilities Azure-CLI and Batch Shipyard to run multi-instance tasks within Docker containers on the Azure Batch platform.
-Our CFD simulations ran on instances of the NC-series that feature NVDIDA K80 GPU devices and enable access to InfiniBand network.
-The benchmarks showed that we could get comparable runtimes between our university-managed HPC system and Microsoft Azure.
-Thanks to Microsoft Azure sponsorship, we have been able to run dozens of CFD simulations of a gliding snake's model.
-The study of the three-dimensional flow around a cylinder with an anatomically accurate cross-section of the flying snake is currently ongoing; output data from these runs are being analyzed and will be published in a later paper.
+\IEEEPARstart{E}{xploring} public cloud services as an alternative (or complementary) solution to university-managed HPC clusters to run CFD simulations with our in-house software, we used Microsoft Azure to generate reproducible computational results.
+Our reproducible workflow makes use of Docker containers to faithfully port the runtime environment of our CFD application to Azure,
+and the command-line utilities Azure-CLI and Batch Shipyard to run multi-instance tasks within Docker containers on the Azure Batch platform.
+We ran CFD simulations on instances of the NC-series that feature NVIDIA K80 GPU devices and have access to InfiniBand network.
+Latency and bandwidth micro-benchmarks show that our university-managed HPC system and Microsoft Azure can produce comparable runtimes.
+Thanks to a Microsoft Azure sponsorship, we were able to run dozens of CFD simulations of a gliding snake's model.
+Our study of the three-dimensional flow around a cylinder with an anatomically accurate cross-section of the flying snake is currently ongoing. 
+We plan to analyze the output data from these runs to be published in a later paper.
 
 In a renewed effort to make our research transparent and reproducible by others, we maintain in a public version-controlled repository all the files necessary to re-run the examples highlighted in this paper.
 The repository is found at \url{https://github.com/barbagroup/cloud-repro}.
