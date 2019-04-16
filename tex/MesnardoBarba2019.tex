@@ -480,14 +480,13 @@ The three-dimensional computation cost $1077.1$ USD ($2$ \texttt{NC24r} instance
     \caption{NC series on Microsoft Azure. (Prices as of March 24, 2019, for CentOS or Ubuntu Linux Virtual Machines in the East US region.)}
     \label{tab:nc_series}
     \centering
-    \begin{tabular}{cccccccc}
-        Instance & cores & RAM & disk sizes & GPU & pay-as-you-go & 1-year reserved & 3-year reserved \\
-        && (GiB) & (Gib) && (\$/hr) & (\$/hr) & (\$/hr) \\
+    \begin{tabular}{ccccccccc}
+        Instance & cores & \begin{tabular}{@{}c@{}}RAM \\ (GiB) \end{tabular} & \begin{tabular}{@{}c@{}}disk sizes \\ (GiB) \end{tabular} & GPU & \begin{tabular}{@{}c@{}c@{}}pay-as-you-go \\ (dedicated) \\ (\$/hr) \end{tabular} & \begin{tabular}{@{}c@{}c@{}}pay-as-you-go \\ (low-priority) \\ (\$/hr) \end{tabular} & \begin{tabular}{@{}c@{}}1-year reserved \\ (\$/hr) \end{tabular} & \begin{tabular}{@{}c@{}}3-year reserved \\ (\$/hr) \end{tabular} \\
         \hline
-        NC6 & 6 & 56 & 340 & 1 x K80 & 0.90 & 0.5733 & 0.3996 \\
-        NC12 & 12 & 112 & 680 & 2 x K80 & 1.80 & 1.1466 & 0.7991 \\
-        NC24 & 24 & 224 & 1,440 & 4 x K80 & 3.60 & 2.2932 & 1.5981 \\
-        NC24r\footnotemark & 24 & 224 & 1,440 & 4 x K80 & 3.96 & 2.5224 & 1.7578 \\
+        NC6 & 6 & 56 & 340 & 1 x K80 & 0.90 & 0.18 & 0.5733 & 0.3996 \\
+        NC12 & 12 & 112 & 680 & 2 x K80 & 1.80 & 0.36 & 1.1466 & 0.7991 \\
+        NC24 & 24 & 224 & 1,440 & 4 x K80 & 3.60 & 0.72 & 2.2932 & 1.5981 \\
+        NC24r\footnotemark & 24 & 224 & 1,440 & 4 x K80 & 3.96 & 0.792 & 2.5224 & 1.7578 \\
         \hline
     \end{tabular}
 \end{table*}
@@ -510,6 +509,13 @@ Our in-house CFD software, PetIBM, relies on MPI to run applications on distribu
 The Poisson system is solved on distributed GPU devices using the NVIDIA AmgX library.
 Thus, we used Azure instances of the NC-series, which feature a network interface for remote direct memory access (RDMA) connectivity, allowing nodes in the same pool to communicate over InfiniBand network.
 As of this writing, only Intel MPI 5.x versions are supported with the Azure Linux RDMA drivers.
+
+Microsoft Azure offers the possibility to take advantage of surplus capacity with ``low-priority'' virtual machines that are significantly cheaper than ``dedicated'' ones (\ref{tab:nc_series}).
+For example, the low-priority \texttt{NC24r} instance has an hourly cost of $0.792$ USD, $5$ times cheaper than its dedicated counterpart.
+However, the reader should keep in mind that low-priority may not be available for allocation or may be preempted at any time.
+In fact, low-priority instances should be avoided for long-running MPI jobs in pools where inter-node communication is enabled.
+We only used dedicated virtual machines to run our CFD software.
+Moreover, our job tasks used a shared filesystems (GlusterFS on compute nodes) for I/O operations and Batch Shipyard will fail to create the pool if low-priority nodes are requested.
 
 Microsoft Azure implements quotas and limits on resources with Azure Batch service, such as the maximum number of dedicated cores that can be used in a certain region.
 To be able to run our simulations, we had to contact Azure Support through Azure Portal to request a quota increase for a given type of instances in a specific region and for a given subscription.
