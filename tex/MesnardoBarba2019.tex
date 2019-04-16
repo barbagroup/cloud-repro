@@ -96,7 +96,7 @@ Container technology like Docker is a recent addition to the reproducibility too
 In this work, we develop and assess a workflow for reproducible research on a public cloud, adopting Docker containers and several other tools to automate and fully document scientific computations.
 
 Universities and national laboratories spend millions of dollars to deploy and maintain on-site high-performance computing (HPC) clusters.
-At the George Washington University, we have access to a university-managed HPC cluster called Colonial One.
+At the George Washington University, we have access to a cluster called Colonial One.
 The cluster is now $6$ years old and approaching its end-of-life.
 On average, its computational resources are idle $9\%$ of the time and unavailable to users for roughly 5 days a year (due to maintenance).
 Administrators of the cluster have been recently considering integrating cloud-computing platforms in the research-computing portfolio. 
@@ -530,6 +530,14 @@ Latency and bandwidth micro-benchmarks show that our university-managed HPC syst
 Thanks to a Microsoft Azure sponsorship, we were able to run dozens of CFD simulations of a gliding snake's model.
 Our study of the three-dimensional flow around a cylinder with an anatomically accurate cross-section of the flying snake is currently ongoing. 
 We plan to analyze the output data from these runs, and publish them in a later paper.
+
+In this work, we show that public cloud resources are today able to deliver similar performances to a university-managed cluster, and thus can be regarded as a suitable solution for research computing.
+But in addition to performance, researchers also worry about cost.
+We share the actual costs incurred to run two- and three-dimensional CFD simulations  using cloud services with a pay-as-you-go model, and report on reduced costs possible with reserved instances.
+Universities (and possibly funding agencies) may obtain even more favorable pricing through bids or medium-term contracts.
+Researchers thinking of adding cloud computing to proposal budgets might encounter other barriers, however.
+For example, some universities exempt large equipment purchases from indirect (facilities and administrative, F\&A)  costs, while they may add these overhead rates to cloud purchases. 
+Until these internal policies are adjusted, cloud computing may not be adopted widely.
 
 In a renewed effort to make our research transparent and reproducible by others, we maintain in a public version-controlled repository all the files necessary to re-run the examples highlighted in this paper.
 The repository is found at \url{https://github.com/barbagroup/cloud-repro}.
