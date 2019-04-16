@@ -11,7 +11,7 @@ destdir=$rootdir/zenodo
 
 mkdir -p $destdir
 
-rsync -av --files-from=$listpath $rootdir $destdir
+rsync -av --files-from=$listpath --delete $rootdir $destdir
 
 rm -f $listpath
 

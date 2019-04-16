@@ -1,6 +1,7 @@
 # Reproducible workflow on a public cloud for computational fluid dynamics
 
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/barbagroup/cloud-repro/raw/master/LICENSE)
+[![License](https://img.shields.io/badge/Zenodo-10.5281/zenodo.2642711-informational.svg)](https://doi.org/10.5281/zenodo.2642711)
 
 * Olivier Mesnard (The George Washington University)
 * Lorena A. Barba (The George Washington University)
