@@ -66,7 +66,7 @@ E-mail: mesnardo@gwu.edu
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-In a new effort to make our research transparent and reproducible by others, we developed a workflow to run computational studies on a public cloud. It uses Docker containers to create an image of the application software stack. We also adopt several tools that facilitate creating and managing virtual machines with compute nodes and submitting jobs to these nodes. The configuration files for these tools are part of an expanded "reproducibility package" that includes workflow definitions for cloud computing, in addition to input files and instructions. This facilitates re-creating the cloud environment to re-un the simulations under the same conditions.
+In a new effort to make our research transparent and reproducible by others, we developed a workflow to run computational studies on a public cloud. It uses Docker containers to create an image of the application software stack. We also adopt several tools that facilitate creating and managing virtual machines on compute nodes and submitting jobs to these nodes. The configuration files for these tools are part of an expanded "reproducibility package" that includes workflow definitions for cloud computing, in addition to input files and instructions. This facilitates re-creating the cloud environment to re-un the simulations under the same conditions.
 \end{abstract}
 }
 
@@ -146,7 +146,7 @@ To overcome the so-called ``dependency hell'' and facilitate reproducibility and
 A container represents an isolated user space where application programs run directly on the operating system's kernel of the host (with limited access to its resources).
 In contrast with virtual machines, containers do not include a full operating system, making them lighter and faster.
 Containers allow re-creating the same runtime environment of an application (including all its dependencies) from one machine to another. 
-They empower researchers to share pre-built images of their software stack, ameliorating one of the biggest pain points for reproducible research: building the software in a different machine. 
+They empower researchers to share pre-built images of their software stack, ameliorating one of the biggest pain points for reproducible research: building the software on a different machine. 
 The majority of enterprise developers today are familiar with Docker container technology (first released six years ago). 
 But in academic settings, many are still unaware of its value. 
 We present this section as an overview for research software developers unfamiliar with Docker, but comfortable with scripting, version control, and distributed collaboration.
@@ -176,15 +176,15 @@ The next section explains these tools.
 \begin{figure*}[b]
     \centering
     \includegraphics[width=16cm]{figures/cloud_workflow.png}
-    \caption{Reproducible workflow on the public cloud provider Microsoft Azure. Our CFD software is version-controlled with Git and GitHub. We push to DockerHub a Docker image of our CFD application with all its dependencies. Azure CLI is use to configure accounts on Microsoft Azure and to upload/download data to/from an Azure Storage account. With Batch Shipyard, we can create pool on Azure Batch and run container-based simulation using our Docker image.}
+    \caption{Reproducible workflow on the public cloud provider Microsoft Azure. Our CFD software is version-controlled with Git and GitHub. We push to DockerHub a Docker image of our CFD application with all its dependencies. Azure CLI is use to configure accounts on Microsoft Azure and to upload/download data to/from an Azure Storage account. With Batch Shipyard, we create a pool on Azure Batch and run container-based simulation using our Docker image.}
     \label{fig:cloud_workflow}
 \end{figure*}
 
 \subsection{Use of Public Cloud Resources}
 
-To run computational jobs on Microsoft Azure, we use several tools that facilitate creating and managing virtual machines with compute nodes, and submitting jobs to those nodes.
+To run computational jobs on Microsoft Azure, we use several tools that facilitate creating and managing virtual machines on compute nodes, and submitting jobs to those nodes.
 We use a service called Azure Batch that leverages Microsoft Azure at no extra cost, relieving the user from manually creating, configuring, and managing an HPC-capable cluster of cloud nodes, including virtual machines, virtual networks, job and task scheduling infrastructure.
-Azure Batch works with both embarrassingly parallel workloads and tightly-coupled MPI jobs (the latter being the case of our CFD software).
+Azure Batch works with both embarrassingly parallel workloads and tightly coupled MPI jobs (the latter being the case of our CFD software).
 To use Azure Batch, we first need to configure a workspace on Microsoft Azure.
 This can be done either via the Azure Portal in a web browser or from a local terminal using the open-source tool Azure CLI.\footnote{Azure CLI (version 2.0.57): \url{https://github.com/Azure/azure-cli}}
 We prefer to use the command-line solution (program \texttt{az}), as it allows us to keep track of the steps taken to configure the Azure workspace (see Listing \ref{lst:az_configure}).
@@ -214,7 +214,7 @@ Typically, we need to provide four configuration files:
 
 Once the configuration files are written, we invoke Batch Shipyard through the \texttt{shipyard} program on our local machine.
 The folder \texttt{examples/snake2d2k35/config\_shipyard} in the repository accompanying this paper contains an example YAML files to create a pool of two \texttt{NC24r} compute nodes (featuring K80 GPUs and using InfiniBand network).
-Listing \ref{lst:shipyard_run} shows the commands to run from your local terminal to create a pool of compute nodes on Azure Batch and submit jobs to it.
+Listing \ref{lst:shipyard_run} shows the commands to run in your local terminal to create a pool of compute nodes on Azure Batch and submit jobs to it.
 During the pool creation (\texttt{shipyard pool add}), the Docker image of our CFD application is pulled from the registry to the virtual machines.
 With \texttt{shipyard data ingress}, we can upload input files to the compute nodes.
 Once created, we submit jobs to the pool (\texttt{shipyard jobs add}); the tasks for a job will start automatically.
@@ -299,13 +299,13 @@ Over the last few years, Microsoft Azure has improved its HPC solution to provid
 \subsection{Poisson Benchmarks}\label{subsec:poisson_benchmarks}
 
 CFD algorithms often require solving linear systems with iterative methods.
-For example, the projection Navier-Stokes solver implemented in our software requires the solution of a Poisson system on every time step to project the velocity field onto the divergence-free space (to satisfy the incompressibility constraint).
+For example, the projection Navier-Stokes solver implemented in our software requires the solution of a Poisson system at every time step to project the velocity field onto the divergence-free space (to satisfy the incompressibility constraint).
 We investigated the time-to-solution for a three-dimensional Poisson system (obtained with a 7-point stencil central-difference scheme) on different nodes of Microsoft Azure and Colonial One.
 The solution method was a Conjugate-Gradient (CG) method with a classical algebraic multi-grid (AMG) preconditioner using an exit criterion set to an absolute tolerance of $10^{-12}$.
 The iterative solver ran on CPU nodes (\texttt{H16r} instances on Azure and \texttt{Short} nodes on Colonial One) using the CG algorithm from the PETSc library\cite{balay_et_al_2018} and an AMG preconditioner from Hypre BoomerAMG.
 Fig. \ref{fig:poisson_benchmarks} (top) reports the mean runtimes (averaged over $5$ repetitions) to iteratively solve the system, on a uniform grid of $50$ million cells ($1000 \times 1000 \times 50$), as we increase the number of nodes in the pool.
 We also solved the Poisson system with the NVIDIA AmgX library on multiple GPU devices using \texttt{NC24r} instances on Azure and \texttt{Ivygpu} nodes on Colonial One.
-The Poisson system for a base mesh of $6.25$ million cells ($500 \times 500 \times 25$) iwassolved on a single compute node using $12$ MPI processes and $2$ GPU devices; we then doubled the mesh size as we doubled the number of nodes (keeping the same number of MPI processes and GPUs per node).
+The Poisson system for a base mesh of $6.25$ million cells ($500 \times 500 \times 25$) was solved on a single compute node using $12$ MPI processes and $2$ GPU devices; we then doubled the mesh size as we doubled the number of nodes (keeping the same number of MPI processes and GPUs per node).
 The number of iterations to reach convergence increases with the size of the system, so we normalize the runtimes by the number of iterations.
 Fig. \ref{fig:poisson_benchmarks} (bottom left) shows the normalized mean runtimes ($5$ repetitions) obtained on Azure and Colonial One.
 The smaller runtimes on Azure are explained by the fact that the NC-series of Microsoft Azure features NVIDIA K80 GPU devices with a higher compute capability than the K20 GPUs on Colonial One.
@@ -327,10 +327,10 @@ This arboreal reptile has the remarkable capacity to turn its entire body into a
 The so-called ``flying snake'' jumps from tree branches, undulates in the air, and is able to produce lift by expanding its ribcage to flatten its ventral surface (morphing its normally circular cross-section into a triangular shape).
 
 To study the flow around the flying snake, we developed a CFD software called PetIBM\cite{chuang_et_al_2018}, an open-source toolbox that solves the two- and three-dimensional incompressible Navier-Stokes equations using a projection method (seen as an approximate block-LU decomposition of the fully discretized equations\cite{perot_1993}) and an immersed-boundary method (IBM).
-Within this framework, the fluid equations are solved over a extended grid that does not conform to the surface of the immersed body.
+Within this framework, the fluid equations are solved over an extended grid that does not conform to the surface of the immersed body.
 To model the presence of the body, the momentum equation is augmented with a forcing term that is activated in the vicinity of the immersed boundary.
 This technique allows the use of simple fixed structured Cartesian grids to solve the equations.
-PetIBM also implements immersed boundary methods (IBMs) that fit into the projection method; in the present study, we use the IBM scheme proposed in \cite{li_et_al_2016}.
+PetIBM implements immersed boundary methods (IBMs) that fit into the projection method; in the present study, we use the IBM scheme proposed in \cite{li_et_al_2016}.
 PetIBM runs on distributed-memory architectures using the efficient data structures and parallel routines from the PETSc library.
 The software also implements the possibility to solve linear systems on multiple GPU devices distributed across the nodes with the NVIDIA AmgX library and our AmgXWrapper\cite{chuang_barba_2017}.
 One of the requirements for reproducible computational results is to make the code available under a public license (allowing reuse and modification by others).
@@ -367,7 +367,7 @@ Following that, the wake signature is altered for the rest of the simulation: vo
 \subsubsection{3D Flow Around a Snake Cylinder}
 
 Although the two-dimensional simulations can give us some insights into to flow dynamics happening in the wake behind the snake, we know that at this Reynolds number ($Re = 2000$), three-dimensional structures will develop in the wake.
-We submitted jobs on Azure Batch to perform direct numerical simulation of the three-dimensional flow around a snake model: a cylinder with the an anatomically accurate cross-section.
+We submitted jobs on Azure Batch to perform direct numerical simulation of the three-dimensional flow around a snake model: a cylinder with the same anatomically accurate cross-section.
 The computational domain is extended in the $z$-direction over a length of $3.2c$ and the grid now contains about $46$ million cells (with a uniform discretization in the $z$-direction; see Table \ref{tab:grid_specs}).
 The grid is kept uniform in the $z$-direction with periodic boundary conditions.
 The simulation ran in a Docker container on Azure Batch using Batch Shipyard.
@@ -379,7 +379,7 @@ The force coefficients resulting from the two-dimensional simulation of the snak
 Two-dimensional computational simulations of fundamentally three-dimensional flows lead to incorrect estimation of the force coefficients, as is well known\cite{mittal_balachandar_1995}.
 
 Fig. \ref{fig:wz_avg_3d} shows the instantaneous spanwise vorticity averaged along the $z$-direction after $80$ and $100$ time units.
-Compared to the snapshots from the two-dimensional simulation, we observe that (1) free-shear layers roll up into vortices further away from the snake body and (2) the von Karman street exhibits a narrower wake than in the two-dimensional simulations.
+Compared to the snapshots from the two-dimensional simulation, we observe that (1) free-shear layers roll up into vortices further away from the snake body and (2) the von K\'{a}rm\'{a}n street exhibits a narrower wake than in the two-dimensional simulations.
 We also note the presence of an unsteady recirculation region just behind the snake cylinder, and alternating regions of positive and negative cross-flow velocity showing the presence of von Karman vortices (Fig. \ref{fig:ux_uy_xz_plane_3d}).
 Fig. \ref{fig:qcrit_wx_3d} shows a side-view of the isosurfaces of the Q-criterion after $100$ time units and highlights the complexity of the three-dimensional turbulent wake generated by the snake model.
 
@@ -425,7 +425,7 @@ We include this selection here to represent a typical workflow, and combine our 
 \begin{figure}
     \centering
     \includegraphics[width=8cm]{figures/wz_avg_multi_contourf.png}
-    \caption{Filled contour of the spanwise-averaged z-component of the vorticity ($-5 \leq w_z c / U_\infty \leq 5$) field after $80$ and $100$ time units of three-dimensional flow simulation with PetIBM for the snake cylinder with a cross-section at a $35$-degree angle of attack and Reynolds number $2000$.}
+    \caption{Filled contour of the spanwise-averaged z-component of the vorticity ($-5 \leq w_z c / U_\infty \leq 5$) field after $80$ and $100$ time units of a three-dimensional flow simulation with PetIBM for the snake cylinder with a cross-section at a $35$-degree angle of attack and Reynolds number $2000$.}
     \label{fig:wz_avg_3d}
 \end{figure}
 
@@ -532,7 +532,7 @@ The repository is found at \url{https://github.com/barbagroup/cloud-repro}.
 Our expanded reproducibility packages contain input files, Batch Shipyard configuration files, command-line instructions to set up and submit jobs to Microsoft Azure, as well as the post-processing scripts to reproduce the figures of this paper.
 Although they are not required to reproduce the computations, the Dockerfiles to build Docker images are also made available. 
 These files contain details about all the libraries needed to create the computational runtime environment.
-We even included a Dockerfile to reproduce the local environment with the visualization tools needed for post-processing.
+We even include a Dockerfile to reproduce the local environment with the visualization tools needed for post-processing.
 In addition, we have also deposited in the Zenodo service all secondary data required to reproduce the figures of the paper without running the simulations again.
 
 \section*{Acknowledgments}
