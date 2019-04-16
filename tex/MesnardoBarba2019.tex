@@ -66,7 +66,7 @@ E-mail: mesnardo@gwu.edu
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-In a new effort to make our research transparent and reproducible by others, we developed a workflow to run computational studies on a public cloud. It uses Docker containers to create an image of the application software stack. We also adopt several tools that facilitate creating and managing virtual machines on compute nodes and submitting jobs to these nodes. The configuration files for these tools are part of an expanded "reproducibility package" that includes workflow definitions for cloud computing, in addition to input files and instructions. This facilitates re-creating the cloud environment to re-un the simulations under the same conditions.
+In a new effort to make our research transparent and reproducible by others, we developed a workflow to run computational studies on a public cloud. It uses Docker containers to create an image of the application software stack. We also adopt several tools that facilitate creating and managing virtual machines on compute nodes and submitting jobs to these nodes. The configuration files for these tools are part of an expanded "reproducibility package" that includes workflow definitions for cloud computing, in addition to input files and instructions. This facilitates re-creating the cloud environment to re-run the computations under the same conditions.
 \end{abstract}
 }
 
@@ -104,16 +104,16 @@ Over the past decade, cloud-computing platforms have rapidly evolved, now offeri
 From a user's point of view, a cloud platform offers great flexibility (hardware and virtual machines) with instantaneous availability of infinite (in appearance) computational resources.
 No more waiting time in job-submission queues!
 This promises to greatly facilitate code development, debugging, and testing. Resources allocated on the cloud are released as soon as the job is done, avoiding paying for idle time.
-On a public-cloud platform with a "pay-as-you-go" type of subscription---such as Microsoft Azure, Google Cloud, Amazon AWS---a user directly sees how much it costs to run a scientific application, while such information usually remains obscure to the end-user on university-managed clusters. 
+On a public-cloud platform---such as Microsoft Azure, Google Cloud, Amazon AWS---with a "pay-as-you-go" type of subscription, a user directly sees how much it costs to run a scientific application, while such information usually remains obscure to the end-user on university-managed clusters. 
 Cost models that make sense for researchers, labs, and universities are still unclear. 
 Yet, this information is key when making a decision to adopt a cloud workflow for research. 
-We report here what we have learned from nearly two years of using cloud computing for our simulation-based workflow, with the hope that it will shed some light on the costs and benefits, and help others considering using cloud computing for their research.
+We report here what we have learned from nearly two years of using cloud computing for our computational fluid dynamics (CFD) simulations, with the hope that it will shed some light on the costs and benefits, and help others considering using cloud computing for their research.
 
 \section{Reproducible cloud-based workflow}\label{sec:workflow}
 
 Scientific publications reporting computational results often lack sufficient details to reproduce the researcher's computational environment; e.g., they may miss to mention external libraries used along with the main computational code.
-We have learned the hard way how even different versions of the same external library can alter the numerical results and even the scientific findings of a computational study\cite{mesnard_barba_2017}.
-This section presents an overview and mini-tutorial of the workflow we developed to guarantee the highest level of reproducibility of our computational research, with the best available technology solutions. 
+We have learned the hard way how different versions of the same external library can alter the numerical results and even the scientific findings of a computational study\cite{mesnard_barba_2017}.
+This section presents an overview and mini-tutorial of the workflow we developed to aim for the highest level of reproducibility of our computational research, with the best available technology solutions. 
 In the process of creating this reproducible workflow, we also evaluated the suitability of public cloud offerings by Microsoft Azure for our research computing needs. 
 The tools we adopted for computing on cloud resources are specific for this provider. 
 
@@ -173,7 +173,7 @@ Our objective is to create and run containers on a public cloud provider such as
 Figure \ref{fig:cloud_workflow} shows a graphical representation of the workflow we developed using Docker and various tools for running CFD simulations on Microsoft Azure.
 The next section explains these tools. 
 
-\begin{figure*}[b]
+\begin{figure*}[t]
     \centering
     \includegraphics[width=16cm]{figures/cloud_workflow.png}
     \caption{Reproducible workflow on the public cloud provider Microsoft Azure. Our CFD software is version-controlled with Git and GitHub. We push to DockerHub a Docker image of our CFD application with all its dependencies. Azure CLI is use to configure accounts on Microsoft Azure and to upload/download data to/from an Azure Storage account. With Batch Shipyard, we create a pool on Azure Batch and run container-based simulation using our Docker image.}
@@ -187,10 +187,10 @@ We use a service called Azure Batch that leverages Microsoft Azure at no extra c
 Azure Batch works with both embarrassingly parallel workloads and tightly coupled MPI jobs (the latter being the case of our CFD software).
 To use Azure Batch, we first need to configure a workspace on Microsoft Azure.
 This can be done either via the Azure Portal in a web browser or from a local terminal using the open-source tool Azure CLI.\footnote{Azure CLI (version 2.0.57): \url{https://github.com/Azure/azure-cli}}
-We prefer to use the command-line solution (program \texttt{az}), as it allows us to keep track of the steps taken to configure the Azure workspace (see Listing \ref{lst:az_configure}).
+We prefer to use the command-line solution (program \texttt{az}), as it allows us to keep track of the steps taken to configure the cloud workspace (see Listing \ref{lst:az_configure}).
 First, we set the Azure subscription we want to use (let's call it \texttt{reprosubscription}).
-Next, we create a resource group, \texttt{reprorg}, located in this case in the East US region, which will contain all the Azure resources.
-We create an Azure Storage account, \texttt{reprostorage}, in the resource group, as well as an Azure Batch account, \texttt{reprobatch}, associated to the storage account.
+Next, we create a resource group (\texttt{reprorg}) located in this case in the East US region, which will contain all the Azure resources.
+We create an Azure Storage account (\texttt{reprostorage}) in the resource group, as well as an Azure Batch account (\texttt{reprobatch}) associated to the storage account.
 Finally, we create a fileshare (in this case of size $100$ GB) in the storage.
 
 \begin{lstlisting}[label=lst:az_configure,caption={Configure the workspace on Microsoft Azure.}]
@@ -215,11 +215,10 @@ Typically, we need to provide four configuration files:
 Once the configuration files are written, we invoke Batch Shipyard through the \texttt{shipyard} program on our local machine.
 The folder \texttt{examples/snake2d2k35/config\_shipyard} in the repository accompanying this paper contains an example YAML files to create a pool of two \texttt{NC24r} compute nodes (featuring K80 GPUs and using InfiniBand network).
 Listing \ref{lst:shipyard_run} shows the commands to run in your local terminal to create a pool of compute nodes on Azure Batch and submit jobs to it.
-During the pool creation (\texttt{shipyard pool add}), the Docker image of our CFD application is pulled from the registry to the virtual machines.
-With \texttt{shipyard data ingress}, we can upload input files to the compute nodes.
-Once created, we submit jobs to the pool (\texttt{shipyard jobs add}); the tasks for a job will start automatically.
+The Docker image of our CFD application is pulled from the registry to the virtual machines during the pool creation (\texttt{shipyard pool add}).
+We then upload the input files to the compute nodes (\texttt{shipyard data ingress}) and submit jobs to the pool (\texttt{shipyard jobs add}). The tasks for a job will start automatically upon submission.
 
-\begin{lstlisting}[label=lst:shipyard_run,caption={Create a pool with Batch Shipyard and submit jobs to it.}]
+\begin{lstlisting}[label=lst:shipyard_run,caption={Create a pool and submit jobs to it.}]
 $ cd $CLOUDREPRO/examples/snake2d2k35
 $ az storage directory create --name snake2d2k35 --share-name fileshare --account-name reprostorage
 $ export SHIPYARD_CONFIGDIR=config_shipyard
@@ -260,7 +259,7 @@ The goal is to showcase the potential of cloud computing for CFD, share the less
 
 \begin{table*}[b]
     \renewcommand{\arraystretch}{1.5}
-    \caption{Hardware Specifications of Nodes Used on Microsoft Azure and Colonial One. On Both Platforms, MPI Applications Take Advantage of RDMA (Remote Direct Memory Access) Network with FDR InfiniBand.}
+    \caption{Hardware specifications of nodes used on Microsoft Azure and Colonial One. On both platforms, MPI applications take advantage of RDMA (Remote Direct Memory Access) network with FDR InfiniBand.}
     \label{tab:hw_specs}
     \centering
     \begin{tabular}{cccccccc}
@@ -287,7 +286,7 @@ For small message sizes, the average latencies on Colonial One and Azure are $1.
 As the message size increases, the latency becomes smaller on Azure compared to Colonial One.
 The maximum sustained bandwidth rates for Colonial One and Azure are on average $4.5$ and $5.6$ GB/s, respectively.
 For all message sizes, a higher bandwidth rate was achieved on Azure.
-Over the last few years, Microsoft Azure has improved its HPC solution to provide networking capabilities that are comparable or even better than our 6-year-old university-managed cluster.
+Over the last few years, Microsoft Azure has indeed improved its HPC solutions to provide networking capabilities that are comparable or even better than our 6-year-old university-managed cluster.
 
 \begin{figure}[!h]
     \centering
@@ -299,7 +298,7 @@ Over the last few years, Microsoft Azure has improved its HPC solution to provid
 \subsection{Poisson Benchmarks}\label{subsec:poisson_benchmarks}
 
 CFD algorithms often require solving linear systems with iterative methods.
-For example, the projection Navier-Stokes solver implemented in our software requires the solution of a Poisson system at every time step to project the velocity field onto the divergence-free space (to satisfy the incompressibility constraint).
+For example, the Navier-Stokes solver implemented in our software requires the solution of a Poisson system at every time step to project the velocity field onto the divergence-free space (to satisfy the incompressibility constraint).
 We investigated the time-to-solution for a three-dimensional Poisson system (obtained with a 7-point stencil central-difference scheme) on different nodes of Microsoft Azure and Colonial One.
 The solution method was a Conjugate-Gradient (CG) method with a classical algebraic multi-grid (AMG) preconditioner using an exit criterion set to an absolute tolerance of $10^{-12}$.
 The iterative solver ran on CPU nodes (\texttt{H16r} instances on Azure and \texttt{Short} nodes on Colonial One) using the CG algorithm from the PETSc library\cite{balay_et_al_2018} and an AMG preconditioner from Hypre BoomerAMG.
@@ -335,15 +334,16 @@ PetIBM runs on distributed-memory architectures using the efficient data structu
 The software also implements the possibility to solve linear systems on multiple GPU devices distributed across the nodes with the NVIDIA AmgX library and our AmgXWrapper\cite{chuang_barba_2017}.
 One of the requirements for reproducible computational results is to make the code available under a public license (allowing reuse and modification by others).
 In that regard, PetIBM is open source, version-controlled on GitHub,\footnote{PetIBM (version 0.4): \url{https://github.com/barbagroup/PetIBM}} and shared under the permissive (non copy-left) BSD-3 clause license.
+We also provide a Docker image of PetIBM on DockerHub and its Dockerfile is available in the GitHub repository of the software.
 
 \subsubsection{2D Flow Around a Snake Cross-Section}
 
-We submitted a job on Azure Batch (via Batch Shipyard,) to compute the two-dimensional flow around an anatomically accurate sectional shape of the gliding snake.
+We submitted a job on Azure Batch (with Batch Shipyard,) to compute the two-dimensional flow around an anatomically accurate sectional shape of the gliding snake.
 The cross-section has a chord-length $c=1$ and forms a $35$-degree angle of attack with the incoming freestream flow.
 The Reynolds number, based on the freestream speed, the body chord-length, the kinematic viscosity, is set to $Re=2000$.
 The immersed boundary is centered in a $30c \times 30c$ computational domain that contains just over $2.9$ million cells.
-The grid is kept uniform with the highest resolution in the vicinity of the body and stretched to the external boundaries with a constant ratio (see Table \ref{tab:grid_specs} for details about the grid).
-For the immersed boundary, the same grid resolution than the background fluid grid was applied.
+The grid is uniform with the highest resolution in the vicinity of the body and stretched to the external boundaries with a constant ratio (see Table \ref{tab:grid_specs} for details about the grid).
+The discretization of the immersed boundary has the same resolution as the background fluid grid.
 A convective condition was used at the outlet boundary while freestream conditions were enforced on the three other boundaries.
 The job was submitted to a pool of two \texttt{NC24r} nodes, using $12$ MPI processes and $2$ GPU devices per node.
 It completed $200,000$ time steps (i.e., $80$ time units of flow simulation with time-step size $\Delta t = 0.0004 c / U_\infty$) in just above $7$ hours (wall-clock time).
@@ -360,7 +360,7 @@ Following that, the wake signature is altered for the rest of the simulation: vo
 \begin{figure}[!h]
     \centering
     \includegraphics[width=8cm]{figures/wz_multi_contourf.png}
-    \caption{Filled contour of the vorticity field ($-5 \leq w_z c / U_\infty \leq 5$) after $20$, $44$, $45$, and $80$ time units of flow simulation with PetIBM for the snake cross-section at a $35$-degree angle of attack and Reynolds number $2000$. Vortex merging events are responsible for the change in the wake signature and the drop in the mean value of the lift coefficient.}
+    \caption{Filled contour of the vorticity field ($-5 \leq w_z c / U_\infty \leq 5$) after $20$, $44$, $45$, and $80$ time units of flow simulation with PetIBM for the snake cross-section at a $35$-degree angle of attack and Reynolds number $2000$. Vortex merging events trigger a change in the wake signature causing the drop in the mean value of the lift coefficient.}
     \label{fig:wz_2d}
 \end{figure}
 
@@ -368,9 +368,7 @@ Following that, the wake signature is altered for the rest of the simulation: vo
 
 Although the two-dimensional simulations can give us some insights into to flow dynamics happening in the wake behind the snake, we know that at this Reynolds number ($Re = 2000$), three-dimensional structures will develop in the wake.
 We submitted jobs on Azure Batch to perform direct numerical simulation of the three-dimensional flow around a snake model: a cylinder with the same anatomically accurate cross-section.
-The computational domain is extended in the $z$-direction over a length of $3.2c$ and the grid now contains about $46$ million cells (with a uniform discretization in the $z$-direction; see Table \ref{tab:grid_specs}).
-The grid is kept uniform in the $z$-direction with periodic boundary conditions.
-The simulation ran in a Docker container on Azure Batch using Batch Shipyard.
+The computational domain extends in the $z$-direction over a length of $3.2c$ and the grid now contains about $46$ million cells (with a uniform discretization in the $z$-direction and periodic boundary conditions; see Table \ref{tab:grid_specs}).
 The job was submitted to a pool of two \texttt{NC24r} nodes using $24$ MPI processes and $4$ GPU devices per node.
 The task completed $100,000$ time steps ($100$ time units with a time-step size $\Delta t = 0.01 c / U_\infty$) in about $5$ days and $16$ hours.
 
@@ -439,13 +437,13 @@ We include this selection here to represent a typical workflow, and combine our 
 \begin{figure*}[!h]
     \centering
     \includegraphics[width=18cm]{figures/qcrit_wx_wake3d_0020.png}
-    \caption{Lateral view of the isosurfaces of the Q-criterion ($Q = 1.0$) in the wake of the snake cylinder (with a $35$-degree angle of attack) at Reynolds number $2000$. The isosurfaces are colored with the streamwise vorticity ($-5 \leq w_x c / U_\infty \leq 5$). The figure was generated using the visualization software VisIt \cite{childs_et_al_2012}.}
+    \caption{Lateral view of the isosurfaces of the Q-criterion ($Q = 1$) in the wake of the snake cylinder (with a $35$-degree angle of attack) at Reynolds number $2000$. The isosurfaces are colored with the streamwise vorticity ($-5 \leq w_x c / U_\infty \leq 5$). The figure was generated using the visualization software VisIt \cite{childs_et_al_2012}.}
     \label{fig:qcrit_wx_3d}
 \end{figure*}
 
 \section{Cost Analysis and User Experience}\label{sec:cost}
 
-For the year $2018$, Microsoft Azure granted our research lab a sponsorship in terms of cloud credits to run CFD simulations with our in-house software.
+For the year $2018$, Microsoft Azure granted our research lab a sponsorship (in terms of cloud credits) to run CFD simulations with our in-house software.
 With a ``pay-as-you-go'' subscription, users can immediately see how much it costs to run a scientific application on a public cloud; such information is often hidden to end-users on university-managed clusters.
 From May to December, we spent a total of $20,614$ USD to run CFD simulations, including a couple dozens of snake simulations.
 (The output of those simulations is now being processed to further analyze the complex flow dynamics generated behind the snake model.)
@@ -510,12 +508,12 @@ The Poisson system is solved on distributed GPU devices using the NVIDIA AmgX li
 Thus, we used Azure instances of the NC-series, which feature a network interface for remote direct memory access (RDMA) connectivity, allowing nodes in the same pool to communicate over InfiniBand network.
 As of this writing, only Intel MPI 5.x versions are supported with the Azure Linux RDMA drivers.
 
-Microsoft Azure offers the possibility to take advantage of surplus capacity with ``low-priority'' virtual machines that are significantly cheaper than ``dedicated'' ones (\ref{tab:nc_series}).
-For example, the low-priority \texttt{NC24r} instance has an hourly cost of $0.792$ USD, $5$ times cheaper than its dedicated counterpart.
-However, the reader should keep in mind that low-priority may not be available for allocation or may be preempted at any time.
-In fact, low-priority instances should be avoided for long-running MPI jobs in pools where inter-node communication is enabled.
-We only used dedicated virtual machines to run our CFD software.
-Moreover, our job tasks used a shared filesystems (GlusterFS on compute nodes) for I/O operations and Batch Shipyard will fail to create the pool if low-priority nodes are requested.
+Microsoft Azure offers the possibility of taking advantage of surplus capacity with ``low-priority'' virtual machines that are substantially cheaper than ``dedicated'' ones (\ref{tab:nc_series}).
+For example, the low-priority \texttt{NC24r} instance costs $0.792$ USD per hour, $5$ times cheaper than its dedicated counterpart.
+The reader should keep in mind that low-priority virtual machines may not be available for allocation or may be preempted at any time.
+Thus, low-priority instances should be avoided for long-running MPI jobs in pools where inter-node communication is enabled.
+We only used dedicated virtual machines to run our CFD simulations.
+Moreover, our job tasks used a shared filesystem (GlusterFS on compute nodes) for I/O operations and Batch Shipyard would fail to create the pool if low-priority nodes were requested.
 
 Microsoft Azure implements quotas and limits on resources with Azure Batch service, such as the maximum number of dedicated cores that can be used in a certain region.
 To be able to run our simulations, we had to contact Azure Support through Azure Portal to request a quota increase for a given type of instances in a specific region and for a given subscription.
@@ -528,10 +526,10 @@ Readers should be aware of these quotas and limits before scaling up workloads o
 Our reproducible workflow makes use of Docker containers to faithfully port the runtime environment of our CFD application to Azure,
 and the command-line utilities Azure CLI and Batch Shipyard to run multi-instance tasks within Docker containers on the Azure Batch platform.
 We ran CFD simulations on instances of the NC-series that feature NVIDIA K80 GPU devices and have access to InfiniBand network.
-Latency and bandwidth micro-benchmarks show that our university-managed HPC system and Microsoft Azure can produce comparable runtimes.
+Latency and bandwidth micro-benchmarks show that our university-managed HPC system and Microsoft Azure can deliver similar performances.
 Thanks to a Microsoft Azure sponsorship, we were able to run dozens of CFD simulations of a gliding snake's model.
 Our study of the three-dimensional flow around a cylinder with an anatomically accurate cross-section of the flying snake is currently ongoing. 
-We plan to analyze the output data from these runs to be published in a later paper.
+We plan to analyze the output data from these runs, and publish them in a later paper.
 
 In a renewed effort to make our research transparent and reproducible by others, we maintain in a public version-controlled repository all the files necessary to re-run the examples highlighted in this paper.
 The repository is found at \url{https://github.com/barbagroup/cloud-repro}.
@@ -544,6 +542,7 @@ In addition, we have also deposited in the Zenodo service all secondary data req
 \section*{Acknowledgments}
 
 This work was possible thanks to a sponsorship from the Microsoft Azure for Research program\footnote{Microsoft Azure for Research: \url{https://www.microsoft.com/en-us/research/academic-program/microsoft-azure-for-research/}} and supported by NSF Grant No. CCF-1747669.
+We would like to thank Kenji Takeda, Fred Park, and Joshua Poulson of Microsoft for their help.
 
 \bibliographystyle{IEEEtran}
 % argument is your BibTeX string definitions and bibliography database(s)
