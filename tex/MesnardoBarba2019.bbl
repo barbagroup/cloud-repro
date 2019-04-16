@@ -78,7 +78,7 @@ S.~Balay, S.~Abhyankar, M.~F. Adams, J.~Brown, P.~Brune, K.~Buschelman,
 \bibitem{socha_2011}
 \BIBentryALTinterwordspacing
 J.~J. Socha, ``Gliding flight in chrysopelea: Turning a snake into a wing,''
-  \emph{Integrative and Comparative Biology}, vol.~51, no.~6, pp. 969--982, 08
+  \emph{Integrative and Comparative Biology}, vol.~51, no.~6, pp. 969--982,
   2011. [Online]. Available: \url{https://dx.doi.org/10.1093/icb/icr092}
 \BIBentrySTDinterwordspacing
 
@@ -87,7 +87,7 @@ J.~J. Socha, ``Gliding flight in chrysopelea: Turning a snake into a wing,''
 P.-Y. Chuang, O.~Mesnard, A.~Krishnan, and L.~A. Barba, ``{PetIBM}: toolbox and
   applications of the immersed-boundary method on distributed-memory
   architectures,'' \emph{The Journal of Open Source Software}, vol.~3, no.~25,
-  p. 558, may 2018. [Online]. Available:
+  p. 558, May 2018. [Online]. Available:
   \url{https://doi.org/10.21105/joss.00558}
 \BIBentrySTDinterwordspacing
 
@@ -104,7 +104,7 @@ R.-Y. Li, C.-M. Xie, W.-X. Huang, and C.-X. Xu, ``An efficient immersed
 \BIBentryALTinterwordspacing
 P.-Y. Chuang and L.~A. Barba, ``{AmgXWrapper}: An interface between {PETSc} and
   the {NVIDIA} {AmgX} library,'' \emph{The Journal of Open Source Software},
-  vol.~2, no.~16, aug 2017. [Online]. Available:
+  vol.~2, no.~16, Aug. 2017. [Online]. Available:
   \url{https://doi.org/10.21105/joss.00280}
 \BIBentrySTDinterwordspacing
 
@@ -119,7 +119,14 @@ H.~Childs, E.~Brugger, B.~Whitlock, J.~Meredith, S.~Ahern, D.~Pugmire,
   A.~Sanderson, C.~Garth, E.~W. Bethel, D.~Camp, O.~R\"{u}bel, M.~Durant, J.~M.
   Favre, and P.~Navr\'{a}til, ``{VisIt: An End-User Tool For Visualizing and
   Analyzing Very Large Data},'' in \emph{{High Performance
-  Visualization--Enabling Extreme-Scale Scientific Insight}}, Oct 2012, pp.
+  Visualization--Enabling Extreme-Scale Scientific Insight}}, Oct. 2012, pp.
   357--372.
+
+\bibitem{cloud_repro_2019}
+\BIBentryALTinterwordspacing
+O.~Mesnard and L.~A. Barba, ``Cloud-repro: Reproducible workflow on a public
+  cloud for computational fluid dynamics,'' Zenodo archive, April 2019.
+  [Online]. Available: \url{https://doi.org/10.5281/zenodo.2642711}
+\BIBentrySTDinterwordspacing
 
 \end{thebibliography}
