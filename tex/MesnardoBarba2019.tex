@@ -176,7 +176,7 @@ The next section explains these tools.
 \begin{figure*}[b]
     \centering
     \includegraphics[width=16cm]{figures/cloud_workflow.png}
-    \caption{Reproducible workflow on the public cloud provider Microsoft Azure. Our CFD software is version-controlled with Git and GitHub. We push to DockerHub a Docker image of our CFD application with all its dependencies. Azure-CLI is use to configure accounts on Microsoft Azure and to upload/download data to/from an Azure Storage account. With Batch Shipyard, we can create pool on Azure Batch and run container-based simulation using our Docker image.}
+    \caption{Reproducible workflow on the public cloud provider Microsoft Azure. Our CFD software is version-controlled with Git and GitHub. We push to DockerHub a Docker image of our CFD application with all its dependencies. Azure CLI is use to configure accounts on Microsoft Azure and to upload/download data to/from an Azure Storage account. With Batch Shipyard, we can create pool on Azure Batch and run container-based simulation using our Docker image.}
     \label{fig:cloud_workflow}
 \end{figure*}
 
@@ -498,9 +498,9 @@ The three-dimensional computation cost $1077.1$ USD ($2$ \texttt{NC24r} instance
 Running CFD simulations on Microsoft Azure was a first time for our research lab.
 As novices in cloud computing, it took us several months to become familiar with the technical vocabulary and the infrastructure of Microsoft Azure before we could submit our first simulation of the flow around a snake profile.
 
-Command-line utilities such as Azure-CLI and Batch Shipyard were of great help to create and manage resources on Microsoft Azure for executing our reproducible research workflow.
+Command-line utilities such as Azure CLI and Batch Shipyard were of great help to create and manage resources on Microsoft Azure for executing our reproducible research workflow.
 (In our lab, we tend to avoid interacting directly with graphical-user interfaces to keep a trace of the commands run and make the workflow more reproducible.)
-Azure-CLI helped us set up the Azure Batch and Storage accounts as well as moving data between the cloud platform and our local machines.
+Azure CLI helped us set up the Azure Batch and Storage accounts as well as moving data between the cloud platform and our local machines.
 Thanks to Batch Shipyard, we did not have to dig into the software development kit of Azure Batch to use the service.
 Writing YAML configuration files was all we needed to do to create a pool of virtual machines with Batch Shipyard and to submit jobs to it.
 With Batch Shipyard, we have painlessly submitted jobs on Azure Batch to run multi-instance tasks in Docker containers, everything from the command-line terminal on a local machine.
@@ -520,7 +520,7 @@ Readers should be aware of these quotas and limits before scaling up workloads o
 
 \IEEEPARstart{E}{xploring} public cloud services as an alternative (or complementary) solution to university-managed HPC clusters to run CFD simulations with our in-house software, we used Microsoft Azure to generate reproducible computational results.
 Our reproducible workflow makes use of Docker containers to faithfully port the runtime environment of our CFD application to Azure,
-and the command-line utilities Azure-CLI and Batch Shipyard to run multi-instance tasks within Docker containers on the Azure Batch platform.
+and the command-line utilities Azure CLI and Batch Shipyard to run multi-instance tasks within Docker containers on the Azure Batch platform.
 We ran CFD simulations on instances of the NC-series that feature NVIDIA K80 GPU devices and have access to InfiniBand network.
 Latency and bandwidth micro-benchmarks show that our university-managed HPC system and Microsoft Azure can produce comparable runtimes.
 Thanks to a Microsoft Azure sponsorship, we were able to run dozens of CFD simulations of a gliding snake's model.
