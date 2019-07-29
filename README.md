@@ -6,6 +6,8 @@
 * Olivier Mesnard (The George Washington University)
 * Lorena A. Barba (The George Washington University)
 
+Manuscript preprint on arXiv, submitted April 16, 2019: https://arxiv.org/abs/1904.07981
+
 ## Dependencies
 
 * [Azure-CLI](https://github.com/Azure/azure-cli) (last used: `2.0.57`)
