@@ -60,10 +60,10 @@ O.~Mesnard and L.~A. Barba, ``Reproducible and replicable computational fluid
 \BIBentrySTDinterwordspacing
 
 \bibitem{freniere_et_2016}
-C.~Freniere, A.~Pathak, M.~Raessi, and G.~Khanna, ``The feasibility of amazon's
-  cloud computing platform for parallel, gpu-accelerated, multiphase-flow
-  simulations,'' \emph{Computing in Science \& Engineering}, vol.~18, no.~5,
-  p.~68, 2016.
+C.~Freniere, A.~Pathak, M.~Raessi, and G.~Khanna, ``The feasibility of
+  {Amazon's} cloud computing platform for parallel, {GPU}-accelerated,
+  multiphase-flow simulations,'' \emph{Computing in Science \& Engineering},
+  vol.~18, no.~5, p.~68, 2016.
 
 \bibitem{balay_et_al_2018}
 \BIBentryALTinterwordspacing

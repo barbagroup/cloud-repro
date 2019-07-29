@@ -159,7 +159,7 @@ For example, we start building a new image from a base image using the keyword \
 We then write the different shell instructions (with the \texttt{RUN} instruction) to build a multi-layered runtime environment of the application that includes all its dependencies.
 Once we have built and tested the image on the local machine, we push it to a repository on the DockerHub registry: a place to store and retrieve Docker images.
 Listing \ref{lst:docker_build_push} provides the command lines to build (\texttt{docker build}) and push (\texttt{docker push}) an image of our CFD software (\texttt{barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu}) that we used to obtain some of the results presented in the next section.
-Here, \texttt{CLOUDREPRO} is an environment variable set to the local path of the GitHub repository for this paper, \texttt{cloud-repro},\footnote{\url{https://github.com/barbargroup/cloud-repro}} cloned on the user's machine.
+Here, \texttt{CLOUDREPRO} is an environment variable set to the local path of the GitHub repository for this paper, \texttt{cloud-repro},\footnote{\url{https://github.com/barbagroup/cloud-repro}} cloned on the user's machine.
 
 \begin{lstlisting}[label=lst:docker_build_push,caption={Build and push a Docker image.}]
 $ cd $CLOUDREPRO/docker/petibm
