@@ -33,27 +33,24 @@ We used the Intel MPI Library for Linux (2017, Update 2) to build the Docker ima
 Upon [registration](https://software.seek.intel.com/performance-libraries), you will be able to download the product on the Intel Software website.
 (The tarball should be named `l_mpi_2017.2.174.tgz` and be downloaded in the present directory.)
 
-To build the Docker images on your local machine:
+To build the Docker images on your local machine (from the present directory):
 
 * OSU Micro-Benchmarks (version 5.6):
 
 ```shell
-cd osubenchmarks
-docker build --tag=osubenchmarks:5.6-GPU-IntelMPI-ubuntu -f Dockerfile .
+docker build --tag=osubenchmarks:5.6-GPU-IntelMPI-ubuntu -f osubenchmarks/Dockerfile .
 ```
 
 * Poisson benchmarks with AmgXWrapper (version 1.4):
 
 ```shell
-cd poisson
-docker build --tag=amgxwrapper:1.4-GPU-IntelMPI-ubuntu -f Dockerfile .
+docker build --tag=amgxwrapper:1.4-GPU-IntelMPI-ubuntu -f poisson/Dockerfile .
 ```
 
 * PetIBM (version 0.4):
 
 ```shell
-cd petibm
-docker build --tag=petibm:0.4-GPU-IntelMPI-ubuntu -f Dockerfile .
+docker build --tag=petibm:0.4-GPU-IntelMPI-ubuntu -f petibm/Dockerfile .
 ```
 
 * Computational environment for local pre- and post-processing steps:

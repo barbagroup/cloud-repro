@@ -5,7 +5,7 @@ FROM nvidia/cuda:8.0-devel-ubuntu16.04
 MAINTAINER Olivier Mesnard <mesnardo@gwu.edu>
 
 # Install base system.
-COPY ../ssh_config /root/.ssh/config
+COPY ssh_config /root/.ssh/config
 RUN apt-get update && apt-get install -y --no-install-recommends \
         ca-certificates \
         build-essential \
@@ -52,7 +52,7 @@ ENV MANPATH=/usr/share/man:/usr/local/man \
     COMPILERVARS_ARCHITECTURE=intel64 \
     COMPILERVARS_PLATFORM=linux \
     INTEL_MPI_PATH=/opt/intel/compilers_and_libraries/linux/mpi
-ADD ../l_mpi_2017.2.174.tgz /tmp
+ADD l_mpi_2017.2.174.tgz /tmp
 RUN cd /tmp/l_mpi_2017.2.174 && \
     sed -i -e 's/^ACCEPT_EULA=decline/ACCEPT_EULA=accept/g' silent.cfg && \
     ./install.sh -s silent.cfg && \
