@@ -508,7 +508,7 @@ The Poisson system is solved on distributed GPU devices using the NVIDIA AmgX li
 Thus, we used Azure instances of the NC-series, which feature a network interface for remote direct memory access (RDMA) connectivity, allowing nodes in the same pool to communicate over InfiniBand network.
 As of this writing, only Intel MPI 5.x versions are supported with the Azure Linux RDMA drivers.
 
-Microsoft Azure offers the possibility of taking advantage of surplus capacity with ``low-priority'' virtual machines that are substantially cheaper than ``dedicated'' ones (\ref{tab:nc_series}).
+Microsoft Azure offers the possibility of taking advantage of surplus capacity with ``low-priority'' virtual machines that are substantially cheaper than ``dedicated'' ones (see Table \ref{tab:nc_series} for pricing options on the NC series with Linux-based virtual machines).
 For example, the low-priority \texttt{NC24r} instance costs $0.792$ USD per hour, $5$ times cheaper than its dedicated counterpart.
 The reader should keep in mind that low-priority virtual machines may not be available for allocation or may be preempted at any time.
 Thus, low-priority instances should be avoided for long-running MPI jobs in pools where inter-node communication is enabled.
