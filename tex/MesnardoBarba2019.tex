@@ -168,10 +168,9 @@ $ docker push barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu
 \end{lstlisting}
 
 \noindent Anyone can now pull the application image from DockerHub, and create a Docker container to run the CFD application software in a faithfully reproduced local environment.
-The great advantage of container technology is that the same container that was built and tested on the developer's local machine can now run at scale in production mode on virtual machines, bare metal, or even cloud platforms.
-Our objective is to create and run containers on a public cloud provider such as Microsoft Azure.
+Our objective is to create and run containers on the public cloud provider Microsoft Azure, and make it possible for the readers to also run these containers to reproduce our results.
 Figure \ref{fig:cloud_workflow} shows a graphical representation of the workflow we developed using Docker and various tools for running CFD simulations on Microsoft Azure.
-The next section explains these tools. 
+The next section explains these tools.
 
 \begin{figure*}[t]
     \centering
