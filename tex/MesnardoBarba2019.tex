@@ -167,7 +167,7 @@ $ docker build --tag=barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu --file=Dockerfile
 $ docker push barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu
 \end{lstlisting}
 
-\noindent Anyone can now pull the application image from DockerHub, and create a Docker container to run the CFD application software in a faithfully reproduced local environment.
+\noindent A reader interested in reproducing the computational results can now pull the application image from DockerHub, and create a Docker container to run the CFD application software in a faithfully reproduced local environment.
 Our objective is to create and run containers on the public cloud provider Microsoft Azure, and make it possible for the readers to also run these containers to reproduce our results.
 Figure \ref{fig:cloud_workflow} shows a graphical representation of the workflow we developed using Docker and various tools for running CFD simulations on Microsoft Azure.
 The next section explains these tools.
