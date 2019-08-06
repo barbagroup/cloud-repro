@@ -501,6 +501,10 @@ Thanks to Batch Shipyard, we did not have to dig into the software development k
 Writing YAML configuration files was all we needed to do to create a pool of virtual machines with Batch Shipyard and to submit jobs to it.
 With Batch Shipyard, we have painlessly submitted jobs on Azure Batch to run multi-instance tasks in Docker containers, everything from the command-line terminal on a local machine.
 Note that Batch Shipyard also supports Singularity containers.
+Singularity is an open source container platform designed for HPC workloads.
+Singularity containers can be used on traditional HPC clusters such as Colonial One; Docker containers usually cannot.
+Indeed, running a Docker container involves running a Docker daemon (a background process) which requires root privileges (that users do not and should not have on production clusters).
+The container technology from Singularity was designed from the ground up to prevent escalation in user privileges.
 
 Our in-house CFD software, PetIBM, relies on MPI to run applications on distributed-memory architectures.
 The Poisson system is solved on distributed GPU devices using the NVIDIA AmgX library.
