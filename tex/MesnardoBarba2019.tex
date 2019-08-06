@@ -505,6 +505,7 @@ Note that Batch Shipyard also supports Singularity containers.
 Our in-house CFD software, PetIBM, relies on MPI to run applications on distributed-memory architectures.
 The Poisson system is solved on distributed GPU devices using the NVIDIA AmgX library.
 Thus, we used Azure instances of the NC-series, which feature a network interface for remote direct memory access (RDMA) connectivity, allowing nodes in the same pool to communicate over InfiniBand network.
+The Docker images were specifically built to be able to run MPI applications on RDMA-capable virtual machines (such as the NC24r instance with a CentOS-based 7.3 HPC image) with multiple-instance tasks on Azure Batch service.
 As of this writing, only Intel MPI 5.x versions are supported with the Azure Linux RDMA drivers.
 
 Microsoft Azure offers the possibility of taking advantage of surplus capacity with ``low-priority'' virtual machines that are substantially cheaper than ``dedicated'' ones (see Table \ref{tab:nc_series} for pricing options on the NC series with Linux-based virtual machines).
