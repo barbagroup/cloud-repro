@@ -66,7 +66,15 @@ E-mail: mesnardo@gwu.edu
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-In a new effort to make our research transparent and reproducible by others, we developed a workflow to run computational studies on a public cloud. It uses Docker containers to create an image of the application software stack. We also adopt several tools that facilitate creating and managing virtual machines on compute nodes and submitting jobs to these nodes. The configuration files for these tools are part of an expanded "reproducibility package" that includes workflow definitions for cloud computing, in addition to input files and instructions. This facilitates re-creating the cloud environment to re-run the computations under the same conditions.
+In a new effort to make our research transparent and reproducible by others, we developed a workflow to run and share computational studies on the public cloud Microsoft Azure.
+It uses Docker containers to create an image of the application software stack.
+We also adopt several tools that facilitate creating and managing virtual machines on compute nodes and submitting jobs to these nodes.
+The configuration files for these tools are part of an expanded "reproducibility package" that includes workflow definitions for cloud computing, in addition to input files and instructions.
+This facilitates re-creating the cloud environment to re-run the computations under the same conditions.
+Although cloud providers have improved their offerings, many researchers using high-performance computing (HPC) are still skeptical about using cloud computing.
+Thus, we ran benchmarks for tightly coupled applications to confirm that the latest HPC nodes of Microsoft Azure are indeed a viable alternative to traditional on-site HPC clusters.
+We also show that cloud offerings are now adequate to complete computational fluid dynamics studies with in-house research software that uses parallel computing with GPUs.
+Finally, we share with the community what we have learned from nearly two years of using Azure cloud to enhance transparancy and reproducibility in our computational simulations.
 \end{abstract}
 }
 
@@ -93,7 +101,10 @@ They address concerns like automatic capture of changes to software (version con
 But capturing the whole computational environment used in a research project remains one of the most difficult problems. 
 Computational researchers often use a multi-layer stack of software applications that can be laborious to build from scratch. 
 Container technology like Docker is a recent addition to the reproducibility toolbox \cite{boettiger_2015}. 
-In this work, we develop and assess a workflow for reproducible research on a public cloud, adopting Docker containers and several other tools to automate and fully document scientific computations.
+In this work, we develop and assess a workflow for reproducible research on the public cloud provider Microsoft Azure, adopting Docker containers and several other tools to automate and fully document scientific computations.
+The workflow follows the idea of using container technologies to enhance transparency and reproducibility, and to reduce the burden of installing our application software stack, for readers interested in re-doing the analysis under the same conditions.
+We go one step further by moving the computational work to Azure cloud resources using tools that programmatically capture the virtual environment configuration.
+The configuration files become part of expanded "reproducibility packages" for the study.
 
 Universities and national laboratories spend millions of dollars to deploy and maintain on-site high-performance computing (HPC) clusters.
 At the George Washington University, we have access to a cluster called Colonial One.
@@ -107,7 +118,11 @@ This promises to greatly facilitate code development, debugging, and testing. Re
 On a public-cloud platform---such as Microsoft Azure, Google Cloud, Amazon AWS---with a "pay-as-you-go" type of subscription, a user directly sees how much it costs to run a scientific application, while such information usually remains obscure to the end-user on university-managed clusters. 
 Cost models that make sense for researchers, labs, and universities are still unclear. 
 Yet, this information is key when making a decision to adopt a cloud workflow for research. 
-We report here what we have learned from nearly two years of using cloud computing for our computational fluid dynamics (CFD) simulations, with the hope that it will shed some light on the costs and benefits, and help others considering using cloud computing for their research.
+
+Until recently, public cloud offerings were inadequate to the needs of computational scientists using HPC, mainly due to performance overhead of virtualization or lack of support for fast networking \cite{freniere_et_2016} and hardware accelerators.
+Freniere and co-authors (2016) used the OSU micro-benchmark suite to report performance degradation in networking with Amazon AWS, compared to their on-site local HPC cluster.
+We take the same approach with Microsoft Azure to verify that their improved services are now suitable for HPC applications.
+We also share what we have learned from nearly two years of using cloud computing for our computational fluid dynamics (CFD) simulations, with the hope that it will shed some light on the costs and benefits, and help others considering using cloud computing for their research.
 
 \section{Reproducible cloud-based workflow}\label{sec:workflow}
 

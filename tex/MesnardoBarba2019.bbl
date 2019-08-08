@@ -51,6 +51,12 @@ R.~D. Peng, ``Reproducible research in computational science,'' \emph{Science},
 C.~Boettiger, ``An introduction to {Docker} for reproducible research,''
   \emph{ACM SIGOPS Operating Systems Review}, vol.~49, no.~1, pp. 71--79, 2015.
 
+\bibitem{freniere_et_2016}
+C.~Freniere, A.~Pathak, M.~Raessi, and G.~Khanna, ``The feasibility of
+  {Amazon's} cloud computing platform for parallel, {GPU}-accelerated,
+  multiphase-flow simulations,'' \emph{Computing in Science \& Engineering},
+  vol.~18, no.~5, p.~68, 2016.
+
 \bibitem{mesnard_barba_2017}
 \BIBentryALTinterwordspacing
 O.~Mesnard and L.~A. Barba, ``Reproducible and replicable computational fluid
@@ -58,12 +64,6 @@ O.~Mesnard and L.~A. Barba, ``Reproducible and replicable computational fluid
   Engineering}, vol.~19, no.~4, p.~44, 2017. [Online]. Available:
   \url{https://doi.org/10.1109/MCSE.2017.3151254}
 \BIBentrySTDinterwordspacing
-
-\bibitem{freniere_et_2016}
-C.~Freniere, A.~Pathak, M.~Raessi, and G.~Khanna, ``The feasibility of
-  {Amazon's} cloud computing platform for parallel, {GPU}-accelerated,
-  multiphase-flow simulations,'' \emph{Computing in Science \& Engineering},
-  vol.~18, no.~5, p.~68, 2016.
 
 \bibitem{balay_et_al_2018}
 \BIBentryALTinterwordspacing
