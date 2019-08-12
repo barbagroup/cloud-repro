@@ -102,11 +102,15 @@ But capturing the whole computational environment used in a research project rem
 Computational researchers often use a multi-layer stack of software applications that can be laborious to build from scratch. 
 Container technology like Docker is a recent addition to the reproducibility toolbox \cite{boettiger_2015}. 
 In this work, we develop and assess a workflow for reproducible research on the public cloud provider Microsoft Azure, adopting Docker containers and several other tools to automate and fully document scientific computations.
-The workflow follows the idea of using container technologies to enhance transparency and reproducibility, and to reduce the burden of installing our application software stack, for readers interested in re-doing the analysis under the same conditions.
+The workflow follows the idea of using container technology to enhance transparency and reproducibility, and to reduce the burden of installing our application software stack.
 We go one step further by moving the computational work to Azure cloud resources using tools that programmatically capture the virtual environment configuration.
 The configuration files become part of expanded "reproducibility packages" for the study.
+This work does not target portability of our software and workflow to diverse high-performance computing (HPC) environments. 
+Our goal is, rather, to publish our computational research with deep transparency. 
+The workflow we developed and document here is expressly designed for Azure  cloud offerings. 
+An interested reader could thus re-run our simulations under exactly the same conditions as we used, provided they are willing and able to create an Azure account.
 
-Universities and national laboratories spend millions of dollars to deploy and maintain on-site high-performance computing (HPC) clusters.
+Universities and national laboratories spend millions of dollars to deploy and maintain on-site HPC clusters.
 At the George Washington University, we have access to a cluster called Colonial One.
 The cluster is now $6$ years old and approaching its end-of-life.
 On average, its computational resources are idle $9\%$ of the time and unavailable to users for roughly 5 days a year (due to maintenance).
