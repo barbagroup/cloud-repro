@@ -350,7 +350,7 @@ This technique allows the use of simple fixed structured Cartesian grids to solv
 PetIBM implements immersed boundary methods (IBMs) that fit into the projection method; in the present study, we use the IBM scheme proposed in \cite{li_et_al_2016}.
 PetIBM runs on distributed-memory architectures using the efficient data structures and parallel routines from the PETSc library.
 The software also implements the possibility to solve linear systems on multiple GPU devices distributed across the nodes with the NVIDIA AmgX library and our AmgXWrapper\cite{chuang_barba_2017}.
-One of the requirements for reproducible computational results is to make the code available under a public license (allowing reuse and modification by others).
+One of the requirements for reproducible computational results is to make the code available under a public license (ideally allowing reuse and modification by others).
 In that regard, PetIBM is open source, version-controlled on GitHub,\footnote{PetIBM (version 0.4): \url{https://github.com/barbagroup/PetIBM}} and shared under the permissive (non copy-left) BSD-3 clause license.
 We also provide a Docker image of PetIBM on DockerHub and its Dockerfile is available in the GitHub repository of the software.
 
