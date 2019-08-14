@@ -393,6 +393,11 @@ The task completed $100,000$ time steps ($100$ time units with a time-step size 
 Fig. \ref{fig:force_coefficients} compares the history of the force coefficients between the two- and three-dimensional configurations.
 The force coefficients resulting from the two-dimensional simulation of the snake are higher than those obtained for the snake cylinder; we computed a relative difference of $+37.9\%$ and $+14.4\%$ for the time-averaged drag and lift coefficient, respectively (see Table \ref{tab:force_coefficients}).
 Two-dimensional computational simulations of fundamentally three-dimensional flows lead to incorrect estimation of the force coefficients, as is well known\cite{mittal_balachandar_1995}.
+The grid used for the three-dimensional simulation contains about $46$ million cells and is somewhat coarse for Direct Numerical Simulation (DNS) at Reynolds number $2,000$, but acceptable for our exploratory analysis.
+A finer grid would be preferable to capture the flow dynamics in details, but the purpose of this paper is not targeting the physics.
+We did however run a simulation on a finer grid (about $233$ million cells) resulting in a relative difference (with respect to the "coarse"-grid simulation) of $+6.5\%$ and $+3\%$ for the time-averaged drag and lift coefficients, respectively.
+We decided to continue this work with the coarser grid due to the cost difference (see Section \ref{sec:cost}).
+Details about this fine-grid simulation are available as supplementary material on the GitHub repository for this study.\footnote{\url{https://nbviewer.jupyter.org/github/barbagroup/cloud-repro/blob/master/misc/independence/grid.ipynb}}
 
 Fig. \ref{fig:wz_avg_3d} shows the instantaneous spanwise vorticity averaged along the $z$-direction after $80$ and $100$ time units.
 Compared to the snapshots from the two-dimensional simulation, we observe that (1) free-shear layers roll up into vortices further away from the snake body and (2) the von K\'{a}rm\'{a}n street exhibits a narrower wake than in the two-dimensional simulations.
@@ -471,6 +476,9 @@ To run PetIBM simulations of the snake model, we used the \texttt{NC24r} virtual
 For example, the two-dimensional snake run reported in the present article cost $55.4$ USD ($2$ \texttt{NC24r} instances with a hourly price of $3.96$ USD for about $7$ hours).
 The three-dimensional computation cost $1077.1$ USD ($2$ \texttt{NC24r} instances for about $136$ hours).
 (Note that with 3-year-reserved instances, the two- and three-dimensional snake simulations would have only cost $24.6$ and $478.1$ USD, respectively.)
+The three-dimensional simulation on the finer grid ($233$ million cells) ran on $6$ \texttt{NC24r} instances and cost about $7965$ USD to compute $100,000$ time steps (cost not included in \ref{tab:azure_charges}).
+This is more than $7$ times the cost we paid for the "coarse"-grid run!
+It would have been too expensive to run a batch of simulations on the finer grid for our exploratory analysis of the flow around the snake cylinder.
 
 \begin{table}
     \renewcommand{\arraystretch}{1.5}
