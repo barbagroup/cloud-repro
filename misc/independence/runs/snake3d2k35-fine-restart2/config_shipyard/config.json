@@ -1,0 +1,28 @@
+{
+    "batch_shipyard": {
+        "storage_account_settings": "mystorageaccount"
+    },
+    "docker_registry": {
+        "private": {}
+    },
+    "global_resources": {
+        "docker_images": [
+            "mesnardo/petibm-private:0.2-GPU-IntelMPI"
+        ],
+        "docker_volumes": {
+            "shared_data_volumes": {
+                "shipyardvol": {
+                    "volume_driver": "azurefile",
+                    "storage_account_settings": "mystorageaccount",
+                    "azure_file_share_name": "myfileshare",
+                    "container_path": "/fileshare",
+                    "mount_options": [
+                        "filemode=0777",
+                        "dirmode=0777",
+                        "nolock=true"
+                    ]
+                }
+            }
+        }
+    }
+}

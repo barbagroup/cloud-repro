@@ -1,0 +1,20 @@
+# simulationParameters.yaml
+
+- type: simulation
+  dt: 1.0E-03
+  startStep: 0
+  nt: 100000
+  nsave: 5000
+  nrestart: 10000
+  ibm: LI_ET_AL
+  decoupling:
+    algorithm: 3
+    forceEstimator: 2
+    maxIters: 1
+  convection: ADAMS_BASHFORTH_2
+  diffusion: CRANK_NICOLSON
+  outputFormat: hdf5
+  outputFlux: false
+  outputVelocity: true
+  vSolveType: CPU 
+  pSolveType: GPU

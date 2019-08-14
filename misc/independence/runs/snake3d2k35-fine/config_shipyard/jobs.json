@@ -1,0 +1,23 @@
+{
+    "job_specifications": [
+        {
+            "id": "petibmjob-2k35-meshB",
+            "auto_complete": true,
+            "shared_data_volumes": [
+                "shipyardvol"
+            ],
+            "tasks": [
+                {
+                    "image": "mesnardo/petibm-private:0.2-GPU-IntelMPI",
+                    "remove_container_after_exit": true,
+                    "command": "/fileshare/snake3d/2k35-meshB/run-petibm.sh /fileshare/snake3d/2k35-meshB",
+                    "multi_instance": {
+                        "num_instances": "pool_current_dedicated"
+                    },
+                    "gpu": true,
+                    "infiniband": true
+                }
+            ]
+        }
+    ]
+}

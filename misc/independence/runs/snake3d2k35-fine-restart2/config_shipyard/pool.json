@@ -1,0 +1,24 @@
+{
+    "pool_specification": {
+        "id": "petibm-gpu-infiniband",
+        "vm_configuration": {
+            "platform_image": {
+                "publisher": "OpenLogic",
+                "offer": "CentOS-HPC",
+                "sku": "7.3",
+                "urn": "OpenLogic:CentOS-HPC:7.3:7.3.20170606",
+                "version": "7.3.20170606"
+            }
+        },
+        "vm_size": "Standard_NC24r",
+        "vm_count": {
+            "dedicated": 6
+        },
+        "inter_node_communication_enabled": true,
+        "ssh": {
+            "username": "docker"
+        },
+        "reboot_on_start_task_failed": false,
+        "block_until_all_global_resources_loaded": true
+    }
+}

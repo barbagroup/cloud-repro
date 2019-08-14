@@ -1,0 +1,4 @@
+# bodies.yaml
+
+- type: points
+  pointsFile: flyingSnake3dAoA35.body

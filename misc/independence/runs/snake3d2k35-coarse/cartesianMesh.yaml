@@ -1,0 +1,33 @@
+# cartesianMesh.yaml
+# 1071x1072x40 = 45924480
+
+- direction: x
+  start: -15.0
+  subDomains:
+    - cells: 296
+      end: -0.52
+      stretchRatio: 0.9900990099009901
+    - cells: 500
+      end: 3.48
+      stretchRatio: 1.0
+    - cells: 275
+      end: 15.0
+      stretchRatio: 1.01
+- direction: y
+  start: -15.0
+  subDomains:
+    - cells: 286
+      end: -2.0
+      stretchRatio: 0.9900990099009901
+    - cells: 500
+      end: 2.0
+      stretchRatio: 1.0
+    - cells: 286
+      end: 15.0
+      stretchRatio: 1.01
+- direction: z
+  start: 0.0
+  subDomains:
+    - cells: 40
+      end: 3.2
+      stretchRatio: 1.0
