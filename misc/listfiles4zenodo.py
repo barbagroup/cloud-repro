@@ -6,7 +6,7 @@ import pathlib
 scriptdir = pathlib.Path(__file__).absolute().parent
 rootdir = scriptdir.parent
 
-excludes = ['.git', '.vscode', '__pycache__',
+excludes = ['.git', '.vscode', '__pycache__', '.ipynb_checkpoints',
             '.xmf', '.pyc',
             'credentials.yaml', 'id_rsa', 'l_mpi_2017.2.174.tgz']
 
