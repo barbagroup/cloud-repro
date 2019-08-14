@@ -94,7 +94,7 @@ It is thus worth clarifying how we use these terms.
 ``Reproducible research'' was used by geophysics professor Jon Claerbout in the 1990s to mean computational studies that can be reproduced by other scientists. His research group at Stanford created a reproducible-research environment\cite{schwab_et_al_2000} whose goal was complete documentation of scientific computations, in such a way that a reader could reproduce all the results and figures in a paper using the author-provided computer programs and raw data.
 This requires open data and open source software and, for this reason, the reproducibility movement is closely linked with the open science movement.
 The term ``replication'' has been adopted to refer to an independent study generating new data which, when analyzed, lead to the same findings \cite{peng_2011}.
-We follow this convention, adopted also recently in a report from the National Academies of Sciences, Engineering, and Medicine \cite{nasa_oss_2018}.
+We follow this convention, adopted also recently in reports from the National Academies of Sciences, Engineering, and Medicine \cite{nasa_oss_2018,nasem_2019}.
 
 Many efforts to develop cyberinfrastructure that supports reproducible research have been launched in past years. 
 They address concerns like automatic capture of changes to software (version control systems), persistent data archival, global registration of data identifiers, workflow management, and more. 
@@ -562,13 +562,19 @@ Researchers thinking of adding cloud computing to proposal budgets might encount
 For example, some universities exempt large equipment purchases from indirect (facilities and administrative, F\&A)  costs, while they may add these overhead rates to cloud purchases. 
 Until these internal policies are adjusted, cloud computing may not be adopted widely.
 
-In a renewed effort to make our research transparent and reproducible by others, we maintain in a public version-controlled repository all the files necessary to re-run the examples highlighted in this paper.
-The repository is found at \url{https://github.com/barbagroup/cloud-repro}.
+In a heightened effort to make our research transparent and reproducible by others, we maintain in a public version-controlled repository all the files necessary to re-run the examples highlighted in this paper.
+The repository is found at \url{https://github.com/barbagroup/cloud-repro} and is also permanently archived in Zenodo \cite{cloud_repro_2019}.
 Our expanded reproducibility packages contain input files, Batch Shipyard configuration files, command-line instructions to set up and submit jobs to Microsoft Azure, as well as the post-processing scripts to reproduce the figures of this paper.
+We included in the Zenodo archive all secondary data required to reproduce the figures without running the simulations again.
 Although they are not required to reproduce the computations, the Dockerfiles to build Docker images are also made available. 
-These files contain details about all the libraries needed to create the computational runtime environment.
 We even include a Dockerfile to reproduce the local environment with the visualization tools needed for post-processing.
-In addition, we have also deposited in the Zenodo service all secondary data required to reproduce the figures of the paper without running the simulations again\cite{cloud_repro_2019}.
+These files contain details about all the libraries needed to create the computational runtime environment. 
+Both the Dockerfiles and the workflow files may not execute as they were designed to do in a period of a few years, due to technology changes.
+Obsolescence of digital research objects, including software libraries and computational environments, is an acknowledged source of non-reproducibility, in the long run. 
+The recent report of the National Academies highlights this \cite[p.~57]{nasem_2019}. 
+Indeed, tools in our workflow that we have no control over (Azure CLI, Batch Shipyard) will likely change, and perhaps not be backwards compatible. 
+That is inevitable. 
+But when they do, our fully documented workflow (via human-readable configuration files) will continue to offer transparency of what we did and how we did it.
 
 \section*{Acknowledgments}
 

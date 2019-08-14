@@ -47,6 +47,14 @@ R.~D. Peng, ``Reproducible research in computational science,'' \emph{Science},
   [Online]. Available: \url{https://doi.org/10.17226/25217}
 \BIBentrySTDinterwordspacing
 
+\bibitem{nasem_2019}
+\BIBentryALTinterwordspacing
+------, \emph{Reproducibility and Replicability in Science}.\hskip 1em plus
+  0.5em minus 0.4em\relax Washington, DC: The National Academies Press, 2019.
+  [Online]. Available:
+  \url{https://www.nap.edu/catalog/25303/reproducibility-and-replicability-in-science}
+\BIBentrySTDinterwordspacing
+
 \bibitem{boettiger_2015}
 C.~Boettiger, ``An introduction to {Docker} for reproducible research,''
   \emph{ACM SIGOPS Operating Systems Review}, vol.~49, no.~1, pp. 71--79, 2015.
