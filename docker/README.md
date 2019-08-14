@@ -19,6 +19,8 @@ docker run -it barbagroup/cloud-repro:latest /bin/bash
 
 Each of the three other sub-folders contains the Dockerfile we used to build the Docker images to run benchmarks and simulations on Microsoft Azure with Azure Batch.
 
+**Important:** To be able to use the low-latency and high-bandwidth network of Azure with RMDA-capable nodes, we built the Docker images with the Intel MPI library for Linux (2017, Update 2). Please note that you must agree with the [Intel Simplified Software License](https://software.intel.com/en-us/license/intel-simplified-software-license) before using either of these Docker images.
+
 The Docker image [`mesnardo/osubenchmarks:5.6-GPU-IntelMPI-ubuntu`](https://cloud.docker.com/u/mesnardo/repository/docker/mesnardo/osubenchmarks) is used to run the latency and bandwidth benchmarks from the [OSU Micro-Benchmarks](http://mvapich.cse.ohio-state.edu/benchmarks/) (version 5.6).
 (Dockerfile in the sub-folder `osubenchmarks`.)
 
