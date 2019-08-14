@@ -137,4 +137,18 @@ O.~Mesnard and L.~A. Barba, ``Cloud-repro: Reproducible workflow on a public
   [Online]. Available: \url{https://doi.org/10.5281/zenodo.2642711}
 \BIBentrySTDinterwordspacing
 
+\bibitem{oleary_2019}
+\BIBentryALTinterwordspacing
+P.~O'Leary, ``Review: "reproducible workflow on a public cloud for
+  computational fluid dynamics".'' [Online]. Available:
+  \url{https://doi.org/10.22541%2Fau.156415458.85375575}
+\BIBentrySTDinterwordspacing
+
+\bibitem{witherden_2019}
+\BIBentryALTinterwordspacing
+F.~Witherden, ``Review of reproducible workflow on a public cloud for
+  computational fluid dynamics,'' Jul 2019. [Online]. Available:
+  \url{https://figshare.com/articles/Review_of_Reproducible_Workflow_on_a_Public_Cloud_for_Computational_Fluid_Dynamics/9159740/1}
+\BIBentrySTDinterwordspacing
+
 \end{thebibliography}
