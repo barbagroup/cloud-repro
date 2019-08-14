@@ -8,16 +8,19 @@
 #SBATCH --ntasks-per-node=12
 #SBATCH --time=01:00:00
 
-nodes=1
+n=1
+ppn=12
+np=$(($n * $ppn))
 
 module load gcc/4.9.2
-module load openmpi/1.8/gcc/4.9.2
 module load cuda/toolkit/8.0
 
-AMGXWRAPPER_DIR="/groups/barbalab/software/amgxwrapper/1.4/linux-openmpi-opt"
+source /c1/apps/intel-cluster-studio/2017.4/compilers_and_libraries_2017.4.196/linux/mpi/intel64/bin/mpivars.sh
+
+AMGXWRAPPER_DIR="/groups/barbalab/software/amgxwrapper/1.4/linux-gnu-intelmpi-opt"
 export PATH="$AMGXWRAPPER_DIR/example/poisson/bin":$PATH
 
-AMGX_DIR="/groups/barbalab/software/amgx/git/master/linux-openmpi-opt"
+AMGX_DIR="/groups/barbalab/software/amgx-2.0/linux-gnu-intelmpi-opt"
 export LD_LIBRARY_PATH="$AMGX_DIR/lib":$LD_LIBRARY_PATH
 
 export CUDA_VISIBLE_DEVICES=0,1
@@ -31,14 +34,14 @@ counter=1
 
 while [ $counter -le $niters ]
 do
-	casename="poisson_amgx_${nodes}nodes_run${counter}"
-	mpiexec poisson \
+	casename="poisson_amgx_${n}nodes_run${counter}"
+	mpirun -np $np -ppn $ppn poisson \
 		-caseName $casename \
 		-mode AmgX_GPU \
 		-cfgFileName $configdir/poisson_solver.info \
 		-Nx 500 -Ny 500 -Nz 25 \
 		-log_view ascii:${outdir}/view_run${counter}.log \
-		-options_left >> ${outdir}/stdout_run${counter}.txt 2> ${outdir}/stderr_run${counter}.txt
+		-options_left > ${outdir}/stdout_run${counter}.txt 2> ${outdir}/stderr_run${counter}.txt
 	((counter++))
 done
 

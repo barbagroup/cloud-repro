@@ -62,6 +62,7 @@ def get_latency_bandwidth_data(datadir, iterator, prefix='', suffix=''):
         data.append(subdata)
     # Average the measure over the runs.
     data = numpy.mean(data, axis=0)
+    print(data)
     return size, data
 
 
@@ -81,9 +82,11 @@ sizes, bandwidths = get_latency_bandwidth_data(datadir, range(1, 6),
                                                prefix='stdout_bandwidth_run',
                                                suffix='.txt')
 data[label]['bandwidth'] = {'sizes': sizes, 'values': bandwidths}
+data[label]['kwargs'] = dict(color='C0', linestyle='-',
+                             marker='o', markersize=6)
 
 # Get the latency and bandwidth results for Colonial One runs.
-label = 'Colonial One (Ivygpu)'
+label = 'Colonial One (Intel MPI)'
 data[label] = {}
 datadir = rootdir / 'colonialone' / 'output'
 sizes, latencies = get_latency_bandwidth_data(datadir, range(1, 6),
@@ -94,18 +97,35 @@ sizes, bandwidths = get_latency_bandwidth_data(datadir, range(1, 6),
                                                prefix='stdout_bandwidth_run',
                                                suffix='.txt')
 data[label]['bandwidth'] = {'sizes': sizes, 'values': bandwidths}
+data[label]['kwargs'] = dict(color='C1', linestyle='--',
+                             marker='o', markersize=6)
+
+# Get the latency and bandwidth results for Colonial One runs with Intel MPI.
+label = 'Colonial One (OpenMPI)'
+data[label] = {}
+datadir = rootdir / 'colonialone-openmpi' / 'output'
+sizes, latencies = get_latency_bandwidth_data(datadir, range(5),
+                                              prefix='stdout_latency_run',
+                                              suffix='.txt')
+data[label]['latency'] = {'sizes': sizes, 'values': latencies}
+sizes, bandwidths = get_latency_bandwidth_data(datadir, range(5),
+                                               prefix='stdout_bandwidth_run',
+                                               suffix='.txt')
+data[label]['bandwidth'] = {'sizes': sizes, 'values': bandwidths}
+data[label]['kwargs'] = dict(color='C2', linestyle='-',
+                             marker='o', markersize=6)
 
 # Create a figure to display the latency and bandwidth results.
 pyplot.rc('font', family='serif', size=14)
 fig, (ax1, ax2) = pyplot.subplots(nrows=2, figsize=(6.0, 8.0))
 # Plot the latency.
 ax1.set_xlabel('Message size (bytes)')
-ax1.set_ylabel('Point-to-point\nlatency ($\mu$s)')
+ax1.set_ylabel(r'Point-to-point\nlatency ($\mu$s)')
 ax1.grid()
 key = 'latency'
 for label, subdata in data.items():
     ax1.plot(subdata[key]['sizes'], subdata[key]['values'],
-             label=label, marker='o', markersize=6)
+             label=label, **subdata['kwargs'])
 ax1.set_xscale('log')
 ax1.set_yscale('log')
 ax1.legend()
@@ -116,7 +136,7 @@ ax2.grid()
 key = 'bandwidth'
 for label, subdata in data.items():
     ax2.plot(subdata[key]['sizes'], subdata[key]['values'],
-             label=label, marker='o', markersize=6)
+             label=label, **subdata['kwargs'])
 ax2.set_xscale('log')
 ax2.set_yscale('log')
 fig.tight_layout()
@@ -124,7 +144,7 @@ fig.tight_layout()
 # Save the figure.
 figdir = rootdir / 'figures'
 figdir.mkdir(parents=True, exist_ok=True)
-filepath = figdir / 'osu_latency_bandwidth.pdf'
+filepath = figdir / 'osu_latency_bandwidth_all.pdf'
 fig.savefig(str(filepath), dpi=300)
 
 pyplot.show()

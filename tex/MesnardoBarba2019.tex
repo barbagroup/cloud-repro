@@ -300,16 +300,16 @@ The bandwidth test measures the maximum sustained rate that can be achieved on t
 The tests ran on \texttt{NC24r} nodes on Azure and \texttt{Ivygpu} nodes on Colonial One, all of them featuring a network interface for RDMA (Remote Direct Memory Access) connectivity to communicate over an InfiniBand network.
 (RDMA allows direct access to a remote's memory without involving the operating system of the host and remote.)
 Fig. \ref{fig:osu_benchmarks} reports the mean latencies and bandwidths obtained over $5$ repetitions on both platforms.
-For small message sizes, the average latencies on Colonial One and Azure are $1.75$ and $1.95 \mu $s, respectively.
-As the message size increases, the latency becomes smaller on Azure compared to Colonial One.
-The maximum sustained bandwidth rates for Colonial One and Azure are on average $4.5$ and $5.6$ GB/s, respectively.
-For all message sizes, a higher bandwidth rate was achieved on Azure.
+For small message sizes, the average latencies on Colonial One and Azure are $1.25$ and $1.95 \mu $s, respectively.
+For all message sizes, the latency reported on Azure is slightly higher than the value obtained on Colonial One.
+The maximum sustained bandwidth rates for Colonial One and Azure are on average $6.2$ and $5.2$ GB/s, respectively.
+For all message sizes, a similar bandwidth rate was achieved on Azure and Colonial One.
 Over the last few years, Microsoft Azure has indeed improved its HPC solutions to provide networking capabilities that are comparable or even better than our 6-year-old university-managed cluster.
 
 \begin{figure}[!h]
     \centering
     \includegraphics[width=8cm]{figures/osu_latency_bandwidth.pdf}
-    \caption{Point-to-point latency (top) and bandwidth (bottom) obtained on Colonial One (\texttt{Ivygpu} nodes) and on Microsoft Azure (\texttt{NC24r} nodes). Benchmark results are averaged over $5$ repetitions.}
+    \caption{Point-to-point latency (top) and bandwidth (bottom) obtained on Colonial One (\texttt{Ivygpu} nodes) and on Microsoft Azure (\texttt{NC24r} nodes) with the Intel MPI library. Benchmark results are averaged over $5$ repetitions.}
     \label{fig:osu_benchmarks}
 \end{figure}
 
@@ -320,14 +320,15 @@ For example, the Navier-Stokes solver implemented in our software requires the s
 We investigated the time-to-solution for a three-dimensional Poisson system (obtained with a 7-point stencil central-difference scheme) on different nodes of Microsoft Azure and Colonial One.
 The solution method was a Conjugate-Gradient (CG) method with a classical algebraic multi-grid (AMG) preconditioner using an exit criterion set to an absolute tolerance of $10^{-12}$.
 The iterative solver ran on CPU nodes (\texttt{H16r} instances on Azure and \texttt{Short} nodes on Colonial One) using the CG algorithm from the PETSc library\cite{balay_et_al_2018} and an AMG preconditioner from Hypre BoomerAMG.
-Fig. \ref{fig:poisson_benchmarks} (top) reports the mean runtimes (averaged over $5$ repetitions) to iteratively solve the system, on a uniform grid of $50$ million cells ($1000 \times 1000 \times 50$), as we increase the number of nodes in the pool.
+Fig. \ref{fig:poisson_benchmarks} (top) reports the mean runtimes (averaged over $5$ repetitions) to iteratively solve the system, on a uniform grid of $50$ million cells ($1000 \times 1000 \times 50$), as we increase the number of nodes in the pool (strong scaling).
+Runtimes between obtained on Colonial One and Azure are similar.
 We also solved the Poisson system with the NVIDIA AmgX library on multiple GPU devices using \texttt{NC24r} instances on Azure and \texttt{Ivygpu} nodes on Colonial One.
-The Poisson system for a base mesh of $6.25$ million cells ($500 \times 500 \times 25$) was solved on a single compute node using $12$ MPI processes and $2$ GPU devices; we then doubled the mesh size as we doubled the number of nodes (keeping the same number of MPI processes and GPUs per node).
+The Poisson system for a base mesh of $6.25$ million cells ($500 \times 500 \times 25$) was solved on a single compute node using $12$ MPI processes and $2$ GPU devices; we then doubled the mesh size as we doubled the number of nodes, keeping the same number of MPI processes and GPUs per node (weak scaling).
 The number of iterations to reach convergence increases with the size of the system, so we normalize the runtimes by the number of iterations.
 Fig. \ref{fig:poisson_benchmarks} (bottom left) shows the normalized mean runtimes ($5$ repetitions) obtained on Azure and Colonial One.
 The smaller runtimes on Azure are explained by the fact that the NC-series of Microsoft Azure features NVIDIA K80 GPU devices with a higher compute capability than the K20 GPUs on Colonial One.
 The bottom-right panel of the figure reports the normalized mean runtimes obtained on Azure when we load the bandwidth with a larger problem; the base mesh now contains $25$ millions cells ($1000 \times 500 \times 50$).
-We observe larger variations in the time-to-solution for the Poisson system on Microsoft Azure; runtimes are more uniform on Colonial One.
+We observe larger variations in the time-to-solution for the Poisson system on Microsoft Azure with GPU computing; runtimes are more uniform on Colonial One.
 
 \begin{figure}[!h]
     \centering

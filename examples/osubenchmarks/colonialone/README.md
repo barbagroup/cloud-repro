@@ -21,4 +21,4 @@ sbatch run-osu.sh
 ## Output
 
 The output files will be saved in the sub-folder `output`; it contains `stdout` and `stderr` files for each repeated run and each benchmark.
-For example, the file `stdout_latency_run1.txt` contains the output of the latency benchmark for the second run.
+For example, the file `stdout_latency_run2.txt` contains the output of the latency benchmark for the second run.
