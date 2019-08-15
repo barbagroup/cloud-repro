@@ -283,7 +283,7 @@ The goal is to showcase the potential of cloud computing for CFD, share the less
     \begin{tabular}{cccccccc}
         Platform & Node & Intel Xeon CPU & \# threads & NVIDIA GPU & RAM (GiB) & SSD Storage (GiB) \\
         \hline
-        \multirow{2}{*}{Azure} & \texttt{NC24r} & Dual 12-Core E5-2690v3 (2.60GHz) & 24 & 4 x K80 & 224 & 1440 \\
+        \multirow{2}{*}{Azure} & \texttt{NC24r} & Dual 12-Core E5-2690v3 (2.60GHz) & 24 & 2 x K80 & 224 & 1440 \\
         & \texttt{H16r} & Dual 8-Core E5-2667v3 (3.20GHz) & 16 & - & 112 & 2000 \\
         \hline
         \multirow{2}{*}{Colonial One} & \texttt{Ivygpu} & Dual 6-Core E5-2620v2 (2.10GHz) & 12 & 2 x K20 & 120 & 93 \\
@@ -333,7 +333,7 @@ We observe larger variations in the time-to-solution for the Poisson system on M
 \begin{figure}[!h]
     \centering
     \includegraphics[width=8cm]{figures/poisson_time_vs_nodes.pdf}
-    \caption{Runtime to solve a Poisson system on Colonial One and on Microsoft Azure. Benchmark was repeated 5 times and we report the mean runtime as well as the extrema. Poisson system was solved on Azure using PETSc on \texttt{H16r} nodes ($16$ processes per node) and using AmgX on \texttt{NC24r} nodes ($12$ processes and $1$ NVIDIA K80 GPU per node). On Colonial One, we solved the system with PETSc on \texttt{Short} nodes ($16$ processes per node) and with AmgX on \texttt{Ivygpu} nodes ($12$ processes and $2$ NVIDIA K20 GPUs per node). The runs with PETSc solved a Poisson system on a mesh size of 50 million cells (top). With AmgX (bottom left), the base mesh size contains 6.25 million cells and we scale it with the number of nodes. On Azure, we also ran the Poisson benchmark with a finer base mesh size of 25 million cells (bottom right). Runtimes obtained with AmgX were normalized by the number of iterations required to reach a absolute tolerance of $10^{-12}$.}
+    \caption{Runtime to solve a Poisson system on Colonial One and Microsoft Azure. Benchmarks were repeated 5 times and we show the mean runtime and the extrema. \textbf{Top}: system solved on a fixed mesh size of 50 million cells (strong scaling) using PETSc on Azure \texttt{H16r} nodes ($16$ processes per node), and Colonial One \texttt{Short} nodes ($16$ processes per node). \textbf{Bottom-left}:  systems solved using AmgX on Azure \texttt{NC24r} nodes ($12$ processes and $2$ GPUs per node), and Colonial One \texttt{Ivygpu} nodes ($12$ processes and $2$ GPUs per node); the base mesh size contains 6.25 million cells and we scale it with the number of nodes (weak scaling). \textbf{Bottom-right:} systems solved with AmgX on Azure \texttt{NC24r} nodes ($24$ processes and $4$ GPUs per node), using a finer base mesh size of 25 million cells. Runtimes obtained with AmgX were normalized by the number of iterations required to reach a absolute tolerance of $10^{-12}$.}
     \label{fig:poisson_benchmarks}
 \end{figure}
 
@@ -394,10 +394,10 @@ The task completed $100,000$ time steps ($100$ time units with a time-step size 
 Fig. \ref{fig:force_coefficients} compares the history of the force coefficients between the two- and three-dimensional configurations.
 The force coefficients resulting from the two-dimensional simulation of the snake are higher than those obtained for the snake cylinder; we computed a relative difference of $+37.9\%$ and $+14.4\%$ for the time-averaged drag and lift coefficient, respectively (see Table \ref{tab:force_coefficients}).
 Two-dimensional computational simulations of fundamentally three-dimensional flows lead to incorrect estimation of the force coefficients, as is well known\cite{mittal_balachandar_1995}.
-The grid used for the three-dimensional simulation contains about $46$ million cells and is somewhat coarse for Direct Numerical Simulation (DNS) at Reynolds number $2,000$, but acceptable for our exploratory analysis.
-A finer grid would be preferable to capture the flow dynamics in details, but the purpose of this paper is not targeting the physics.
+The grid used for the three-dimensional simulation contains about $46$ million cells and is somewhat coarse for direct numerical simulation at Reynolds number $2,000$, but acceptable for our exploratory analysis.
+A finer grid would be preferable to capture the flow dynamics in detail, but the purpose of this paper is not targeting the physics.
 We did however run a simulation on a finer grid (about $233$ million cells) resulting in a relative difference (with respect to the "coarse"-grid simulation) of $+6.5\%$ and $+3\%$ for the time-averaged drag and lift coefficients, respectively.
-We decided to continue this work with the coarser grid due to the cost difference (see Section \ref{sec:cost}).
+We decided to continue this work with the coarser grid due to the large cost difference (see Section \ref{sec:cost}).
 Details about this fine-grid simulation are available as supplementary material on the GitHub repository for this study.\footnote{\url{https://nbviewer.jupyter.org/github/barbagroup/cloud-repro/blob/master/misc/independence/grid.ipynb}}
 
 Fig. \ref{fig:wz_avg_3d} shows the instantaneous spanwise vorticity averaged along the $z$-direction after $80$ and $100$ time units.
