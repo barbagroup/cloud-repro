@@ -69,7 +69,7 @@ E-mail: mesnardo@gwu.edu
 In a new effort to make our research transparent and reproducible by others, we developed a workflow to run and share computational studies on the public cloud Microsoft Azure.
 It uses Docker containers to create an image of the application software stack.
 We also adopt several tools that facilitate creating and managing virtual machines on compute nodes and submitting jobs to these nodes.
-The configuration files for these tools are part of an expanded "reproducibility package" that includes workflow definitions for cloud computing, in addition to input files and instructions.
+The configuration files for these tools are part of an expanded ``reproducibility package'' that includes workflow definitions for cloud computing, in addition to input files and instructions.
 This facilitates re-creating the cloud environment to re-run the computations under the same conditions.
 Although cloud providers have improved their offerings, many researchers using high-performance computing (HPC) are still skeptical about using cloud computing.
 Thus, we ran benchmarks for tightly coupled applications to confirm that the latest HPC nodes of Microsoft Azure are indeed a viable alternative to traditional on-site HPC clusters.
@@ -104,7 +104,7 @@ Container technology like Docker is a recent addition to the reproducibility too
 In this work, we develop and assess a workflow for reproducible research on the public cloud provider Microsoft Azure, adopting Docker containers and several other tools to automate and fully document scientific computations.
 The workflow follows the idea of using container technology to enhance transparency and reproducibility, and to reduce the burden of installing our application software stack.
 We go one step further by moving the computational work to Azure cloud resources using tools that programmatically capture the virtual environment configuration.
-The configuration files become part of expanded "reproducibility packages" for the study.
+The configuration files become part of expanded ``reproducibility packages'' for the study.
 This work does not target portability of our software and workflow to diverse high-performance computing (HPC) environments. 
 Our goal is, rather, to publish our computational research with deep transparency. 
 The workflow we developed and document here is expressly designed for Azure  cloud offerings. 
@@ -119,7 +119,7 @@ Over the past decade, cloud-computing platforms have rapidly evolved, now offeri
 From a user's point of view, a cloud platform offers great flexibility (hardware and virtual machines) with instantaneous availability of infinite (in appearance) computational resources.
 No more waiting time in job-submission queues!
 This promises to greatly facilitate code development, debugging, and testing. Resources allocated on the cloud are released as soon as the job is done, avoiding paying for idle time.
-On a public-cloud platform---such as Microsoft Azure, Google Cloud, Amazon AWS---with a "pay-as-you-go" type of subscription, a user directly sees how much it costs to run a scientific application, while such information usually remains obscure to the end-user on university-managed clusters. 
+On a public-cloud platform---such as Microsoft Azure, Google Cloud, Amazon AWS---with a ``pay-as-you-go'' type of subscription, a user directly sees how much it costs to run a scientific application, while such information usually remains obscure to the end-user on university-managed clusters. 
 Cost models that make sense for researchers, labs, and universities are still unclear. 
 Yet, this information is key when making a decision to adopt a cloud workflow for research. 
 
@@ -340,7 +340,7 @@ We observe larger variations in the time-to-solution for the Poisson system on M
 \subsection{Flow Around a Flying Snake Cross-Section}\label{subsec:snake}
 
 Our research lab is interested in understanding the aerodynamics of flying animals via CFD simulations.
-One of our applications deals with the aerodynamics of a snake species, \textit{Chrysopelea Paradisi}, that lives in South-East Asia.
+One of our applications deals with the aerodynamics of a snake species, \textit{Chrysopelea paradisi}, that lives in South-East Asia.
 This arboreal reptile has the remarkable capacity to turn its entire body into a wing and glide over several meters\cite{socha_2011}.
 The so-called ``flying snake'' jumps from tree branches, undulates in the air, and is able to produce lift by expanding its ribcage to flatten its ventral surface (morphing its normally circular cross-section into a triangular shape).
 
@@ -357,7 +357,7 @@ We also provide a Docker image of PetIBM on DockerHub and its Dockerfile is avai
 
 \subsubsection{2D Flow Around a Snake Cross-Section}
 
-We submitted a job on Azure Batch (with Batch Shipyard,) to compute the two-dimensional flow around an anatomically accurate sectional shape of the gliding snake.
+We submitted a job on Azure Batch (with Batch Shipyard) to compute the two-dimensional flow around an anatomically accurate sectional shape of the gliding snake.
 The cross-section has a chord-length $c=1$ and forms a $35$-degree angle of attack with the incoming freestream flow.
 The Reynolds number, based on the freestream speed, the body chord-length, the kinematic viscosity, is set to $Re=2000$.
 The immersed boundary is centered in a $30c \times 30c$ computational domain that contains just over $2.9$ million cells.
@@ -396,7 +396,7 @@ The force coefficients resulting from the two-dimensional simulation of the snak
 Two-dimensional computational simulations of fundamentally three-dimensional flows lead to incorrect estimation of the force coefficients, as is well known\cite{mittal_balachandar_1995}.
 The grid used for the three-dimensional simulation contains about $46$ million cells and is somewhat coarse for direct numerical simulation at Reynolds number $2,000$, but acceptable for our exploratory analysis.
 A finer grid would be preferable to capture the flow dynamics in detail, but the purpose of this paper is not targeting the physics.
-We did however run a simulation on a finer grid (about $233$ million cells) resulting in a relative difference (with respect to the "coarse"-grid simulation) of $+6.5\%$ and $+3\%$ for the time-averaged drag and lift coefficients, respectively.
+We did however run a simulation on a finer grid (about $233$ million cells) resulting in a relative difference (with respect to the ``coarse''-grid simulation) of $+6.5\%$ and $+3\%$ for the time-averaged drag and lift coefficients, respectively.
 We decided to continue this work with the coarser grid due to the large cost difference (see Section \ref{sec:cost}).
 Details about this fine-grid simulation are available as supplementary material on the GitHub repository for this study.\footnote{\url{https://nbviewer.jupyter.org/github/barbagroup/cloud-repro/blob/master/misc/independence/grid.ipynb}}
 
@@ -478,7 +478,7 @@ For example, the two-dimensional snake run reported in the present article cost 
 The three-dimensional computation cost $1077.1$ USD ($2$ \texttt{NC24r} instances for about $136$ hours).
 (Note that with 3-year-reserved instances, the two- and three-dimensional snake simulations would have only cost $24.6$ and $478.1$ USD, respectively.)
 The three-dimensional simulation on the finer grid ($233$ million cells) ran on $6$ \texttt{NC24r} instances and cost about $7965$ USD to compute $100,000$ time steps (cost not included in \ref{tab:azure_charges}).
-This is more than $7$ times the cost we paid for the "coarse"-grid run!
+This is more than $7$ times the cost we paid for the ``coarse''-grid run!
 It would have been too expensive to run a batch of simulations on the finer grid for our exploratory analysis of the flow around the snake cylinder.
 
 \begin{table}
