@@ -175,7 +175,7 @@ The developer builds this image on a local machine and pushes it to a public reg
 Users pull the image from the public registry,---in our case, DockerHub---and create containers out of it.
 To create a Docker image, the developer writes a \texttt{Dockerfile}: an ASCII file containing instructions that tell Docker what to do.
 For example, we start building a new image from a base image using the keyword \texttt{FROM}.
-We then write the different shell instructions (with the \texttt{RUN} instruction) to build a multi-layered runtime environment of the application that includes all its dependencies.
+We then write the different shell instructions (prefixed with the keyword \texttt{RUN}) to build a multi-layered runtime environment of the application that includes all its dependencies.
 Once we have built and tested the image on the local machine, we push it to a repository on the DockerHub registry: a place to store and retrieve Docker images.
 Listing \ref{lst:docker_build_push} provides the command lines to build (\texttt{docker build}) and push (\texttt{docker push}) an image of our CFD software (\texttt{barbagroup/petibm:0.4-GPU-IntelMPI-ubuntu}) that we used to obtain some of the results presented in the next section.
 Here, \texttt{CLOUDREPRO} is an environment variable set to the local path of the GitHub repository for this paper, \texttt{cloud-repro},\footnote{\url{https://github.com/barbagroup/cloud-repro}} cloned on the user's machine.
@@ -230,7 +230,7 @@ Typically, we need to provide four configuration files:
     \item \texttt{jobs.yaml} details the configuration of the jobs to submit to the pool.
 \end{itemize}
 
-Once the configuration files are written, we invoke Batch Shipyard through the \texttt{shipyard} program on our local machine.
+Once the configuration files are written, we invoke Batch Shipyard (program \texttt{shipyard}) on our local machine.
 The folder \texttt{examples/snake2d2k35/config\_shipyard} in the repository accompanying this paper contains an example YAML files to create a pool of two \texttt{NC24r} compute nodes (featuring K80 GPUs and using InfiniBand network).
 Listing \ref{lst:shipyard_run} shows the commands to run in your local terminal to create a pool of compute nodes on Azure Batch and submit jobs to it.
 The Docker image of our CFD application is pulled from the registry to the virtual machines during the pool creation (\texttt{shipyard pool add}).
@@ -297,7 +297,7 @@ The goal is to showcase the potential of cloud computing for CFD, share the less
 We ran point-to-point MPI benchmarks from the Ohio State University Micro-Benchmarks suite\footnote{OSU Micro-Benchmarks (version 5.6): \url{http://mvapich.cse.ohio-state.edu/benchmarks/}} on Microsoft Azure and Colonial One, to investigate performance in terms the latency and bandwidth.
 The latency test is carried out in a ping-pong fashion and measures the time elapsed to get a response; the sender sends a message with a certain data size and waits for the receiver to send back the message with the same data size.
 The bandwidth test measures the maximum sustained rate that can be achieved on the network; the sender sends a fixed number of messages to a receiver that replies only after receiving all of them.
-The tests ran on \texttt{NC24r} nodes on Azure and \texttt{Ivygpu} nodes on Colonial One, all of them featuring a network interface for RDMA (Remote Direct Memory Access) connectivity to communicate over an InfiniBand network.
+The tests ran on \texttt{NC24r} nodes on Azure and \texttt{Ivygpu} nodes on Colonial One, all of them featuring a network interface for RDMA (Remote Direct Memory Access) connectivity to communicate over InfiniBand.
 (RDMA allows direct access to a remote's memory without involving the operating system of the host and remote.)
 Fig. \ref{fig:osu_benchmarks} reports the mean latencies and bandwidths obtained over $5$ repetitions on both platforms.
 For small message sizes, the average latencies on Colonial One and Azure are $1.25$ and $1.95 \mu $s, respectively.
@@ -345,7 +345,7 @@ This arboreal reptile has the remarkable capacity to turn its entire body into a
 The so-called ``flying snake'' jumps from tree branches, undulates in the air, and is able to produce lift by expanding its ribcage to flatten its ventral surface (morphing its normally circular cross-section into a triangular shape).
 
 To study the flow around the flying snake, we developed a CFD software called PetIBM\cite{chuang_et_al_2018}, an open-source toolbox that solves the two- and three-dimensional incompressible Navier-Stokes equations using a projection method (seen as an approximate block-LU decomposition of the fully discretized equations\cite{perot_1993}) and an immersed-boundary method (IBM).
-Within this framework, the fluid equations are solved over an extended grid that does not conform to the surface of the immersed body.
+Within this framework, the fluid equations are solved over an extended grid that does not conform to the surface of the body immersed in the computational domain.
 To model the presence of the body, the momentum equation is augmented with a forcing term that is activated in the vicinity of the immersed boundary.
 This technique allows the use of simple fixed structured Cartesian grids to solve the equations.
 PetIBM implements immersed boundary methods (IBMs) that fit into the projection method; in the present study, we use the IBM scheme proposed in \cite{li_et_al_2016}.
@@ -394,14 +394,14 @@ The task completed $100,000$ time steps ($100$ time units with a time-step size 
 Fig. \ref{fig:force_coefficients} compares the history of the force coefficients between the two- and three-dimensional configurations.
 The force coefficients resulting from the two-dimensional simulation of the snake are higher than those obtained for the snake cylinder; we computed a relative difference of $+37.9\%$ and $+14.4\%$ for the time-averaged drag and lift coefficient, respectively (see Table \ref{tab:force_coefficients}).
 Two-dimensional computational simulations of fundamentally three-dimensional flows lead to incorrect estimation of the force coefficients, as is well known\cite{mittal_balachandar_1995}.
-The grid used for the three-dimensional simulation contains about $46$ million cells and is somewhat coarse for direct numerical simulation at Reynolds number $2,000$, but acceptable for our exploratory analysis.
+The grid used for the three-dimensional simulation contains about $46$ million cells and is somewhat coarse for direct numerical simulation at this Reynolds number, but acceptable for our exploratory analysis.
 A finer grid would be preferable to capture the flow dynamics in detail, but the purpose of this paper is not targeting the physics.
 We did however run a simulation on a finer grid (about $233$ million cells) resulting in a relative difference (with respect to the ``coarse''-grid simulation) of $+6.5\%$ and $+3\%$ for the time-averaged drag and lift coefficients, respectively.
 We decided to continue this work with the coarser grid due to the large cost difference (see Section \ref{sec:cost}).
 Details about this fine-grid simulation are available as supplementary material on the GitHub repository for this study.\footnote{\url{https://nbviewer.jupyter.org/github/barbagroup/cloud-repro/blob/master/misc/independence/grid.ipynb}}
 
 Fig. \ref{fig:wz_avg_3d} shows the instantaneous spanwise vorticity averaged along the $z$-direction after $80$ and $100$ time units.
-Compared to the snapshots from the two-dimensional simulation, we observe that (1) free-shear layers roll up into vortices further away from the snake body and (2) the von K\'{a}rm\'{a}n street exhibits a narrower wake than in the two-dimensional simulations.
+Compared to the snapshots from the two-dimensional simulation, we observe that free-shear layers roll up into vortices further away from the snake body and that the von K\'{a}rm\'{a}n street exhibits a narrower wake than in the two-dimensional simulations.
 We also note the presence of an unsteady recirculation region just behind the snake cylinder, and alternating regions of positive and negative cross-flow velocity showing the presence of von Karman vortices (Fig. \ref{fig:ux_uy_xz_plane_3d}).
 Fig. \ref{fig:qcrit_wx_3d} shows a side-view of the isosurfaces of the Q-criterion after $100$ time units and highlights the complexity of the three-dimensional turbulent wake generated by the snake model.
 
@@ -581,7 +581,7 @@ These files contain details about all the libraries needed to create the computa
 Both the Dockerfiles and the workflow files may not execute as they were designed to do in a period of a few years, due to technology changes.
 Obsolescence of digital research objects, including software libraries and computational environments, is an acknowledged source of non-reproducibility, in the long run. 
 The recent report of the National Academies highlights this \cite[p.~57]{nasem_2019}. 
-Indeed, tools in our workflow that we have no control over (Azure CLI, Batch Shipyard) will likely change, and perhaps not be backwards compatible. 
+Indeed, tools in our workflow that we have no control over (Azure CLI, Batch Shipyard) will likely change, perhaps breaking backward compatibility. 
 That is inevitable. 
 But when they do, our fully documented workflow (via human-readable configuration files) will continue to offer transparency of what we did and how we did it.
 
