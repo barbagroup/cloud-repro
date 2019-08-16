@@ -14,4 +14,7 @@ log*
 .vscode
 .DS_Store
 
+docker_images.tar.gz
+
+misc/files4zenodo.txt
 zenodo
