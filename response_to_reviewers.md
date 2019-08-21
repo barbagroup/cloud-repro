@@ -3,8 +3,7 @@
 ## Reviewer 1
 
 > Patrick O'Leary. Review: "Reproducible Workflow on a Public Cloud for Computational Fluid Dynamics". Authorea. July 26, 2019. DOI: [https://doi.org/10.22541/au.156415458.85375575](https://doi.org/10.22541/au.156415458.85375575)
-
-Portions of the review report quoted here by permissions granted on the original under a CC-BY license.
+> (CC-BY)
 
 ### Comment 1
 
@@ -72,7 +71,7 @@ Notes:
 * Do we need the listings? — From the reviewer's point of view, these may seem unnecessary, because the reviewer is already an expert in using containers and cloud resources. But we are aiming our paper for readers who are not experts, may have heard of containers as a new and interesting technology, but have never used them. These readers will see from these listings that adopting containers to make their computations more reproducible is not very complicated or time consuming. We want to include these listings as part of the narrative to encourage more researchers to adopt these tools.
 * We updated the Dockerfiles to avoid the error message raised during the COPY instruction. We also fixed the typo in the URL of the GitHub repository.
 * We do not expect the readers to build the Docker images locally. Indeed, we store the images on DockerHub, so that they can immediately use them. We provide the command-line instructions we used to build the images (as this is part of the workflow). If the readers want to re-build/modify the image locally, we do not expect them to push it to our DockerHub repository. We modified the last paragraph of sub-section 2.1 to reflect our intentions.
-* The Docker images were specifically built (on our local workstation) to be able to run MPI applications on RDMA-capable VMs (such as the NC24r instance with a CentOS-based 7.3 HPC image) using multiple-instance tasks on Azure Batch service. The RDMA network on Azure supports MPI traffic for applications running with Intel MPI 5.x (or a later version). (In other words, to take advantage of RDMA on Linux compute nodes, we must use Intel MPI on the nodes.) We added a sentence  over the end of paragraph 4 of the section "Cost Analysis and User Experience" mentioning the Docker images was specifically crafted to be used with Azure Batch service. Thus, we also removed the sentence "same container ... run at scale."
+* The Docker images were specifically built (on our local workstation) to be able to run MPI applications on RDMA-capable VMs (such as the NC24r instance with a CentOS-based 7.3 HPC image) using multiple-instance tasks on Azure Batch service. The RDMA network on Azure supports MPI traffic for applications running with Intel MPI 5.x (or a later version). (In other words, to take advantage of RDMA on Linux compute nodes, we must use Intel MPI on the nodes.) We added a sentence  over the end of paragraph 4 of the section "Cost Analysis and User Experience" mentioning the Docker image was specifically crafted to be used with Azure Batch service. Thus, we also removed the sentence "same container ... run at scale."
 
 **Changes**
 
@@ -113,7 +112,7 @@ Notes:
 
 * Is Azure superior performance a result of tuning, configuration, or age? —We didn't apply any manual tuning: both machines are running the same code, but of course the compiler versions are different, and the hardware is different. We are not emphasizing in this paper that performance is "superior" on Azure: just that it is a viable alternative to on-premises HPC clusters (because many researchers continue to be skeptical of cloud). We noticed that the reviewer twice mentions that we're using a "six-year old HPC system." Even if this is an old machine, it is what we have at our university and it is probably the situation for the majority of university researchers that they don't have much choice in regards to the local machines they run on. We certainly are not attempting to do an "apples to oranges" comparison of performance. The point is to dispel the misconception that cloud is (still) inadequate.
 * Do we need the OSU benchmark results? We want to showcase that public cloud offerings have improved in the last few years. Our benchmark results show comparable networking performances between our university-managed HPC cluster and Microsoft Azure. We believe it is important to highlight these results as it is still common wisdom that public clouds are inadequate for computational research using HPC. Moreover, Freniere et al. (2016; Computing in Science & Engineering, 18(5), 68) used the same benchmark to compare their local cluster with AWS EC2 and reported performance degradation in networking. With these results, we are updating the readers of CiSE on the improvements of a public cloud such as Microsoft Azure.
-* We do not know the cause the variance in runtime for the Poisson benchmark. However, the benchmark was executed 5 times within a single job task (and thus, on the same physical node), so the variation is not due to Job/Node placement. We have updated the caption of Fig. 3 (Poisson benchmark), detailing the number of MPI processes and the number of GPU devices used per node.
+* We do not know the cause of the variance in runtime for the Poisson benchmark. However, the benchmark was executed 5 times within a single job task (and thus, on the same physical node), so the variation is not due to Job/Node placement. We have updated the caption of Fig. 3 (Poisson benchmark), detailing the number of MPI processes and the number of GPU devices used per node.
 
 **Changes**
 
@@ -136,7 +135,7 @@ Notes:
 
 **Reply**
 
-* We would not have attempted this work, were it not for the sponsored cloud credits. We were indeed curious about reproducibility benefits of cloud computing, and that's why we wrote the proposal to Azure Research. But without the sponsorship, we would not have had research budget for this work. In our opinion, this is one of the reasons to publish this paper: other researchers curious about using cloud need this kind of information before they will jump in. With regards to support, we used the standard channels (support tickets and GitHub issues), and it was not "augmented" support.
+* We would not have attempted this work, were it not for the sponsored cloud credits. We were indeed curious about reproducibility benefits of cloud computing, and that's why we wrote the proposal to Azure Research. But without the sponsorship, we would not have had research budget for this work. In our opinion, this is one of the reasons to publish this paper: other researchers curious about using cloud need this kind of information before they will jump in. With regards to support, we used the standard channels (support tickets and GitHub issues), and it was not "augmented" support. We edited the acknowledgement section, which vaguely used the verb "help," to avoid the impression that we received extra support.
 * Price will of course change. We feel it needs to go down. The relevancy of publishing the "snapshot" of today's pricing is precisely as back up that prices should drop. However, the cost of the NC24r instance we used in this study has been 3.96 USD per compute hour for the last two years and it's unlikely that it will change by a lot in the next 6 months.
 * Table 5 will be outdated, yes, but it is today's situation, under which we operated. It's also the case that the patterns will continue (i.e., the ratio between the different pricing options).
 * Cost compared to buying a cluster? We don't really know. We tried to get some helpful data from our IT department, but were denied the information.
@@ -147,14 +146,14 @@ Notes:
 
 * Properly reference Table 5 of the manuscript ([db21f03](https://github.com/barbagroup/cloud-repro/commit/db21f036e8ae47bb4b6ab61d555a28637542ad1a)).
 * Add description about Singularity container technology ([df1e0d5](https://github.com/barbagroup/cloud-repro/commit/df1e0d5f009038b2057a3de8a914662972d80769)).
+* * Edit acknowledgements ([9772f42](https://github.com/barbagroup/cloud-repro/commit/9772f42a64d01b4aed7ee497a2f41ff88615cf73)).
 
 ---
 
 ## Reviewer 2
 
 > Witherden, Freddie (2019): Review of Reproducible Workflow on a Public Cloud for Computational Fluid Dynamics. figshare. Online resource. DOI: [https://doi.org/10.6084/m9.figshare.9159740.v1](https://doi.org/10.6084/m9.figshare.9159740.v1)
-
-Portions of the review report quoted here by permissions granted on the original under a CC-BY license.
+> (CC-BY)
 
 ### Comment 1
 
