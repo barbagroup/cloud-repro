@@ -321,7 +321,7 @@ We investigated the time-to-solution for a three-dimensional Poisson system (obt
 The solution method was a Conjugate-Gradient (CG) method with a classical algebraic multi-grid (AMG) preconditioner using an exit criterion set to an absolute tolerance of $10^{-12}$.
 The iterative solver ran on CPU nodes (\texttt{H16r} instances on Azure and \texttt{Short} nodes on Colonial One) using the CG algorithm from the PETSc library\cite{balay_et_al_2018} and an AMG preconditioner from Hypre BoomerAMG.
 Fig. \ref{fig:poisson_benchmarks} (top) reports the mean runtimes (averaged over $5$ repetitions) to iteratively solve the system, on a uniform grid of $50$ million cells ($1000 \times 1000 \times 50$), as we increase the number of nodes in the pool (strong scaling).
-Runtimes between obtained on Colonial One and Azure are similar.
+Runtimes obtained on Colonial One and Azure are similar.
 We also solved the Poisson system with the NVIDIA AmgX library on multiple GPU devices using \texttt{NC24r} instances on Azure and \texttt{Ivygpu} nodes on Colonial One.
 The Poisson system for a base mesh of $6.25$ million cells ($500 \times 500 \times 25$) was solved on a single compute node using $12$ MPI processes and $2$ GPU devices; we then doubled the mesh size as we doubled the number of nodes, keeping the same number of MPI processes and GPUs per node (weak scaling).
 The number of iterations to reach convergence increases with the size of the system, so we normalize the runtimes by the number of iterations.
