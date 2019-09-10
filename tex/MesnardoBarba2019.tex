@@ -71,7 +71,7 @@ It uses Docker containers to create an image of the application software stack.
 We also adopt several tools that facilitate creating and managing virtual machines on compute nodes and submitting jobs to these nodes.
 The configuration files for these tools are part of an expanded ``reproducibility package'' that includes workflow definitions for cloud computing, in addition to input files and instructions.
 This facilitates re-creating the cloud environment to re-run the computations under the same conditions.
-Although cloud providers have improved their offerings, many researchers using high-performance computing (HPC) are still skeptical about using cloud computing.
+Although cloud providers have improved their offerings, many researchers using high-performance computing (HPC) are still skeptical about cloud computing.
 Thus, we ran benchmarks for tightly coupled applications to confirm that the latest HPC nodes of Microsoft Azure are indeed a viable alternative to traditional on-site HPC clusters.
 We also show that cloud offerings are now adequate to complete computational fluid dynamics studies with in-house research software that uses parallel computing with GPUs.
 Finally, we share with the community what we have learned from nearly two years of using Azure cloud to enhance transparency and reproducibility in our computational simulations.
@@ -91,7 +91,7 @@ Lacking standards for documenting, reporting and reviewing the computational fac
 
 The literature is cluttered with confused and sometimes contradictory definitions for reproducible research, reproducibility, replicability, repetition, etc.\cite{barba_2018}.
 It is thus worth clarifying how we use these terms.
-``Reproducible research'' was used by geophysics professor Jon Claerbout in the 1990s to mean computational studies that can be reproduced by other scientists. His research group at Stanford created a reproducible-research environment\cite{schwab_et_al_2000} whose goal was complete documentation of scientific computations, in such a way that a reader could reproduce all the results and figures in a paper using the author-provided computer programs and raw data.
+``Reproducible research'' was used by geophysics professor Jon Claerbout in the 1990s to mean computational studies that are published with sufficient transparency so other scientists can re-create the results. His research group at Stanford created a reproducible-research environment\cite{schwab_et_al_2000} whose goal was complete documentation of scientific computations, in such a way that a reader could reproduce all the results and figures in a paper using the author-provided computer programs and raw data.
 This requires open data and open source software and, for this reason, the reproducibility movement is closely linked with the open science movement.
 The term ``replication'' has been adopted to refer to an independent study generating new data which, when analyzed, lead to the same findings \cite{peng_2011}.
 We follow this convention, adopted also recently in reports from the National Academies of Sciences, Engineering, and Medicine \cite{nasa_oss_2018,nasem_2019}.
