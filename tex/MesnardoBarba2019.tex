@@ -539,6 +539,8 @@ The Poisson system is solved on distributed GPU devices using the NVIDIA AmgX li
 Thus, we used Azure instances of the NC-series, which feature a network interface for remote direct memory access (RDMA) connectivity, allowing nodes in the same pool to communicate over InfiniBand network.
 The Docker images were specifically built to be able to run MPI applications on RDMA-capable virtual machines (such as the NC24r instance with a CentOS-based 7.3 HPC image) with multiple-instance tasks on Azure Batch service.
 As of this writing, only Intel MPI 5.x versions are supported with the Azure Linux RDMA drivers.
+Both the Docker image and the configurations files for deploying the cloud resources give an interested reader the opportunity to reproduce our computations in an identical environment.
+Even if this opportunity is not accompanied by portability---e.g., one may depend on a different MPI library to use a different system---the human-readable Docker files and configuration files do offer transparency.
 
 Microsoft Azure offers the possibility of taking advantage of surplus capacity with ``low-priority'' virtual machines that are substantially cheaper than ``dedicated'' ones (see Table \ref{tab:nc_series} for pricing options on the NC series with Linux-based virtual machines).
 For example, the low-priority \texttt{NC24r} instance costs $0.792$ USD per hour, $5$ times cheaper than its dedicated counterpart.
