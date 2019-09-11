@@ -38,7 +38,7 @@
 }
 
 \usepackage[pdftex]{graphicx}
-\graphicspath{{./figs}}
+\graphicspath{{figures/}}
 \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 
 
@@ -193,7 +193,7 @@ The next section explains these tools.
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=16cm]{figures/cloud_workflow.png}
+    \includegraphics[width=16cm]{cloud_workflow.png}
     \caption{Reproducible workflow on the public cloud provider Microsoft Azure. Our CFD software is version-controlled with Git and GitHub. We push to DockerHub a Docker image of our CFD application with all its dependencies. Azure CLI is used to configure accounts on Microsoft Azure and to upload/download data to/from an Azure Storage account. With Batch Shipyard, we create a pool on Azure Batch and run container-based simulations using our Docker image. Figure available under CC BY 4.0 license (https://doi.org/10.6084/m9.figshare.9636722.v1).}
     \label{fig:cloud_workflow}
 \end{figure*}
@@ -308,7 +308,7 @@ Over the last few years, Microsoft Azure has indeed improved its HPC solutions t
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=8cm]{figures/osu_latency_bandwidth.pdf}
+    \includegraphics[width=8cm]{osu_latency_bandwidth.pdf}
     \caption{Point-to-point latency (top) and bandwidth (bottom) obtained on Colonial One (\texttt{Ivygpu} nodes) and on Microsoft Azure (\texttt{NC24r} nodes) with the Intel MPI library. Benchmark results are averaged over $5$ repetitions.}
     \label{fig:osu_benchmarks}
 \end{figure}
@@ -332,7 +332,7 @@ We observe larger variations in the time-to-solution for the Poisson system on M
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=8cm]{figures/poisson_time_vs_nodes.pdf}
+    \includegraphics[width=8cm]{poisson_time_vs_nodes.pdf}
     \caption{Runtime to solve a Poisson system on Colonial One and Microsoft Azure. Benchmarks were repeated 5 times and we show the mean runtime and the extrema. \textbf{Top}: system solved on a fixed mesh size of 50 million cells (strong scaling) using PETSc on Azure \texttt{H16r} nodes ($16$ processes per node), and Colonial One \texttt{Short} nodes ($16$ processes per node). \textbf{Bottom-left}:  systems solved using AmgX on Azure \texttt{NC24r} nodes ($12$ processes and $2$ GPUs per node), and Colonial One \texttt{Ivygpu} nodes ($12$ processes and $2$ GPUs per node); the base mesh size contains 6.25 million cells and we scale it with the number of nodes (weak scaling). \textbf{Bottom-right:} systems solved with AmgX on Azure \texttt{NC24r} nodes ($24$ processes and $4$ GPUs per node), using a finer base mesh size of 25 million cells. Runtimes obtained with AmgX were normalized by the number of iterations required to reach a absolute tolerance of $10^{-12}$.}
     \label{fig:poisson_benchmarks}
 \end{figure}
@@ -378,7 +378,7 @@ Following that, the wake signature is altered for the rest of the simulation: vo
 
 \begin{figure}[!h]
     \centering
-    \includegraphics[width=8cm]{figures/wz_multi_contourf.png}
+    \includegraphics[width=8cm]{wz_multi_contourf.png}
     \caption{Filled contour of the vorticity field ($-5 \leq w_z c / U_\infty \leq 5$) after $20$, $44$, $45$, and $80$ time units of flow simulation with PetIBM for the snake cross-section at a $35$-degree angle of attack and Reynolds number $2000$. Vortex merging events trigger a change in the wake signature causing the drop in the mean value of the lift coefficient.}
     \label{fig:wz_2d}
 \end{figure}
@@ -411,7 +411,7 @@ We include this selection here to represent a typical workflow, and combine our 
 
 \begin{figure}
     \centering
-    \includegraphics[width=8.5cm]{figures/forceCoefficientsCompare2D.pdf}
+    \includegraphics[width=8.5cm]{forceCoefficientsCompare2D.pdf}
     \caption{History of the force coefficients obtained with two- and three-dimensional simulations at Reynolds number $2000$ for a snake cross-section with a $35$-degree angle of attack. As expected, the two-dimensional simulations over-estimate the force coefficients of what is essentially a three-dimensional flow problem.}
     \label{fig:force_coefficients}
 \end{figure}
@@ -446,21 +446,21 @@ We include this selection here to represent a typical workflow, and combine our 
 
 \begin{figure}
     \centering
-    \includegraphics[width=8cm]{figures/wz_avg_multi_contourf.png}
+    \includegraphics[width=8cm]{wz_avg_multi_contourf.png}
     \caption{Filled contour of the spanwise-averaged z-component of the vorticity ($-5 \leq w_z c / U_\infty \leq 5$) field after $80$ and $100$ time units of a three-dimensional flow simulation with PetIBM for the snake cylinder with a cross-section at a $35$-degree angle of attack and Reynolds number $2000$.}
     \label{fig:wz_avg_3d}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=8cm]{figures/ux_uy_xz_plane.png}
+    \includegraphics[width=8cm]{ux_uy_xz_plane.png}
     \caption{Filled contour of the streamwise velocity (top) and cross-flow velocity (bottom) behind the snake cylinder in the $x/z$ plane at $y/c=-0.2$ in the wake of the snake cylinder with a $35$-degree angle of attack at Reynolds number $2000$ after $100$ time-units of flow simulations. There are 52 contours from $-1.0$ to $1.0$. The grey area shows a projection of the snake cylinder in the $x/z$ plane. The solid black line defines the contour with $u_x = 0$ (top) and $u_y = 0$ (bottom).}
     \label{fig:ux_uy_xz_plane_3d}
 \end{figure}
 
 \begin{figure*}[!h]
     \centering
-    \includegraphics[width=18cm]{figures/qcrit_wx_wake3d_0020.png}
+    \includegraphics[width=18cm]{qcrit_wx_wake3d_0020.png}
     \caption{Lateral view of the isosurfaces of the Q-criterion ($Q = 1$) in the wake of the snake cylinder (with a $35$-degree angle of attack) at Reynolds number $2000$. The isosurfaces are colored with the streamwise vorticity ($-5 \leq w_x c / U_\infty \leq 5$). The figure was generated using the visualization software VisIt \cite{childs_et_al_2012}.}
     \label{fig:qcrit_wx_3d}
 \end{figure*}
